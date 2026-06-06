@@ -14,11 +14,16 @@ body {
 }
 
 .box {
+  max-width:500px;
+  margin:60px auto;
   border:1px solid #eee;
-  max-width:400px;
-  margin:50px auto;
   padding:20px;
   border-radius:12px;
+}
+
+.item {
+  border-bottom:1px solid #eee;
+  padding:10px;
 }
 
 .btn {
@@ -36,38 +41,36 @@ body {
 
 <body>
 
-<h1>Kurv</h1>
+<h1>Cart</h1>
 
-<div class="box" id="cart">Loading...</div>
+<div class="box" id="cart"></div>
 
 <script>
-const box = localStorage.getItem("box");
-const size = localStorage.getItem("size");
-
-const names = {
-  basic:"Basic Box",
-  premium:"Premium Box",
-  luxury:"Luxury Box"
+const data = {
+  basic:{name:"Basic Box", price:299},
+  premium:{name:"Premium Box", price:499},
+  luxury:{name:"Luxury Box", price:799}
 };
 
-const prices = {
-  basic:299,
-  premium:499,
-  luxury:799
-};
+let cart = JSON.parse(localStorage.getItem("cart")) || [];
+let box = document.getElementById("cart");
 
-const cart = document.getElementById("cart");
-
-if(!box){
-  cart.innerHTML = "<p>Kurven er tom</p>";
+if(cart.length === 0){
+  box.innerHTML = "Cart is empty";
 } else {
-  cart.innerHTML = `
-    <h3>${names[box]}</h3>
-    <p>Størrelse: ${size}</p>
-    <p>Pris: ${prices[box]} kr</p>
 
-    <a class="btn" href="checkout.html">Tilbage</a>
-  `;
+  let total = 0;
+  let html = "";
+
+  cart.forEach(item => {
+    total += data[item].price;
+    html += `<div class="item">${data[item].name} - ${data[item].price} kr</div>`;
+  });
+
+  html += `<h3>Total: ${total} kr</h3>`;
+  html += `<a class="btn" href="checkout.html">Checkout</a>`;
+
+  box.innerHTML = html;
 }
 </script>
 
