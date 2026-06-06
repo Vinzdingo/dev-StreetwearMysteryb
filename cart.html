@@ -7,8 +7,6 @@
 <style>
 body {
   font-family:Arial;
-  background:#fff;
-  color:#111;
   text-align:center;
 }
 
@@ -17,20 +15,20 @@ body {
   margin:50px auto;
   border:1px solid #eee;
   padding:20px;
+  border-radius:12px;
 }
 
 .item {
-  border-bottom:1px solid #eee;
   padding:10px;
+  border-bottom:1px solid #eee;
 }
 
 .btn {
   display:inline-block;
   margin-top:15px;
-  background:#FFD700;
   padding:12px 20px;
+  background:#FFD700;
   font-weight:bold;
-  cursor:pointer;
   text-decoration:none;
 }
 </style>
@@ -50,7 +48,6 @@ const data = {
 };
 
 let cart = JSON.parse(localStorage.getItem("cart")) || [];
-
 let box = document.getElementById("cart");
 
 if(cart.length === 0){
@@ -60,7 +57,7 @@ if(cart.length === 0){
   let total = 0;
   let html = "";
 
-  cart.forEach(item => {
+  cart.forEach(item=>{
     total += data[item.id].price;
     html += `<div class="item">${data[item.id].name} - Size: ${item.size}</div>`;
   });
