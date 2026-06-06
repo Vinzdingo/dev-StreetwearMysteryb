@@ -14,133 +14,172 @@
     }
 
     .container {
-      max-width: 600px;
+      max-width: 900px;
       margin: auto;
       padding: 30px;
     }
 
-    .card {
+    .product {
+      display: flex;
+      gap: 20px;
       background: #1a1a1a;
       padding: 20px;
       border-radius: 12px;
-      margin-bottom: 20px;
+      align-items: center;
     }
 
-    img {
-      width: 100%;
+    .product img {
+      width: 300px;
       border-radius: 10px;
     }
 
-    .btn {
-      display: inline-block;
-      margin-top: 15px;
-      padding: 12px 20px;
-      background: #FFD700;
-      color: black;
-      text-decoration: none;
-      font-weight: bold;
-      border-radius: 8px;
+    .info h2 {
+      margin: 0;
     }
 
-    ul {
+    .price {
+      color: #FFD700;
+      font-size: 20px;
+      margin-top: 5px;
+    }
+
+    .section {
+      margin-top: 25px;
+      background: #1a1a1a;
+      padding: 20px;
+      border-radius: 12px;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 10px;
+    }
+
+    td, th {
+      border-bottom: 1px solid #333;
+      padding: 10px;
+      text-align: left;
       color: #ccc;
     }
 
-    .sizes span {
-      display: inline-block;
+    .sizes {
+      display: flex;
+      gap: 10px;
+      margin-top: 10px;
+    }
+
+    .size-btn {
+      padding: 10px 15px;
       background: white;
       color: black;
-      padding: 5px 10px;
-      margin: 4px;
-      border-radius: 6px;
+      border-radius: 8px;
+      cursor: pointer;
+      font-weight: bold;
+      transition: 0.2s;
+    }
+
+    .size-btn:hover {
+      background: #FFD700;
+    }
+
+    .btn {
+      display: block;
+      margin-top: 20px;
+      padding: 12px;
+      background: #FFD700;
+      color: black;
+      text-align: center;
+      font-weight: bold;
+      text-decoration: none;
+      border-radius: 8px;
     }
   </style>
 </head>
 
 <body>
 
-  <div class="container">
-    <div id="content">Loader checkout...</div>
-  </div>
+<div class="container" id="content">Loading...</div>
 
-  <script src="products.js"></script>
+<script>
+  const params = new URLSearchParams(window.location.search);
+  const box = params.get("box");
 
-  <script>
-    document.addEventListener("DOMContentLoaded", function () {
+  const data = {
+    basic: {
+      name: "Basic Box",
+      price: 299,
+      img: "https://via.placeholder.com/400x300?text=Basic+Box"
+    },
+    premium: {
+      name: "Premium Box",
+      price: 499,
+      img: "https://via.placeholder.com/400x300?text=Premium+Box"
+    },
+    luxury: {
+      name: "Luxury Box",
+      price: 799,
+      img: "https://via.placeholder.com/400x300?text=Luxury+Box"
+    }
+  };
 
-      const params = new URLSearchParams(window.location.search);
-      const box = params.get("box");
+  const container = document.getElementById("content");
 
-      const content = document.getElementById("content");
+  if (!box || !data[box]) {
+    container.innerHTML = "<h2>Ingen box valgt</h2>";
+  } else {
 
-      const images = {
-        basic: "https://via.placeholder.com/600x300?text=Basic+Box",
-        premium: "https://via.placeholder.com/600x300?text=Premium+Box",
-        luxury: "https://via.placeholder.com/600x300?text=Luxury+Box"
-      };
+    const item = data[box];
 
-      const data = {
-        basic: {
-          name: "Basic Box",
-          price: 299,
-          desc: "Starter streetwear box med essentials."
-        },
-        premium: {
-          name: "Premium Box",
-          price: 499,
-          desc: "Mere eksklusive items og bedre kvalitet."
-        },
-        luxury: {
-          name: "Luxury Box",
-          price: 799,
-          desc: "Top tier streetwear mystery box."
-        }
-      };
-
-      if (!box || !data[box]) {
-        content.innerHTML = "<div class='card'><h2>Ingen box valgt</h2></div>";
-        return;
-      }
-
-      const item = data[box];
-
-      content.innerHTML = `
-        <div class="card">
-          <img src="${images[box]}" />
+    container.innerHTML = `
+      
+      <div class="product">
+        <img src="${item.img}" />
+        <div class="info">
           <h2>${item.name}</h2>
-          <h3>${item.price} kr</h3>
-          <p>${item.desc}</p>
+          <div class="price">${item.price} kr</div>
+          <p>Eksklusiv streetwear mystery box med håndplukkede items.</p>
         </div>
+      </div>
 
-        <div class="card">
-          <h2>Størrelsesguide 📏</h2>
-          <p>S = tight fit<br>M = normal fit<br>L = loose fit<br>XL = oversized</p>
+      <div class="section">
+        <h3>Størrelsesguide 📏</h3>
+
+        <table>
+          <tr><th>Størrelse</th><th>Mål (cm)</th><th>Fit</th></tr>
+          <tr><td>S</td><td>160-170</td><td>Slank</td></tr>
+          <tr><td>M</td><td>170-178</td><td>Normal</td></tr>
+          <tr><td>L</td><td>178-186</td><td>Løs</td></tr>
+          <tr><td>XL</td><td>186-195</td><td>Oversized</td></tr>
+        </table>
+      </div>
+
+      <div class="section">
+        <h3>Vælg størrelse 👕</h3>
+
+        <div class="sizes">
+          <div class="size-btn" onclick="selectSize('S')">S</div>
+          <div class="size-btn" onclick="selectSize('M')">M</div>
+          <div class="size-btn" onclick="selectSize('L')">L</div>
+          <div class="size-btn" onclick="selectSize('XL')">XL</div>
         </div>
+      </div>
 
-        <div class="card">
-          <h2>Størrelser 👕</h2>
-          <div class="sizes">
-            <span>S</span>
-            <span>M</span>
-            <span>L</span>
-            <span>XL</span>
-          </div>
-        </div>
+      <div class="section">
+        <h3>Mulige items 🎁</h3>
+        <p>Hoodies, T-shirts, Cargo pants, Jackets, Accessories</p>
 
-        <div class="card">
-          <h2>Indeholder 🎁</h2>
-          <ul>
-            <li>Hoodies</li>
-            <li>T-shirts</li>
-            <li>Cargo pants</li>
-            <li>Jackets</li>
-          </ul>
+        <a class="btn" href="#">Betal nu (demo)</a>
+      </div>
 
-          <a class="btn" href="#">Betal nu (demo)</a>
-        </div>
-      `;
-    });
-  </script>
+    `;
+
+    window.selectSize = function(size) {
+      alert("Du valgte størrelse: " + size);
+    };
+
+  }
+</script>
 
 </body>
 </html>
