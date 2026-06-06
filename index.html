@@ -22,55 +22,89 @@ body {
   position:sticky;
   top:0;
   background:white;
+  z-index:10;
 }
 
 .logo {
   font-weight:bold;
+  font-size:18px;
 }
 
-.nav a {
-  text-decoration:none;
-  color:#111;
+/* MENU RIGHT */
+.menu {
+  position:relative;
+}
+
+.menu-btn {
+  cursor:pointer;
   font-weight:bold;
+}
+
+/* DROPDOWN / SIDEMENU */
+.dropdown {
+  position:absolute;
+  right:0;
+  top:40px;
+  width:260px;
+  background:white;
+  border:1px solid #eee;
+  border-radius:12px;
+  overflow:hidden;
+  display:none;
+  box-shadow:0 10px 25px rgba(0,0,0,0.08);
+}
+
+.menu:hover .dropdown {
+  display:block;
+  animation:fade 0.2s ease;
+}
+
+@keyframes fade {
+  from {opacity:0; transform:translateY(-5px);}
+  to {opacity:1; transform:translateY(0);}
+}
+
+.item {
+  padding:12px;
+  border-bottom:1px solid #eee;
+  cursor:pointer;
+  transition:0.2s;
+}
+
+.item:hover {
+  background:#FFD700;
 }
 
 /* HERO */
 .hero {
-  text-align:center;
   padding:60px 20px;
+  text-align:center;
 }
 
 .hero h1 {
-  margin:0;
-  font-size:40px;
+  font-size:42px;
 }
 
-/* PRODUCTS */
-.container {
+/* CONTENT */
+.content {
   display:flex;
-  gap:20px;
   justify-content:center;
-  flex-wrap:wrap;
   padding:30px;
+  gap:20px;
+  flex-wrap:wrap;
 }
 
+/* PRODUCT PREVIEW */
 .card {
-  width:250px;
+  width:260px;
   border:1px solid #eee;
   border-radius:12px;
   overflow:hidden;
-  cursor:pointer;
   transition:0.25s;
-  animation:fade 0.4s ease;
-}
-
-@keyframes fade {
-  from {opacity:0; transform:translateY(15px);}
-  to {opacity:1; transform:translateY(0);}
 }
 
 .card:hover {
-  transform:translateY(-6px);
+  transform:translateY(-5px);
   box-shadow:0 10px 25px rgba(0,0,0,0.08);
 }
 
@@ -80,7 +114,7 @@ body {
   object-fit:cover;
 }
 
-.content {
+.info {
   padding:12px;
 }
 
@@ -89,8 +123,8 @@ body {
   margin-top:10px;
   padding:10px;
   background:#FFD700;
-  font-weight:bold;
   text-align:center;
+  font-weight:bold;
   cursor:pointer;
 }
 </style>
@@ -100,36 +134,49 @@ body {
 
 <div class="nav">
   <div class="logo">MysteryStreetwear</div>
-  <a href="cart.html">Cart</a>
+
+  <div class="menu">
+    <div class="menu-btn">Browse Boxes ▾</div>
+
+    <div class="dropdown">
+      <div class="item" onclick="go('basic')">Basic Box - 299 kr</div>
+      <div class="item" onclick="go('premium')">Premium Box - 499 kr</div>
+      <div class="item" onclick="go('luxury')">Luxury Box - 799 kr</div>
+    </div>
+  </div>
 </div>
 
 <div class="hero">
   <h1>Streetwear Mystery Boxes</h1>
+  <p>Klik eller hover for at udforske</p>
 </div>
 
-<div class="container">
+<div class="content">
 
-  <div class="card" onclick="go('basic')">
+  <div class="card">
     <img src="https://images.unsplash.com/photo-1520975916090-3105956dac38">
-    <div class="content">
+    <div class="info">
       <h3>Basic Box</h3>
-      <div class="btn">View</div>
+      <p>3 items - streetwear essentials</p>
+      <div class="btn" onclick="go('basic')">View</div>
     </div>
   </div>
 
-  <div class="card" onclick="go('premium')">
+  <div class="card">
     <img src="https://images.unsplash.com/photo-1520975682031-a6c3b3f4f5d8">
-    <div class="content">
+    <div class="info">
       <h3>Premium Box</h3>
-      <div class="btn">View</div>
+      <p>5 items - upgraded streetwear</p>
+      <div class="btn" onclick="go('premium')">View</div>
     </div>
   </div>
 
-  <div class="card" onclick="go('luxury')">
+  <div class="card">
     <img src="https://images.unsplash.com/photo-1520975869018-5a6a0d2b5d1c">
-    <div class="content">
+    <div class="info">
       <h3>Luxury Box</h3>
-      <div class="btn">View</div>
+      <p>7 items - premium drops</p>
+      <div class="btn" onclick="go('luxury')">View</div>
     </div>
   </div>
 
