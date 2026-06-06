@@ -12,90 +12,45 @@ body {
   color:#111;
 }
 
-/* TOP BAR */
 .nav {
   display:flex;
   justify-content:space-between;
-  align-items:center;
   padding:20px 40px;
   border-bottom:1px solid #eee;
 }
 
-.logo {
-  font-weight:bold;
-  font-size:20px;
-  letter-spacing:1px;
-}
-
-.cart {
-  cursor:pointer;
-  font-weight:bold;
-}
-
-/* HERO */
-.hero {
-  text-align:center;
-  padding:80px 20px;
-}
-
-.hero h1 {
-  font-size:42px;
-  margin:0;
-}
-
-.hero p {
-  color:#666;
-}
-
-/* PRODUCTS */
 .container {
   display:flex;
-  justify-content:center;
   gap:20px;
+  justify-content:center;
   flex-wrap:wrap;
   padding:40px;
 }
 
 .card {
-  width:260px;
+  width:240px;
   border:1px solid #eee;
-  border-radius:14px;
+  border-radius:12px;
   overflow:hidden;
-  transition:0.25s;
-  background:#fff;
+  cursor:pointer;
+  transition:0.2s;
 }
 
 .card:hover {
-  transform:translateY(-6px);
-  box-shadow:0 15px 30px rgba(0,0,0,0.08);
+  transform:translateY(-5px);
 }
 
 .card img {
   width:100%;
-  height:180px;
+  height:160px;
   object-fit:cover;
 }
 
-.content {
-  padding:15px;
-}
-
-.price {
-  color:#111;
-  font-weight:bold;
-  margin-top:5px;
-}
-
 .btn {
-  display:block;
-  margin-top:10px;
-  padding:10px;
   background:#FFD700;
-  color:#111;
+  padding:10px;
   text-align:center;
   font-weight:bold;
-  cursor:pointer;
-  border-radius:8px;
 }
 </style>
 </head>
@@ -103,56 +58,31 @@ body {
 <body>
 
 <div class="nav">
-  <div class="logo">MysteryStreetwear</div>
-  <div class="cart" onclick="goCart()">Cart</div>
-</div>
-
-<div class="hero">
-  <h1>Streetwear Mystery Boxes</h1>
-  <p>Eksklusive outfits leveret som overraskelse</p>
+  <div><b>MysteryStreetwear</b></div>
 </div>
 
 <div class="container">
 
-  <div class="card">
+  <div class="card" onclick="go('basic')">
     <img src="https://images.unsplash.com/photo-1520975916090-3105956dac38">
-    <div class="content">
-      <h3>Basic Box</h3>
-      <div class="price">299 kr</div>
-      <div class="btn" onclick="add('basic')">Tilføj til kurv</div>
-    </div>
+    <div class="btn">Basic Box - 299</div>
   </div>
 
-  <div class="card">
+  <div class="card" onclick="go('premium')">
     <img src="https://images.unsplash.com/photo-1520975682031-a6c3b3f4f5d8">
-    <div class="content">
-      <h3>Premium Box</h3>
-      <div class="price">499 kr</div>
-      <div class="btn" onclick="add('premium')">Tilføj til kurv</div>
-    </div>
+    <div class="btn">Premium Box - 499</div>
   </div>
 
-  <div class="card">
+  <div class="card" onclick="go('luxury')">
     <img src="https://images.unsplash.com/photo-1520975869018-5a6a0d2b5d1c">
-    <div class="content">
-      <h3>Luxury Box</h3>
-      <div class="price">799 kr</div>
-      <div class="btn" onclick="add('luxury')">Tilføj til kurv</div>
-    </div>
+    <div class="btn">Luxury Box - 799</div>
   </div>
 
 </div>
 
 <script>
-function add(type){
-  let cart = JSON.parse(localStorage.getItem("cart")) || [];
-  cart.push(type);
-  localStorage.setItem("cart", JSON.stringify(cart));
-  window.location.href = "cart.html";
-}
-
-function goCart(){
-  window.location.href = "cart.html";
+function go(id){
+  window.location.href = "product.html?id=" + id;
 }
 </script>
 
