@@ -44,7 +44,7 @@ body {
   position:absolute;
   right:0;
   top:40px;
-  width:260px;
+  width:240px;
   background:white;
   border:1px solid #eee;
   border-radius:12px;
@@ -74,50 +74,19 @@ body {
   background:#FFD700;
 }
 
-/* HERO (IKKE KLIKBARE BOXES) */
+/* EMPTY CENTER (INTET INDHOLD) */
 .hero {
+  height:80vh;
+  display:flex;
+  align-items:center;
+  justify-content:center;
   text-align:center;
-  padding:70px 20px;
+  color:#999;
 }
 
 .hero h1 {
-  font-size:42px;
-  margin:0;
-}
-
-.hero p {
-  color:#777;
-  margin-top:10px;
-}
-
-/* VISUELT BANNER (IKKE KLIK) */
-.banner {
-  display:flex;
-  justify-content:center;
-  gap:20px;
-  flex-wrap:wrap;
-  padding:20px;
-}
-
-.preview {
-  width:260px;
-  border-radius:12px;
-  overflow:hidden;
-  border:1px solid #eee;
-  opacity:0.9;
-}
-
-.preview img {
-  width:100%;
-  height:170px;
-  object-fit:cover;
-}
-
-.preview p {
-  padding:10px;
-  margin:0;
-  font-size:14px;
-  color:#777;
+  font-weight:normal;
+  font-size:18px;
 }
 </style>
 </head>
@@ -129,40 +98,20 @@ body {
   <div class="logo">MysteryStreetwear</div>
 
   <div class="menu">
-    <div class="menu-btn" onclick="toggleMenu()">Browse Boxes ▾</div>
+    <div class="menu-btn" onclick="toggleMenu()">Menu ▾</div>
 
     <div class="dropdown" id="dropdown">
       <div class="item" onclick="go('basic')">Basic Box - 299 kr</div>
       <div class="item" onclick="go('premium')">Premium Box - 499 kr</div>
       <div class="item" onclick="go('luxury')">Luxury Box - 799 kr</div>
+      <div class="item" onclick="window.location.href='cart.html'">Cart</div>
     </div>
   </div>
 </div>
 
-<!-- HERO -->
+<!-- TOM CENTER -->
 <div class="hero">
-  <h1>Streetwear Mystery Boxes</h1>
-  <p>Vælg din box i menuen oppe i højre hjørne</p>
-</div>
-
-<!-- DECOR (IKKE KLIKBARE) -->
-<div class="banner">
-
-  <div class="preview">
-    <img src="https://images.unsplash.com/photo-1520975916090-3105956dac38">
-    <p>Basic Box</p>
-  </div>
-
-  <div class="preview">
-    <img src="https://images.unsplash.com/photo-1520975682031-a6c3b3f4f5d8">
-    <p>Premium Box</p>
-  </div>
-
-  <div class="preview">
-    <img src="https://images.unsplash.com/photo-1520975869018-5a6a0d2b5d1c">
-    <p>Luxury Box</p>
-  </div>
-
+  <h1>Vælg en box i menuen oppe i højre hjørne</h1>
 </div>
 
 <script>
@@ -174,7 +123,7 @@ function toggleMenu(){
   document.getElementById("dropdown").classList.toggle("active");
 }
 
-// luk hvis klik udenfor
+// luk menu hvis klik udenfor
 document.addEventListener("click", function(e){
   if(!document.querySelector(".menu").contains(e.target)){
     document.getElementById("dropdown").classList.remove("active");
