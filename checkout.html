@@ -1,1 +1,98 @@
-// demo file
+<!DOCTYPE html>
+<html lang="da">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Checkout</title>
+
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #0f0f0f;
+      color: white;
+      text-align: center;
+      margin: 0;
+      padding: 40px;
+    }
+
+    .box {
+      background: #1a1a1a;
+      padding: 25px;
+      border-radius: 12px;
+      max-width: 500px;
+      margin: auto;
+    }
+
+    img {
+      width: 100%;
+      border-radius: 10px;
+      margin-bottom: 15px;
+    }
+
+    .btn {
+      display: inline-block;
+      margin-top: 20px;
+      padding: 12px 25px;
+      background: white;
+      color: black;
+      text-decoration: none;
+      font-weight: bold;
+      border-radius: 8px;
+    }
+  </style>
+</head>
+
+<body>
+
+  <h1>Checkout 💳</h1>
+
+  <div class="box" id="checkout">
+    <p>Loader...</p>
+  </div>
+
+  <script src="products.js"></script>
+
+  <script>
+    const params = new URLSearchParams(window.location.search);
+    const box = params.get("box");
+
+    const checkout = document.getElementById("checkout");
+
+    const images = {
+      basic: "https://via.placeholder.com/500x300?text=Basic+Box",
+      premium: "https://via.placeholder.com/500x300?text=Premium+Box",
+      luxury: "https://via.placeholder.com/500x300?text=Luxury+Box"
+    };
+
+    const descriptions = {
+      basic: "Perfekt starter box med streetwear essentials.",
+      premium: "Mere eksklusiv box med bedre items.",
+      luxury: "Top tier mystery box med premium streetwear."
+    };
+
+    const sizes = "S, M, L, XL (mix afhængigt af box)";
+
+    if (!box || !products[box]) {
+      checkout.innerHTML = "<p>Ingen box valgt</p>";
+    } else {
+      const item = products[box];
+
+      checkout.innerHTML = `
+        <img src="${images[box]}" />
+
+        <h2>${item.name}</h2>
+        <p><strong>Pris:</strong> ${item.price} kr</p>
+
+        <p>${descriptions[box]}</p>
+
+        <p><strong>Størrelser:</strong> ${sizes}</p>
+
+        <a class="btn" href="#">
+          Betal nu (demo)
+        </a>
+      `;
+    }
+  </script>
+
+</body>
+</html>
