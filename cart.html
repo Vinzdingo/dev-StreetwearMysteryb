@@ -1,61 +1,23 @@
-<!DOCTYPE html>
-<html lang="da">
-<head>
-  <meta charset="UTF-8">
-  <title>Cart</title>
+<script src="products.js"></script>
 
-  <style>
-    body {
-      font-family: Arial;
-      background: #0f0f0f;
-      color: white;
-      text-align: center;
-      margin: 0;
-      padding: 40px;
-    }
+<script>
+  const params = new URLSearchParams(window.location.search);
+  const box = params.get("box");
 
-    .box {
-      background: #1a1a1a;
-      padding: 20px;
-      border-radius: 10px;
-      max-width: 400px;
-      margin: auto;
-    }
+  const container = document.getElementById("cart-content");
 
-    a {
-      display: inline-block;
-      margin-top: 20px;
-      padding: 10px 20px;
-      background: white;
-      color: black;
-      text-decoration: none;
-      border-radius: 8px;
-      font-weight: bold;
-    }
-  </style>
-</head>
+  if (!box || !products[box]) {
+    container.innerHTML = "<p>Ingen box valgt 🛒</p>";
+  } else {
+    const item = products[box];
 
-<body>
-
-  <h1>Din kurv 🛒</h1>
-
-  <div class="box">
-    <p id="text">Loader...</p>
-    <a href="checkout.html">Gå til checkout</a>
-  </div>
-
-  <script>
-    const params = new URLSearchParams(window.location.search);
-    const box = params.get("box");
-
-    let text = "Ingen box valgt";
-
-    if (box === "basic") text = "Basic Box - 299 kr";
-    if (box === "premium") text = "Premium Box - 499 kr";
-    if (box === "luxury") text = "Luxury Box - 799 kr";
-
-    document.getElementById("text").innerText = text;
-  </script>
-
-</body>
-</html>
+    container.innerHTML = `
+      <h2>${item.name}</h2>
+      <p>Pris: ${item.price} kr</p>
+      <a href="checkout.html"
+         style="display:inline-block;margin-top:15px;padding:10px 20px;background:white;color:black;text-decoration:none;border-radius:8px;">
+        Gå til checkout
+      </a>
+    `;
+  }
+</script>
