@@ -29,7 +29,7 @@
     }
 
     .product img {
-      width: 300px;
+      width: 320px;
       border-radius: 10px;
     }
 
@@ -44,7 +44,7 @@
     }
 
     .section {
-      margin-top: 25px;
+      margin-top: 20px;
       background: #1a1a1a;
       padding: 20px;
       border-radius: 12px;
@@ -56,10 +56,16 @@
       margin-top: 10px;
     }
 
-    td, th {
-      border-bottom: 1px solid #333;
-      padding: 10px;
+    th {
+      color: #FFD700;
       text-align: left;
+      padding: 10px;
+      border-bottom: 1px solid #333;
+    }
+
+    td {
+      padding: 10px;
+      border-bottom: 1px solid #333;
       color: #ccc;
     }
 
@@ -83,16 +89,25 @@
       background: #FFD700;
     }
 
+    .selected {
+      background: #FFD700 !important;
+    }
+
     .btn {
       display: block;
       margin-top: 20px;
-      padding: 12px;
+      padding: 14px;
       background: #FFD700;
       color: black;
       text-align: center;
       font-weight: bold;
       text-decoration: none;
       border-radius: 8px;
+    }
+
+    h4 {
+      margin-top: 20px;
+      margin-bottom: 5px;
     }
   </style>
 </head>
@@ -105,21 +120,23 @@
   const params = new URLSearchParams(window.location.search);
   const box = params.get("box");
 
+  let selectedSize = null;
+
   const data = {
     basic: {
       name: "Basic Box",
       price: 299,
-      img: "https://via.placeholder.com/400x300?text=Basic+Box"
+      img: "https://via.placeholder.com/500x300?text=Basic+Box"
     },
     premium: {
       name: "Premium Box",
       price: 499,
-      img: "https://via.placeholder.com/400x300?text=Premium+Box"
+      img: "https://via.placeholder.com/500x300?text=Premium+Box"
     },
     luxury: {
       name: "Luxury Box",
       price: 799,
-      img: "https://via.placeholder.com/400x300?text=Luxury+Box"
+      img: "https://via.placeholder.com/500x300?text=Luxury+Box"
     }
   };
 
@@ -132,9 +149,9 @@
     const item = data[box];
 
     container.innerHTML = `
-      
+
       <div class="product">
-        <img src="${item.img}" />
+        <img src="${item.img}">
         <div class="info">
           <h2>${item.name}</h2>
           <div class="price">${item.price} kr</div>
@@ -143,14 +160,32 @@
       </div>
 
       <div class="section">
-        <h3>Størrelsesguide 📏</h3>
-
+        <h3>👕 Trøjer (T-shirts / Hoodies)</h3>
         <table>
-          <tr><th>Størrelse</th><th>Mål (cm)</th><th>Fit</th></tr>
-          <tr><td>S</td><td>160-170</td><td>Slank</td></tr>
-          <tr><td>M</td><td>170-178</td><td>Normal</td></tr>
-          <tr><td>L</td><td>178-186</td><td>Løs</td></tr>
-          <tr><td>XL</td><td>186-195</td><td>Oversized</td></tr>
+          <tr>
+            <th>Størrelse</th>
+            <th>Bryst (cm)</th>
+            <th>Længde (cm)</th>
+            <th>Fit</th>
+          </tr>
+          <tr><td>S</td><td>88-94</td><td>66-70</td><td>Tight</td></tr>
+          <tr><td>M</td><td>94-100</td><td>70-74</td><td>Normal</td></tr>
+          <tr><td>L</td><td>100-108</td><td>74-78</td><td>Loose</td></tr>
+          <tr><td>XL</td><td>108-116</td><td>78-82</td><td>Oversized</td></tr>
+        </table>
+
+        <h3>👖 Bukser (Cargos / Pants)</h3>
+        <table>
+          <tr>
+            <th>Størrelse</th>
+            <th>Talje (cm)</th>
+            <th>Benlængde (cm)</th>
+            <th>Fit</th>
+          </tr>
+          <tr><td>S</td><td>72-78</td><td>74-78</td><td>Slank</td></tr>
+          <tr><td>M</td><td>78-84</td><td>78-82</td><td>Normal</td></tr>
+          <tr><td>L</td><td>84-90</td><td>82-86</td><td>Loose</td></tr>
+          <tr><td>XL</td><td>90-98</td><td>86-90</td><td>Baggy</td></tr>
         </table>
       </div>
 
@@ -158,27 +193,41 @@
         <h3>Vælg størrelse 👕</h3>
 
         <div class="sizes">
-          <div class="size-btn" onclick="selectSize('S')">S</div>
-          <div class="size-btn" onclick="selectSize('M')">M</div>
-          <div class="size-btn" onclick="selectSize('L')">L</div>
-          <div class="size-btn" onclick="selectSize('XL')">XL</div>
+          <div class="size-btn" onclick="selectSize(this, 'S')">S</div>
+          <div class="size-btn" onclick="selectSize(this, 'M')">M</div>
+          <div class="size-btn" onclick="selectSize(this, 'L')">L</div>
+          <div class="size-btn" onclick="selectSize(this, 'XL')">XL</div>
         </div>
       </div>
 
       <div class="section">
         <h3>Mulige items 🎁</h3>
-        <p>Hoodies, T-shirts, Cargo pants, Jackets, Accessories</p>
+        <p>Hoodies • T-shirts • Cargo pants • Jackets • Accessories</p>
 
-        <a class="btn" href="#">Betal nu (demo)</a>
+        <a class="btn" href="#" onclick="buy()">Betal nu (demo)</a>
       </div>
 
     `;
-
-    window.selectSize = function(size) {
-      alert("Du valgte størrelse: " + size);
-    };
-
   }
+
+  window.selectSize = function(el, size) {
+    selectedSize = size;
+
+    document.querySelectorAll('.size-btn').forEach(b => {
+      b.classList.remove('selected');
+    });
+
+    el.classList.add('selected');
+  };
+
+  window.buy = function() {
+    if (!selectedSize) {
+      alert("Vælg en størrelse først!");
+      return;
+    }
+
+    alert("Klar til betaling! Størrelse: " + selectedSize);
+  };
 </script>
 
 </body>
