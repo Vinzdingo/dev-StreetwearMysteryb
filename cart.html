@@ -2,21 +2,20 @@
 <html lang="da">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Cart</title>
 
 <style>
 body {
   margin:0;
   font-family:Arial;
-  background:#0f0f0f;
-  color:white;
+  background:#fff;
+  color:#111;
   text-align:center;
 }
 
 .box {
-  background:#1a1a1a;
-  max-width:500px;
+  border:1px solid #eee;
+  max-width:400px;
   margin:50px auto;
   padding:20px;
   border-radius:12px;
@@ -27,17 +26,17 @@ body {
   margin-top:15px;
   padding:12px 20px;
   background:#FFD700;
-  color:black;
+  color:#111;
   font-weight:bold;
-  text-decoration:none;
   border-radius:8px;
+  text-decoration:none;
 }
 </style>
 </head>
 
 <body>
 
-<h1>Kurv 🛒</h1>
+<h1>Kurv</h1>
 
 <div class="box" id="cart">Loading...</div>
 
@@ -45,26 +44,29 @@ body {
 const box = localStorage.getItem("box");
 const size = localStorage.getItem("size");
 
-const data = {
-  basic: { name:"Basic Box", price:299 },
-  premium: { name:"Premium Box", price:499 },
-  luxury: { name:"Luxury Box", price:799 }
+const names = {
+  basic:"Basic Box",
+  premium:"Premium Box",
+  luxury:"Luxury Box"
+};
+
+const prices = {
+  basic:299,
+  premium:499,
+  luxury:799
 };
 
 const cart = document.getElementById("cart");
 
-if(!box || !data[box]){
+if(!box){
   cart.innerHTML = "<p>Kurven er tom</p>";
 } else {
-
-  const item = data[box];
-
   cart.innerHTML = `
-    <h2>${item.name}</h2>
-    <p>Størrelse: <b>${size}</b></p>
-    <p>Pris: ${item.price} kr</p>
+    <h3>${names[box]}</h3>
+    <p>Størrelse: ${size}</p>
+    <p>Pris: ${prices[box]} kr</p>
 
-    <a class="btn" href="checkout.html">Gå til checkout</a>
+    <a class="btn" href="checkout.html">Tilbage</a>
   `;
 }
 </script>
