@@ -117,10 +117,11 @@
 <div class="container" id="content">Loading...</div>
 
 <script>
-  const params = new URLSearchParams(window.location.search);
-  const box = params.get("box");
+const container = document.getElementById("content");
 
-  let selectedSize = null;
+const box = localStorage.getItem("box");
+
+let selectedSize = null;
 
   const data = {
     basic: {
