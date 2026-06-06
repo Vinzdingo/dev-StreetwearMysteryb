@@ -1,23 +1,80 @@
-<script src="products.js"></script>
+<!DOCTYPE html>
+<html lang="da">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cart</title>
 
-<script>
-  const params = new URLSearchParams(window.location.search);
-  const box = params.get("box");
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #0f0f0f;
+      color: white;
+      text-align: center;
+      margin: 0;
+      padding: 40px;
+    }
 
-  const container = document.getElementById("cart-content");
+    .box {
+      background: #1a1a1a;
+      padding: 25px;
+      border-radius: 12px;
+      max-width: 400px;
+      margin: auto;
+    }
 
-  if (!box || !products[box]) {
-    container.innerHTML = "<p>Ingen box valgt 🛒</p>";
-  } else {
-    const item = products[box];
+    h1 {
+      margin-bottom: 20px;
+    }
 
-    container.innerHTML = `
-      <h2>${item.name}</h2>
-      <p>Pris: ${item.price} kr</p>
-      <a href="checkout.html"
-         style="display:inline-block;margin-top:15px;padding:10px 20px;background:white;color:black;text-decoration:none;border-radius:8px;">
-        Gå til checkout
-      </a>
-    `;
-  }
-</script>
+    .btn {
+      display: inline-block;
+      margin-top: 20px;
+      padding: 12px 25px;
+      background: white;
+      color: black;
+      text-decoration: none;
+      font-weight: bold;
+      border-radius: 8px;
+    }
+
+    .btn:hover {
+      opacity: 0.8;
+    }
+  </style>
+</head>
+
+<body>
+
+  <h1>Din kurv 🛒</h1>
+
+  <div class="box" id="cart">
+    <p>Loader kurv...</p>
+  </div>
+
+  <script src="products.js"></script>
+
+  <script>
+    const params = new URLSearchParams(window.location.search);
+    const box = params.get("box");
+
+    const cart = document.getElementById("cart");
+
+    if (!box || !products || !products[box]) {
+      cart.innerHTML = "<p>Ingen box valgt 🛒</p>";
+    } else {
+      const item = products[box];
+
+      cart.innerHTML = `
+        <h2>${item.name}</h2>
+        <p>Pris: ${item.price} kr</p>
+
+        <a class="btn" href="checkout.html?box=${box}">
+          Gå til checkout
+        </a>
+      `;
+    }
+  </script>
+
+</body>
+</html>
