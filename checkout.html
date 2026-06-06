@@ -210,25 +210,16 @@
     `;
   }
 
-  window.selectSize = function(el, size) {
-    selectedSize = size;
-
-    document.querySelectorAll('.size-btn').forEach(b => {
-      b.classList.remove('selected');
-    });
-
-    el.classList.add('selected');
-  };
-
   window.buy = function() {
-    if (!selectedSize) {
-      alert("Vælg en størrelse først!");
-      return;
-    }
+  if (!selectedSize) {
+    alert("Vælg en størrelse først!");
+    return;
+  }
 
-    alert("Klar til betaling! Størrelse: " + selectedSize);
-  };
-</script>
+  // gem data
+  localStorage.setItem("box", box);
+  localStorage.setItem("size", selectedSize);
 
-</body>
-</html>
+  // send til cart
+  window.location.href = "cart.html";
+};
