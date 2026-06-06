@@ -7,20 +7,23 @@
 
   <style>
     body {
-      font-family: Arial, sans-serif;
+      margin: 0;
+      font-family: Arial;
       background: #0f0f0f;
       color: white;
-      text-align: center;
-      margin: 0;
-      padding: 40px;
     }
 
-    .box {
-      background: #1a1a1a;
-      padding: 25px;
-      border-radius: 12px;
-      max-width: 500px;
+    .container {
+      max-width: 600px;
       margin: auto;
+      padding: 30px;
+    }
+
+    .card {
+      background: #1a1a1a;
+      padding: 20px;
+      border-radius: 12px;
+      margin-bottom: 20px;
     }
 
     img {
@@ -29,24 +32,47 @@
       margin-bottom: 15px;
     }
 
-    .btn {
+    .sizes span {
       display: inline-block;
-      margin-top: 20px;
-      padding: 12px 25px;
+      background: white;
+      color: black;
+      padding: 6px 10px;
+      margin: 5px;
+      border-radius: 6px;
+      font-size: 14px;
+    }
+
+    .btn {
+      display: block;
+      text-align: center;
+      padding: 12px;
       background: white;
       color: black;
       text-decoration: none;
       font-weight: bold;
       border-radius: 8px;
+      margin-top: 15px;
+    }
+
+    h2 {
+      margin-top: 0;
+    }
+
+    ul {
+      padding-left: 20px;
+      color: #ccc;
+    }
+
+    p {
+      color: #ccc;
+      line-height: 1.5;
     }
   </style>
 </head>
 
 <body>
 
-  <h1>Checkout 💳</h1>
-
-  <div class="box" id="checkout">
+  <div class="container" id="checkout">
     <p>Loader...</p>
   </div>
 
@@ -56,40 +82,79 @@
     const params = new URLSearchParams(window.location.search);
     const box = params.get("box");
 
-    const checkout = document.getElementById("checkout");
-
     const images = {
-      basic: "https://via.placeholder.com/500x300?text=Basic+Box",
-      premium: "https://via.placeholder.com/500x300?text=Premium+Box",
-      luxury: "https://via.placeholder.com/500x300?text=Luxury+Box"
+      basic: "https://via.placeholder.com/600x300?text=Basic+Box",
+      premium: "https://via.placeholder.com/600x300?text=Premium+Box",
+      luxury: "https://via.placeholder.com/600x300?text=Luxury+Box"
     };
 
-    const descriptions = {
-      basic: "Perfekt starter box med streetwear essentials.",
-      premium: "Mere eksklusiv box med bedre items.",
-      luxury: "Top tier mystery box med premium streetwear."
+    const data = {
+      basic: {
+        name: "Basic Box",
+        price: 299,
+        desc: "Perfekt starter box med streetwear essentials til hverdagen."
+      },
+      premium: {
+        name: "Premium Box",
+        price: 499,
+        desc: "Bedre kvalitet og mere eksklusive streetwear items."
+      },
+      luxury: {
+        name: "Luxury Box",
+        price: 799,
+        desc: "Top tier mystery box med limited edition streetwear."
+      }
     };
 
-    const sizes = "S, M, L, XL (mix afhængigt af box)";
+    const container = document.getElementById("checkout");
 
-    if (!box || !products[box]) {
-      checkout.innerHTML = "<p>Ingen box valgt</p>";
+    if (!box || !data[box]) {
+      container.innerHTML = "<p>Ingen box valgt</p>";
     } else {
-      const item = products[box];
 
-      checkout.innerHTML = `
-        <img src="${images[box]}" />
+      const item = data[box];
 
-        <h2>${item.name}</h2>
-        <p><strong>Pris:</strong> ${item.price} kr</p>
+      container.innerHTML = `
+        <div class="card">
+          <img src="${images[box]}" />
+          <h2>${item.name}</h2>
+          <h3>${item.price} kr</h3>
+          <p>${item.desc}</p>
+        </div>
 
-        <p>${descriptions[box]}</p>
+        <div class="card">
+          <h2>Størrelsesguide 📏</h2>
+          <p>
+            Vores items har normal til oversized fit.<br><br>
+            S = small fit<br>
+            M = normal fit<br>
+            L = loose fit<br>
+            XL = oversized fit
+          </p>
+        </div>
 
-        <p><strong>Størrelser:</strong> ${sizes}</p>
+        <div class="card">
+          <h2>Tilgængelige størrelser 👕</h2>
+          <div class="sizes">
+            <span>S</span>
+            <span>M</span>
+            <span>L</span>
+            <span>XL</span>
+          </div>
+        </div>
 
-        <a class="btn" href="#">
-          Betal nu (demo)
-        </a>
+        <div class="card">
+          <h2>Mulige items 🎁</h2>
+          <ul>
+            <li>Hoodies</li>
+            <li>T-shirts</li>
+            <li>Cargo pants</li>
+            <li>Jackets</li>
+            <li>Accessories</li>
+          </ul>
+
+          <a class="btn" href="#">Køb nu (demo)</a>
+        </div>
       `;
     }
   </script>
