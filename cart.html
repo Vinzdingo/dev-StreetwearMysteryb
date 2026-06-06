@@ -1,76 +1,73 @@
 <!DOCTYPE html>
 <html lang="da">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Cart</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cart</title>
 
-  <style>
-    body {
-      margin: 0;
-      font-family: Arial;
-      background: #0f0f0f;
-      color: white;
-      text-align: center;
-    }
+<style>
+body {
+  margin:0;
+  font-family:Arial;
+  background:#0f0f0f;
+  color:white;
+  text-align:center;
+}
 
-    .box {
-      background: #1a1a1a;
-      max-width: 500px;
-      margin: auto;
-      margin-top: 50px;
-      padding: 25px;
-      border-radius: 12px;
-    }
+.box {
+  background:#1a1a1a;
+  max-width:500px;
+  margin:50px auto;
+  padding:20px;
+  border-radius:12px;
+}
 
-    .btn {
-      display: inline-block;
-      margin-top: 20px;
-      padding: 12px 20px;
-      background: #FFD700;
-      color: black;
-      font-weight: bold;
-      text-decoration: none;
-      border-radius: 8px;
-    }
-  </style>
+.btn {
+  display:inline-block;
+  margin-top:15px;
+  padding:12px 20px;
+  background:#FFD700;
+  color:black;
+  font-weight:bold;
+  text-decoration:none;
+  border-radius:8px;
+}
+</style>
 </head>
 
 <body>
 
-  <h1>Din kurv 🛒</h1>
+<h1>Kurv 🛒</h1>
 
-  <div class="box" id="cart">Loader...</div>
+<div class="box" id="cart">Loading...</div>
 
-  <script>
-    const box = localStorage.getItem("box");
-    const size = localStorage.getItem("size");
+<script>
+const box = localStorage.getItem("box");
+const size = localStorage.getItem("size");
 
-    const data = {
-      basic: { name: "Basic Box", price: 299 },
-      premium: { name: "Premium Box", price: 499 },
-      luxury: { name: "Luxury Box", price: 799 }
-    };
+const data = {
+  basic: { name:"Basic Box", price:299 },
+  premium: { name:"Premium Box", price:499 },
+  luxury: { name:"Luxury Box", price:799 }
+};
 
-    const cart = document.getElementById("cart");
+const cart = document.getElementById("cart");
 
-    if (!box || !data[box]) {
-      cart.innerHTML = "<p>Ingen varer i kurven 🛒</p>";
-    } else {
+if(!box || !data[box]){
+  cart.innerHTML = "<p>Kurven er tom</p>";
+} else {
 
-      const item = data[box];
+  const item = data[box];
 
-      cart.innerHTML = `
-        <h2>${item.name}</h2>
-        <p>Størrelse: <strong>${size}</strong></p>
-        <p>Pris: ${item.price} kr</p>
+  cart.innerHTML = `
+    <h2>${item.name}</h2>
+    <p>Størrelse: <b>${size}</b></p>
+    <p>Pris: ${item.price} kr</p>
 
-        <a class="btn" href="checkout.html">
-          Gå til checkout
-        </a>
-      `;
-    }
-  </script>
+    <a class="btn" href="checkout.html">Gå til checkout</a>
+  `;
+}
+</script>
 
 </body>
 </html>
