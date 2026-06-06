@@ -7,75 +7,35 @@
 <style>
 body {
   margin:0;
-  font-family: Arial;
+  font-family:Arial;
   background:#fff;
   color:#111;
+  text-align:center;
 }
 
 .container {
-  max-width:800px;
+  max-width:500px;
   margin:auto;
-  padding:30px;
+  padding:40px;
 }
 
-.card {
-  border:1px solid #eee;
-  padding:20px;
-  border-radius:12px;
-  margin-bottom:20px;
-  transition:0.2s;
-}
-
-.card:hover {
-  transform:scale(1.01);
-  box-shadow:0 10px 20px rgba(0,0,0,0.08);
-}
-
-table {
+input {
   width:100%;
-  border-collapse:collapse;
-}
-
-th {
-  text-align:left;
-  color:#FFD700;
-  padding:8px;
-}
-
-td {
-  padding:8px;
-  border-bottom:1px solid #eee;
-}
-
-.size-btn {
-  display:inline-block;
-  padding:10px 15px;
-  margin:5px;
+  padding:12px;
+  margin:10px 0;
   border:1px solid #eee;
   border-radius:8px;
-  cursor:pointer;
-  transition:0.2s;
-}
-
-.size-btn:hover {
-  border-color:#FFD700;
-}
-
-.selected {
-  background:#FFD700;
-  border-color:#FFD700;
 }
 
 .btn {
   display:block;
-  margin-top:20px;
   padding:12px;
   background:#FFD700;
   color:#111;
-  text-align:center;
   font-weight:bold;
   border-radius:8px;
   cursor:pointer;
+  margin-top:15px;
 }
 </style>
 </head>
@@ -86,58 +46,19 @@ td {
 
 <h1>Checkout</h1>
 
-<div class="card">
-<h3>👕 Trøjer</h3>
-<table>
-<tr><th>Str</th><th>Bryst</th><th>Længde</th></tr>
-<tr><td>S</td><td>88-94</td><td>66-70</td></tr>
-<tr><td>M</td><td>94-100</td><td>70-74</td></tr>
-<tr><td>L</td><td>100-108</td><td>74-78</td></tr>
-<tr><td>XL</td><td>108-116</td><td>78-82</td></tr>
-</table>
-</div>
+<input placeholder="Card number">
+<input placeholder="MM/YY">
+<input placeholder="CVC">
 
-<div class="card">
-<h3>👖 Bukser</h3>
-<table>
-<tr><th>Str</th><th>Talje</th><th>Længde</th></tr>
-<tr><td>S</td><td>72-78</td><td>74-78</td></tr>
-<tr><td>M</td><td>78-84</td><td>78-82</td></tr>
-<tr><td>L</td><td>84-90</td><td>82-86</td></tr>
-<tr><td>XL</td><td>90-98</td><td>86-90</td></tr>
-</table>
-</div>
-
-<div class="card">
-<h3>Vælg størrelse</h3>
-
-<div class="size-btn" onclick="pick(this,'S')">S</div>
-<div class="size-btn" onclick="pick(this,'M')">M</div>
-<div class="size-btn" onclick="pick(this,'L')">L</div>
-<div class="size-btn" onclick="pick(this,'XL')">XL</div>
-
-<div class="btn" onclick="goCart()">Videre til kurv</div>
-</div>
+<div class="btn" onclick="pay()">Pay now</div>
 
 </div>
 
 <script>
-let selectedSize = null;
-
-function pick(el,size){
-  selectedSize = size;
-  document.querySelectorAll('.size-btn').forEach(b=>b.classList.remove('selected'));
-  el.classList.add('selected');
-}
-
-function goCart(){
-  if(!selectedSize){
-    alert("Vælg størrelse");
-    return;
-  }
-
-  localStorage.setItem("size", selectedSize);
-  window.location.href = "cart.html";
+function pay(){
+  localStorage.removeItem("cart");
+  alert("Payment successful");
+  window.location.href = "index.html";
 }
 </script>
 
