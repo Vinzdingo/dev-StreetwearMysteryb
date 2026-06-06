@@ -10,32 +10,51 @@ body {
   font-family:Arial;
   background:#fff;
   color:#111;
-  text-align:center;
 }
 
 .container {
-  max-width:500px;
+  max-width:700px;
   margin:auto;
   padding:40px;
+}
+
+.box {
+  border:1px solid #eee;
+  border-radius:12px;
+  padding:20px;
+  margin-top:20px;
+}
+
+.item {
+  display:flex;
+  justify-content:space-between;
+  padding:10px;
+  border-bottom:1px solid #eee;
+}
+
+.total {
+  text-align:right;
+  font-weight:bold;
+  margin-top:10px;
 }
 
 input {
   width:100%;
   padding:12px;
-  margin:10px 0;
+  margin:8px 0;
   border:1px solid #eee;
   border-radius:8px;
 }
 
 .btn {
-  display:block;
+  margin-top:15px;
   padding:12px;
   background:#FFD700;
-  color:#111;
+  border:none;
+  width:100%;
   font-weight:bold;
-  border-radius:8px;
   cursor:pointer;
-  margin-top:15px;
+  border-radius:8px;
 }
 </style>
 </head>
@@ -46,20 +65,79 @@ input {
 
 <h1>Checkout</h1>
 
-<input placeholder="Card number">
-<input placeholder="MM/YY">
-<input placeholder="CVC">
+<div class="box">
+  <h3>Order summary</h3>
+  <div id="items"></div>
+  <div class="total" id="total"></div>
+</div>
 
-<div class="btn" onclick="pay()">Pay now</div>
+<div class="box">
+  <h3>Customer info</h3>
+
+  <input placeholder="Navn">
+  <input placeholder="Adresse">
+  <input placeholder="Email">
+</div>
+
+<button class="btn" onclick="pay()">Pay now</button>
 
 </div>
 
 <script>
+const products = {
+  basic: { name: "Basic Box", price: 299 },
+  premium: { name: "Premium Box", price: 499 },
+  luxury: { name: "Luxury Box", price: 799 }
+};
+
+let cart = JSON.parse(localStorage.getItem("cart")) || [];
+
+const itemsDiv = document.getElementById("items");
+const totalDiv = document.getElementById("total");
+
+function render() {
+  if (cart.length === 0) {
+    itemsDiv.innerHTML = "<p>Cart is empty</p>";
+    totalDiv.innerHTML = "";
+    return;
+  }
+
+  let total = 0;
+  let html = "";
+
+  cart.forEach(item => {
+    const product = products[item.id];
+    total += product.price;
+
+    html += `
+      <div class="item">
+        <div>
+          <b>${product.name}</b><br>
+          Size: ${item.size}
+        </div>
+        <div>${product.price} kr</div>
+      </div>
+    `;
+  });
+
+  itemsDiv.innerHTML = html;
+  totalDiv.innerHTML = "Total: " + total + " kr";
+}
+
 function pay(){
+  if(cart.length === 0){
+    alert("Cart is empty");
+    return;
+  }
+
   localStorage.removeItem("cart");
-  alert("Payment successful");
+
+  alert("Order completed");
+
   window.location.href = "index.html";
 }
+
+render();
 </script>
 
 </body>
