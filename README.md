@@ -1,0 +1,1 @@
+<html><body><h1>Checkout</h1><form><input placeholder='Navn'></form></body></html>
