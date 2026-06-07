@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Product</title>
+<title>MysteryStreetwear</title>
 
 <style>
 *{
@@ -16,33 +16,48 @@ body{
 font-family:Arial;
 background:#fff;
 color:#111;
-overflow-x:hidden;
 }
 
-/* BACK BUTTON */
+/* TOP BAR */
+.nav{
+height:80px;
+display:flex;
+justify-content:space-between;
+align-items:center;
+padding:0 40px;
+border-bottom:1px solid #eee;
+position:fixed;
+top:0;
+width:100%;
+background:#fff;
+z-index:1000;
+}
+
+.logo{
+font-size:22px;
+font-weight:bold;
+}
+
+/* BACK */
 .back{
 position:fixed;
-top:20px;
+top:90px;
 left:20px;
-font-size:18px;
-font-weight:bold;
 cursor:pointer;
-z-index:9999;
+font-weight:bold;
 }
 
-/* LAYOUT FULL WIDTH */
+/* MAIN */
 .container{
-width:100%;
-min-height:100vh;
+max-width:1200px;
+margin:140px auto;
 display:flex;
 gap:80px;
-padding:140px 80px;
+padding:0 40px;
 }
 
 /* LEFT */
-.left{
-flex:1;
-}
+.left{flex:1;}
 
 .main-img{
 width:100%;
@@ -50,10 +65,11 @@ border-radius:12px;
 border:1px solid #eee;
 }
 
+/* thumbnails */
 .thumbs{
 display:flex;
 gap:10px;
-margin-top:15px;
+margin-top:10px;
 }
 
 .thumbs img{
@@ -63,17 +79,10 @@ object-fit:cover;
 border-radius:8px;
 cursor:pointer;
 border:1px solid #eee;
-transition:.2s;
-}
-
-.thumbs img:hover{
-transform:scale(1.05);
 }
 
 /* RIGHT */
-.right{
-flex:1;
-}
+.right{flex:1;}
 
 .title{
 font-size:42px;
@@ -81,33 +90,37 @@ margin-bottom:10px;
 }
 
 .price{
-font-size:26px;
+font-size:24px;
 margin-bottom:20px;
 }
 
 .desc{
 color:#666;
+margin-bottom:25px;
 line-height:1.6;
-margin-bottom:30px;
 }
 
-/* SIZES */
+/* SIZE */
+.size-group{
+margin-bottom:20px;
+}
+
+.size-title{
+font-weight:bold;
+margin-bottom:10px;
+}
+
 .sizes{
 display:flex;
 gap:10px;
-margin-bottom:25px;
+flex-wrap:wrap;
 }
 
 .size{
-padding:12px 16px;
+padding:10px 14px;
 border:1px solid #ddd;
 border-radius:8px;
 cursor:pointer;
-transition:.2s;
-}
-
-.size:hover{
-border-color:#FFD700;
 }
 
 .size.active{
@@ -119,147 +132,122 @@ border-color:#FFD700;
 .btn{
 display:inline-block;
 background:#FFD700;
-padding:16px 26px;
+padding:14px 22px;
 border-radius:10px;
 font-weight:bold;
 cursor:pointer;
-transition:.2s;
+margin-top:20px;
 }
 
-.btn:hover{
-transform:translateY(-2px);
+/* SECTIONS */
+.sections{
+max-width:1200px;
+margin:80px auto;
+padding:0 40px;
 }
 
-/* ACCORDION */
-.acc{
-margin-top:50px;
+.section{
 border-top:1px solid #eee;
+padding:40px 0;
 }
 
-.acc-item{
-border-bottom:1px solid #eee;
-padding:20px 0;
-cursor:pointer;
+.section h2{
+margin-bottom:10px;
 }
 
-.acc-title{
-font-weight:bold;
-display:flex;
-justify-content:space-between;
-}
-
-.acc-content{
-display:none;
-margin-top:10px;
+.section p{
 color:#666;
 line-height:1.6;
 }
 
-.acc-item.active .acc-content{
-display:block;
-}
 </style>
 </head>
 
 <body>
 
+<div class="nav">
+<div class="logo">MysteryStreetwear</div>
+</div>
+
 <div class="back" onclick="history.back()">← Tilbage</div>
 
 <div class="container">
 
-<!-- LEFT -->
+<!-- LEFT IMAGES -->
 <div class="left">
 
 <img id="mainImg" class="main-img">
 
 <div class="thumbs">
 
-<img onclick="changeImg(this)">
-<img onclick="changeImg(this)">
-<img onclick="changeImg(this)">
+<img onclick="changeImg(this)" src="https://images.unsplash.com/photo-1520975958225-8c8c3d0c0d3b?auto=format&fit=crop&w=300&q=80">
+<img onclick="changeImg(this)" src="https://images.unsplash.com/photo-1520975916090-3105956dac38?auto=format&fit=crop&w=300&q=80">
+<img onclick="changeImg(this)" src="https://images.unsplash.com/photo-1521334884684-d80222895322?auto=format&fit=crop&w=300&q=80">
 
 </div>
 
 </div>
 
-<!-- RIGHT -->
+<!-- RIGHT INFO -->
 <div class="right">
 
-<div class="title" id="title">Loading...</div>
+<div class="title" id="title">Mystery Box</div>
 <div class="price" id="price"></div>
 
 <div class="desc">
-Eksklusiv mystery box med håndplukkede streetwear items.
+Eksklusive MysteryStreetwear boxes med håndplukkede streetwear items.
+Hver box er unik.
 </div>
 
+<!-- TRØJER -->
+<div class="size-group">
+<div class="size-title">Trøjer</div>
 <div class="sizes">
 <div class="size" onclick="selectSize(this)">S</div>
 <div class="size" onclick="selectSize(this)">M</div>
 <div class="size" onclick="selectSize(this)">L</div>
 <div class="size" onclick="selectSize(this)">XL</div>
 </div>
+</div>
+
+<!-- BUKSER -->
+<div class="size-group">
+<div class="size-title">Bukser</div>
+<div class="sizes">
+<div class="size" onclick="selectSize(this)">28</div>
+<div class="size" onclick="selectSize(this)">30</div>
+<div class="size" onclick="selectSize(this)">32</div>
+<div class="size" onclick="selectSize(this)">34</div>
+</div>
+</div>
 
 <div class="btn" onclick="addToCart()">
 Tilføj til kurv
 </div>
 
-<div class="acc">
-
-<div class="acc-item" onclick="toggleAcc(this)">
-  <div class="acc-title">Størrelsesguide <span>+</span></div>
-
-  <div class="acc-content">
-
-    <strong>Trøjer (T-shirts / Hoodies)</strong><br><br>
-
-    <table style="width:100%; border-collapse:collapse; margin-bottom:20px;">
-      <tr>
-        <th style="text-align:left;">Størrelse</th>
-        <th>Bryst (cm)</th>
-        <th>Længde (cm)</th>
-      </tr>
-      <tr><td>S</td><td>90-96</td><td>66-70</td></tr>
-      <tr><td>M</td><td>96-102</td><td>70-74</td></tr>
-      <tr><td>L</td><td>102-108</td><td>74-78</td></tr>
-      <tr><td>XL</td><td>108-114</td><td>78-82</td></tr>
-    </table>
-
-    <strong>Bukser (Cargos / Pants)</strong><br><br>
-
-    <table style="width:100%; border-collapse:collapse;">
-      <tr>
-        <th style="text-align:left;">Størrelse</th>
-        <th>Talje (cm)</th>
-        <th>Benlængde (cm)</th>
-      </tr>
-      <tr><td>S</td><td>74-79</td><td>76-80</td></tr>
-      <tr><td>M</td><td>79-84</td><td>80-84</td></tr>
-      <tr><td>L</td><td>84-90</td><td>84-88</td></tr>
-      <tr><td>XL</td><td>90-96</td><td>88-92</td></tr>
-    </table>
-
-  </div>
-</div>
-</div>
-</div>
-
-<div class="acc-item" onclick="toggleAcc(this)">
-<div class="acc-title">Indhold <span>+</span></div>
-<div class="acc-content">
-Hoodies, T-shirts, Bukser, Jackets
-</div>
-</div>
-
-<div class="acc-item" onclick="toggleAcc(this)">
-<div class="acc-title">Levering & retur <span>+</span></div>
-<div class="acc-content">
-2-5 dage levering<br>
-14 dages retur
-</div>
 </div>
 
 </div>
 
+<!-- INFO -->
+<div class="sections">
+
+<div class="section">
+<h2>Hvad indeholder boksen</h2>
+<p>Hoodies, T-shirts, Cargos, Jackets, Accessories</p>
+</div>
+
+<div class="section">
+<h2>Levering & retur</h2>
+<p>2-5 dage levering • 14 dages retur</p>
+</div>
+
+<div class="section">
+<h2>Størrelsesguide</h2>
+<p>
+Trøjer: 90-114 cm bryst<br>
+Bukser: 74-96 cm talje
+</p>
 </div>
 
 </div>
@@ -307,14 +295,10 @@ selectedSize = el.innerText;
 
 function addToCart(){
 if(!selectedSize){
-alert("Vælg størrelse først");
+alert("Vælg størrelse");
 return;
 }
-alert("Tilføjet: " + product.name + " - " + selectedSize);
-}
-
-function toggleAcc(el){
-el.classList.toggle("active");
+alert("Tilføjet til kurv: " + product.name);
 }
 
 </script>
