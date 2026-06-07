@@ -21,16 +21,9 @@ background:#fff;padding:20px;border-radius:12px;
 margin-bottom:15px;
 }
 
-.step{
-display:none;
-}
-
-.step.active{
-display:block;
-}
-
 .item{
-border-bottom:1px solid #eee;padding:10px 0;
+border-bottom:1px solid #eee;
+padding:10px 0;
 }
 
 input{
@@ -51,17 +44,6 @@ border-radius:10px;
 cursor:pointer;
 margin-top:10px;
 }
-
-.nav{
-display:flex;
-justify-content:space-between;
-gap:10px;
-}
-
-.small{
-font-size:12px;color:#666;
-}
-
 </style>
 </head>
 
@@ -73,34 +55,14 @@ font-size:12px;color:#666;
 
 <div class="container">
 
-<!-- STEP 1 -->
-<div class="box step active" id="step1">
-<h3>1. Din kurv</h3>
-<div id="cartBox"></div>
-<p id="total"></p>
+<div class="box" id="cartBox"></div>
 
-<button onclick="nextStep(2)">Fortsæt</button>
-</div>
-
-<!-- STEP 2 -->
-<div class="box step" id="step2">
-<h3>2. Kunde info</h3>
+<div class="box">
+<h3>Customer info</h3>
 
 <input id="email" placeholder="Email">
 <input id="address" placeholder="Adresse">
 <input id="zip" placeholder="Postnummer">
-
-<div class="nav">
-<button onclick="nextStep(1)">Tilbage</button>
-<button onclick="nextStep(3)">Fortsæt</button>
-</div>
-</div>
-
-<!-- STEP 3 -->
-<div class="box step" id="step3">
-<h3>3. Bekræft ordre</h3>
-
-<p class="small">Klik nedenfor for at placere din ordre</p>
 
 <button onclick="placeOrder()">PLACE ORDER</button>
 </div>
@@ -113,15 +75,15 @@ function getCart(){
 return JSON.parse(localStorage.getItem("cart")) || [];
 }
 
-function saveOrders(o){
-let orders = JSON.parse(localStorage.getItem("orders")) || [];
-orders.push(o);
+function getOrders(){
+return JSON.parse(localStorage.getItem("orders")) || [];
+}
+
+function saveOrders(orders){
 localStorage.setItem("orders", JSON.stringify(orders));
 }
 
-let currentStep = 1;
-
-function renderCart(){
+function render(){
 
 let cart = getCart();
 let box = document.getElementById("cartBox");
@@ -141,34 +103,26 @@ Qty: ${item.qty}
 `;
 });
 
-document.getElementById("total").innerText = "Total: " + total + " kr";
-}
-
-function nextStep(step){
-
-if(step === 3 && getCart().length === 0){
-alert("Kurven er tom");
-return;
-}
-
-document.querySelectorAll(".step").forEach(s=>s.classList.remove("active"));
-document.getElementById("step"+step).classList.add("active");
-
-currentStep = step;
-
-if(step === 1) renderCart();
+box.innerHTML += `<h3>Total: ${total} kr</h3>`;
 }
 
 function placeOrder(){
 
 let cart = getCart();
 
+if(cart.length === 0){
+alert("Cart er tom");
+return;
+}
+
+let orders = getOrders();
+
 let order = {
 id: "MS-" + Date.now(),
 items: cart,
-total: cart.reduce((a,b)=>a+(b.price*b.qty),0),
+total: cart.reduce((a,b)=>a + (b.price*b.qty),0),
 status: "pending",
-customer: {
+customer:{
 email: document.getElementById("email").value,
 address: document.getElementById("address").value,
 zip: document.getElementById("zip").value
@@ -176,16 +130,18 @@ zip: document.getElementById("zip").value
 date: new Date().toISOString()
 };
 
-saveOrders(order);
+orders.push(order);
+
+saveOrders(orders);
 
 localStorage.removeItem("cart");
 
-alert("Order placed ✔");
+alert("Order created ✔");
 
-window.location.href = "index.html";
+window.location.href = "admin.html";
 }
 
-renderCart();
+render();
 
 </script>
 
