@@ -2,11 +2,9 @@
 <html lang="da">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Admin Panel</title>
 
 <style>
-
 body{
 font-family:Arial;
 background:#111;
@@ -14,35 +12,6 @@ color:#fff;
 padding:30px;
 }
 
-/* LOGIN */
-.loginBox{
-max-width:300px;
-margin:100px auto;
-background:#1e1e1e;
-padding:20px;
-border-radius:12px;
-}
-
-input{
-width:100%;
-padding:10px;
-margin:10px 0;
-border-radius:8px;
-border:none;
-}
-
-button{
-padding:10px;
-width:100%;
-border:none;
-border-radius:8px;
-cursor:pointer;
-background:#FFD700;
-color:#111;
-font-weight:bold;
-}
-
-/* ADMIN */
 .box{
 background:#1e1e1e;
 padding:20px;
@@ -50,104 +19,30 @@ border-radius:12px;
 margin-bottom:15px;
 }
 
-.topbar{
-display:flex;
-justify-content:space-between;
-align-items:center;
-margin-bottom:20px;
-}
-
-.logout{
-background:#ff4444;
-color:#fff;
+button{
 padding:8px 12px;
 border:none;
 border-radius:8px;
 cursor:pointer;
+background:#FFD700;
 }
-
-.order{
-border-bottom:1px solid #333;
-padding:10px 0;
-}
-
-.hidden{
-display:none;
-}
-
 </style>
-
 </head>
 
 <body>
 
-<!-- 🔐 LOGIN -->
-<div id="loginPage" class="loginBox">
-
-<h2>Admin Login</h2>
-
-<input id="user" placeholder="Username">
-<input id="pass" type="password" placeholder="Password">
-
-<button onclick="login()">Login</button>
-
-</div>
-
-<!-- 🧠 ADMIN PANEL -->
-<div id="adminPage" class="hidden">
-
-<div class="topbar">
 <h1>Admin Panel</h1>
-<button class="logout" onclick="logout()">Logout</button>
-</div>
 
 <div id="orders"></div>
 
-</div>
-
 <script>
 
-/* LOGIN */
-function login(){
-
-let u = document.getElementById("user").value;
-let p = document.getElementById("pass").value;
-
-if(u === "admin" && p === "1234"){
-localStorage.setItem("admin", "true");
-showAdmin();
-} else {
-alert("Forkert login");
+if(localStorage.getItem("admin") !== "true"){
+window.location.href="admin-login.html";
 }
 
-}
-
-/* LOGOUT */
-function logout(){
-localStorage.removeItem("admin");
-location.reload();
-}
-
-/* CHECK LOGIN */
-function showAdmin(){
-
-document.getElementById("loginPage").style.display = "none";
-document.getElementById("adminPage").classList.remove("hidden");
-
-render();
-}
-
-if(localStorage.getItem("admin") === "true"){
-showAdmin();
-}
-
-/* ORDERS */
 function getOrders(){
 return JSON.parse(localStorage.getItem("orders")) || [];
-}
-
-function saveOrders(o){
-localStorage.setItem("orders", JSON.stringify(o));
 }
 
 function render(){
@@ -156,37 +51,31 @@ let orders = getOrders();
 let box = document.getElementById("orders");
 box.innerHTML = "";
 
-if(orders.length === 0){
-box.innerHTML = "<p>No orders yet</p>";
-return;
-}
-
 orders.forEach((o,i)=>{
 
 let div = document.createElement("div");
-div.className = "box";
+div.className="box";
 
-div.innerHTML = `
+div.innerHTML=`
 <b>Order #${o.id}</b><br>
+Step: ${o.step || "completed"}<br>
 Total: ${o.total} kr<br>
 Items: ${o.items.length}<br>
-<button onclick="remove(${i})">Slet order</button>
+<button onclick="remove(${i})">Slet</button>
 `;
 
 box.appendChild(div);
-
 });
-
 }
 
 function remove(i){
-
 let orders = getOrders();
 orders.splice(i,1);
-saveOrders(orders);
+localStorage.setItem("orders",JSON.stringify(orders));
 render();
-
 }
+
+render();
 
 </script>
 
