@@ -19,7 +19,7 @@ color:#111;
 overflow-x:hidden;
 }
 
-/* NAVBAR */
+/* ===== NAVBAR ===== */
 .navbar{
 height:80px;
 display:flex;
@@ -39,6 +39,36 @@ font-size:24px;
 font-weight:bold;
 }
 
+.nav-right{
+display:flex;
+align-items:center;
+gap:20px;
+}
+
+/* CART */
+.cart{
+position:relative;
+cursor:pointer;
+font-size:22px;
+}
+
+.cart span{
+position:absolute;
+top:-8px;
+right:-10px;
+background:#FFD700;
+color:#000;
+font-size:12px;
+width:18px;
+height:18px;
+display:flex;
+align-items:center;
+justify-content:center;
+border-radius:50%;
+font-weight:bold;
+}
+
+/* MENU */
 .menu-btn{
 font-size:32px;
 cursor:pointer;
@@ -70,14 +100,13 @@ text-decoration:none;
 color:#111;
 font-size:18px;
 border-bottom:1px solid #eee;
-transition:.2s;
 }
 
 .sidebar a:hover{
 background:#FFD700;
 }
 
-/* OVERLAY (NY) */
+/* OVERLAY */
 .overlay{
 position:fixed;
 top:0;
@@ -222,8 +251,20 @@ to{opacity:1;transform:translateY(0);}
 
 <!-- NAVBAR -->
 <div class="navbar">
+
 <div class="logo">MysteryStreetwear</div>
+
+<div class="nav-right">
+
+<div class="cart" onclick="goCart()">
+🛒
+<span id="cartCount">0</span>
+</div>
+
 <div class="menu-btn" onclick="toggleMenu()">☰</div>
+
+</div>
+
 </div>
 
 <!-- SIDEBAR -->
@@ -231,8 +272,7 @@ to{opacity:1;transform:translateY(0);}
 <a href="product.html?id=basic" onclick="closeMenu()">Basic Box</a>
 <a href="product.html?id=premium" onclick="closeMenu()">Premium Box</a>
 <a href="product.html?id=luxury" onclick="closeMenu()">Luxury Box</a>
-<a href="cart.html">Kurv</a>
-<a href="#">FAQ</a>
+<a href="cart.html" onclick="closeMenu()">Kurv</a>
 </div>
 
 <!-- HERO -->
@@ -241,7 +281,7 @@ to{opacity:1;transform:translateY(0);}
 <h1>STREETWEAR<br>MYSTERY BOXES</h1>
 <p>
 Eksklusive mystery boxes med håndplukkede streetwear items.
-Hver box er sammensat med fokus på kvalitet, stil og overraskelser.
+Hver box er sammensat med fokus på kvalitet og stil.
 </p>
 </div>
 </section>
@@ -262,21 +302,22 @@ Hver box er sammensat med fokus på kvalitet, stil og overraskelser.
 <div class="step">
 <span>02</span>
 <h3>Vælg størrelse</h3>
-<p>Vi matcher indholdet efter din størrelse.</p>
+<p>Vi matcher efter din størrelse.</p>
 </div>
 
 <div class="step">
 <span>03</span>
 <h3>Modtag pakken</h3>
-<p>Åbn din mystery box og oplev overraskelsen.</p>
+<p>Åbn din mystery box.</p>
 </div>
 </div>
+
 </div>
 
 <div class="about-box">
 <h2>Om MysteryStreetwear</h2>
-<p>MysteryStreetwear er skabt til streetwear-entusiaster.</p>
-<p>Målet er en stærk unboxing oplevelse hver gang.</p>
+<p>Vi laver premium mystery boxes til streetwear lovers.</p>
+<p>Fokus på kvalitet, stil og overraskelse.</p>
 </div>
 
 </section>
@@ -287,6 +328,7 @@ Hver box er sammensat med fokus på kvalitet, stil og overraskelser.
 
 <script>
 
+/* MENU */
 function toggleMenu(){
 document.getElementById("sidebar").classList.toggle("active");
 document.getElementById("overlay").classList.toggle("active");
@@ -297,10 +339,19 @@ document.getElementById("sidebar").classList.remove("active");
 document.getElementById("overlay").classList.remove("active");
 }
 
-/* ekstra sikker luk */
-document.addEventListener("keydown", (e)=>{
-if(e.key === "Escape") closeMenu();
-});
+/* CART */
+function goCart(){
+window.location.href = "cart.html";
+}
+
+/* CART COUNT */
+function updateCartCount(){
+let cart = JSON.parse(localStorage.getItem("cart")) || [];
+document.getElementById("cartCount").innerText = cart.length;
+}
+
+updateCartCount();
+window.addEventListener("focus", updateCartCount);
 
 </script>
 
