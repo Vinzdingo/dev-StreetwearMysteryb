@@ -225,37 +225,10 @@ cursor:pointer;
 let selectedTop = null;
 let selectedBottom = null;
 
-/* PRODUCT DATA */
-const products = {
-basic:{
-name:"Basic Box",
-price:299,
-img:"https://telecaixa.com/cdn/shop/files/1078.jpg?v=1711978877"
-},
-premium:{
-name:"Premium Box",
-price:499,
-img:"https://images.unsplash.com/photo-1521334884684-d80222895322?auto=format&fit=crop&w=900&q=80"
-},
-luxury:{
-name:"Luxury Box",
-price:799,
-img:"https://images.unsplash.com/photo-1520975916090-3105956dac38?auto=format&fit=crop&w=900&q=80"
-}
-};
+/* CART LOAD */
+let cart = JSON.parse(localStorage.getItem("cart")) || [];
 
-/* URL */
-const params = new URLSearchParams(window.location.search);
-let id = params.get("id") || "basic";
-
-let product = products[id];
-
-/* RENDER */
-document.getElementById("title").innerText = product.name;
-document.getElementById("price").innerText = product.price + " kr";
-document.getElementById("img").src = product.img;
-
-/* SIZE */
+/* SIZE SELECT */
 function select(el,type){
 
 document.querySelectorAll("#"+type+"Sizes .size")
@@ -267,47 +240,48 @@ if(type==="top") selectedTop = el.innerText;
 if(type==="bottom") selectedBottom = el.innerText;
 }
 
-/* 🔥 GUIDE FIX */
-function toggleGuide(el){
-
-let content = el.querySelector(".guide-content");
-
-if(content.style.display === "block"){
-content.style.display = "none";
-}else{
-content.style.display = "block";
-}
-
-}
-
-/* CART */
+/* ADD TO CART (SHOPIFY STYLE DATA) */
 function addToCart(){
 
 if(!selectedTop || !selectedBottom){
-alert("Vælg størrelse");
+alert("Vælg alle størrelser");
 return;
 }
 
-let cart = JSON.parse(localStorage.getItem("cart")) || [];
+const product = {
+id: Date.now(),
+name: document.getElementById("title").innerText,
+price: 299,
+top: selectedTop,
+bottom: selectedBottom,
+qty: 1
+};
 
-cart.push({
-name:product.name,
-price:product.price,
-top:selectedTop,
-bottom:selectedBottom
-});
+/* CHECK IF EXISTS */
+let existing = cart.find(i =>
+i.name === product.name &&
+i.top === product.top &&
+i.bottom === product.bottom
+);
 
-localStorage.setItem("cart",JSON.stringify(cart));
-
-document.getElementById("popup").style.display="block";
+if(existing){
+existing.qty += 1;
+} else {
+cart.push(product);
 }
 
+localStorage.setItem("cart", JSON.stringify(cart));
+
+document.getElementById("popup").style.display = "block";
+}
+
+/* POPUP */
 function closePopup(){
-document.getElementById("popup").style.display="none";
+document.getElementById("popup").style.display = "none";
 }
 
 function goCart(){
-window.location.href="checkout.html";
+window.location.href = "checkout.html";
 }
 
 </script>
