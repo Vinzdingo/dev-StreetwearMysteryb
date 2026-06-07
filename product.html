@@ -225,7 +225,13 @@ cursor:pointer;
 let selectedTop = null;
 let selectedBottom = null;
 
-let cart = JSON.parse(localStorage.getItem("cart")) || [];
+function getCart(){
+return JSON.parse(localStorage.getItem("cart")) || [];
+}
+
+function saveCart(cart){
+localStorage.setItem("cart", JSON.stringify(cart));
+}
 
 /* SIZE SELECT */
 function select(el,type){
@@ -239,7 +245,7 @@ if(type==="top") selectedTop = el.innerText;
 if(type==="bottom") selectedBottom = el.innerText;
 }
 
-/* ADD TO CART (FIXED + SAFE STRUCTURE) */
+/* ADD TO CART (FORCE SAFE) */
 function addToCart(){
 
 if(!selectedTop || !selectedBottom){
@@ -247,7 +253,9 @@ alert("Vælg størrelser");
 return;
 }
 
-const product = {
+let cart = getCart();
+
+const item = {
 id: Date.now(),
 name: document.getElementById("title").innerText,
 price: 299,
@@ -256,25 +264,23 @@ bottom: selectedBottom,
 qty: 1
 };
 
-/* check existing */
 let existing = cart.find(i =>
-i.name === product.name &&
-i.top === product.top &&
-i.bottom === product.bottom
+i.name === item.name &&
+i.top === item.top &&
+i.bottom === item.bottom
 );
 
 if(existing){
 existing.qty += 1;
 } else {
-cart.push(product);
+cart.push(item);
 }
 
-localStorage.setItem("cart", JSON.stringify(cart));
+saveCart(cart);
 
 document.getElementById("popup").style.display = "block";
 }
 
-/* POPUP */
 function closePopup(){
 document.getElementById("popup").style.display = "none";
 }
