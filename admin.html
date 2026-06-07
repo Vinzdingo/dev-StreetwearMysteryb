@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Admin Dashboard</title>
+<title>Admin</title>
 
 <style>
 
@@ -17,10 +17,6 @@ color:#fff;
 .header{
 padding:20px;
 background:#111;
-border-bottom:1px solid #222;
-display:flex;
-justify-content:space-between;
-align-items:center;
 }
 
 .container{
@@ -37,32 +33,18 @@ margin-bottom:10px;
 border:1px solid #222;
 }
 
-.row{
-display:flex;
-justify-content:space-between;
-gap:10px;
-flex-wrap:wrap;
-}
-
 .badge{
 padding:4px 8px;
-border-radius:6px;
-font-size:12px;
 background:orange;
 color:#000;
+border-radius:6px;
+font-size:12px;
 }
 
 .small{
 font-size:13px;
 color:#aaa;
 margin-top:5px;
-}
-
-.items{
-margin-top:10px;
-font-size:13px;
-color:#ddd;
-line-height:1.5;
 }
 
 button{
@@ -74,12 +56,10 @@ margin-top:10px;
 }
 
 .del{background:#ff3b3b;color:#fff;}
-.ship{background:#00c853;color:#000;}
 
 .stats{
 display:flex;
 gap:10px;
-flex-wrap:wrap;
 margin:20px 0;
 }
 
@@ -102,7 +82,7 @@ border:1px solid #222;
 <div class="container">
 
 <div class="stats">
-<div class="stat" id="totalOrders">Orders: 0</div>
+<div class="stat" id="count">Orders: 0</div>
 <div class="stat" id="revenue">Revenue: 0 kr</div>
 </div>
 
@@ -130,7 +110,7 @@ box.innerHTML = "";
 let revenue = 0;
 
 if(orders.length === 0){
-box.innerHTML = "<p>No orders yet...</p>";
+box.innerHTML = "<p>No orders yet</p>";
 }
 
 orders.forEach((o,i)=>{
@@ -140,40 +120,26 @@ revenue += o.total;
 box.innerHTML += `
 <div class="order">
 
-<div class="row">
 <b>${o.id}</b>
-<span class="badge">${o.status || "pending"}</span>
+<span class="badge">${o.status}</span>
+
+<div class="small">
+${o.customer.email}<br>
+${o.customer.address} ${o.customer.zip}
 </div>
 
 <div class="small">
-📧 ${o.customer?.email || "No email"} <br>
-📍 ${o.customer?.address || "No address"} ${o.customer?.zip || ""}
+Items: ${o.items.length} | ${o.total} kr
 </div>
 
-<div class="items">
-${o.items.map(it =>
-`• ${it.name} (${it.top}/${it.bottom}) x${it.qty}`
-).join("<br>")}
-</div>
-
-<div class="small">Total: ${o.total} kr</div>
-
-<button class="ship" onclick="ship(${i})">Mark shipped</button>
 <button class="del" onclick="remove(${i})">Delete</button>
 
 </div>
 `;
 });
 
-document.getElementById("totalOrders").innerText = "Orders: " + orders.length;
+document.getElementById("count").innerText = "Orders: " + orders.length;
 document.getElementById("revenue").innerText = "Revenue: " + revenue + " kr";
-}
-
-function ship(i){
-let orders = getOrders();
-orders[i].status = "shipped";
-saveOrders(orders);
-render();
 }
 
 function remove(i){
