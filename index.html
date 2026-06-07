@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+
 <html lang="da">
 <head>
 <meta charset="UTF-8">
@@ -6,11 +7,22 @@
 <title>MysteryStreetwear</title>
 
 <style>
-*{margin:0;padding:0;box-sizing:border-box;font-family:Arial;}
 
-body{background:#fff;color:#111;overflow-x:hidden;}
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:Arial,sans-serif;
+}
 
-/* NAV */
+body{
+background:#fff;
+color:#111;
+overflow-x:hidden;
+}
+
+/* NAVBAR */
+
 .navbar{
 height:80px;
 display:flex;
@@ -25,9 +37,16 @@ background:#fff;
 z-index:1000;
 }
 
-.logo{font-size:22px;font-weight:bold;}
+.logo{
+font-size:22px;
+font-weight:bold;
+}
 
-.nav-right{display:flex;gap:15px;align-items:center;}
+.nav-right{
+display:flex;
+gap:15px;
+align-items:center;
+}
 
 .cart{
 position:relative;
@@ -40,7 +59,8 @@ position:absolute;
 top:-8px;
 right:-10px;
 background:#FFD700;
-width:18px;height:18px;
+width:18px;
+height:18px;
 border-radius:50%;
 display:flex;
 align-items:center;
@@ -48,10 +68,13 @@ justify-content:center;
 font-size:11px;
 }
 
-/* MENU */
-.menu{font-size:28px;cursor:pointer;}
+.menu{
+font-size:28px;
+cursor:pointer;
+}
 
 /* SIDEBAR */
+
 .sidebar{
 position:fixed;
 top:0;
@@ -59,12 +82,15 @@ right:-320px;
 width:300px;
 height:100%;
 background:#fff;
-box-shadow:-10px 0 30px rgba(0,0,0,0.08);
+box-shadow:-10px 0 30px rgba(0,0,0,.08);
 transition:.3s;
 padding-top:100px;
+z-index:2000;
 }
 
-.sidebar.active{right:0;}
+.sidebar.active{
+right:0;
+}
 
 .sidebar a{
 display:block;
@@ -74,48 +100,112 @@ color:#111;
 border-bottom:1px solid #eee;
 }
 
-.sidebar a:hover{background:#FFD700;}
+.sidebar a:hover{
+background:#FFD700;
+}
 
 /* HERO */
+
 .hero{
 margin-top:80px;
-height:70vh;
+height:75vh;
 display:flex;
 align-items:center;
 justify-content:center;
 text-align:center;
-background:linear-gradient(rgba(255,255,255,.7),rgba(255,255,255,.95)),
+background:
+linear-gradient(
+rgba(255,255,255,.7),
+rgba(255,255,255,.95)
+),
 url('https://images.unsplash.com/photo-1523398002811-999ca8dec234?auto=format&fit=crop&w=1600&q=80');
+
 background-size:cover;
+background-position:center;
 }
 
-.hero h1{font-size:58px;}
+.hero-content{
+max-width:800px;
+padding:20px;
+}
+
+.hero h1{
+font-size:60px;
+margin-bottom:20px;
+}
+
+.hero p{
+font-size:20px;
+color:#555;
+line-height:1.6;
+}
 
 /* STEPS */
+
 .steps{
-max-width:1000px;
-margin:80px auto;
+max-width:1100px;
+margin:90px auto;
 display:flex;
 gap:25px;
-flex-wrap:wrap;
 justify-content:center;
+flex-wrap:wrap;
+padding:0 20px;
 }
 
 .step{
-width:300px;
+width:320px;
 border:1px solid #eee;
-padding:25px;
-border-radius:12px;
+padding:30px;
+border-radius:14px;
 text-align:center;
 }
 
 .step span{
-font-size:40px;
-color:#FFD700;
+font-size:42px;
 font-weight:bold;
+color:#FFD700;
+display:block;
+margin-bottom:10px;
 }
 
-/* 🧺 MINI CART (ZALANDO STYLE FIXED) */
+.step h3{
+margin-bottom:10px;
+}
+
+/* TRUST */
+
+.trust-section{
+max-width:1100px;
+margin:0 auto 100px;
+padding:0 20px;
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+gap:20px;
+}
+
+.trust{
+border:1px solid #eee;
+border-radius:14px;
+padding:25px;
+text-align:center;
+}
+
+.trust-icon{
+font-size:30px;
+margin-bottom:10px;
+}
+
+.trust h4{
+margin-bottom:8px;
+}
+
+.trust p{
+color:#666;
+font-size:14px;
+}
+
+/* MINI CART */
+
 .minicart{
 position:fixed;
 top:80px;
@@ -132,7 +222,7 @@ z-index:9999;
 .minicart-item{
 font-size:13px;
 padding:8px 0;
-border-bottom:1px solid rgba(255,255,255,0.1);
+border-bottom:1px solid rgba(255,255,255,.1);
 }
 
 .minicart button{
@@ -147,23 +237,30 @@ font-weight:bold;
 }
 
 </style>
+
 </head>
 
 <body>
 
 <div class="navbar">
 
-<div class="logo">MysteryStreetwear</div>
+<div class="logo">
+MysteryStreetwear
+</div>
 
 <div class="nav-right">
 
 <div class="cart" onclick="toggleCart()">
-🛒 <span id="cartCount">0</span>
+🛒
+<span id="cartCount">0</span>
 </div>
 
-<div class="menu" onclick="toggleMenu()">☰</div>
+<div class="menu" onclick="toggleMenu()">
+☰
+</div>
 
 </div>
+
 </div>
 
 <div class="sidebar" id="sidebar">
@@ -173,73 +270,142 @@ font-weight:bold;
 <a href="checkout.html">Kurv</a>
 </div>
 
-<div class="hero">
-<div>
-<h1>MYSTERY STREETWEAR</h1>
-</div>
+<section class="hero">
+
+<div class="hero-content">
+
+<h1>
+MYSTERY STREETWEAR
+</h1>
+
+<p>
+Eksklusive mystery boxes med håndplukkede streetwear items.
+Vælg din box, vælg dine størrelser og oplev overraskelsen.
+</p>
+
 </div>
 
-<div class="steps">
-<div class="step"><span>1</span><h3>Vælg mysterybox</h3></div>
-<div class="step"><span>2</span><h3>Vi pakker</h3></div>
-<div class="step"><span>3</span><h3>Unbox din box</h3></div>
+</section>
+
+<section class="steps">
+
+<div class="step">
+<span>1</span>
+<h3>Vælg mysterybox</h3>
+<p>Find den box der passer bedst til dig.</p>
 </div>
 
-<!-- 🧺 MINI CART -->
+<div class="step">
+<span>2</span>
+<h3>Vælg dine størrelser</h3>
+<p>Vi matcher indholdet efter dine størrelser.</p>
+</div>
+
+<div class="step">
+<span>3</span>
+<h3>Modtag og unbox</h3>
+<p>Åbn pakken og oplev indholdet.</p>
+</div>
+
+</section>
+
+<section class="trust-section">
+
+<div class="trust">
+<div class="trust-icon">🚚</div>
+<h4>Hurtig levering</h4>
+<p>Levering på 1-5 hverdage</p>
+</div>
+
+<div class="trust">
+<div class="trust-icon">📦</div>
+<h4>Håndplukkede items</h4>
+<p>Udvalgt med fokus på kvalitet</p>
+</div>
+
+<div class="trust">
+<div class="trust-icon">🔒</div>
+<h4>Sikker betaling</h4>
+<p>Tryg checkout oplevelse</p>
+</div>
+
+<div class="trust">
+<div class="trust-icon">⭐</div>
+<h4>Premium boxes</h4>
+<p>Skabt til streetwear-entusiaster</p>
+</div>
+
+</section>
+
 <div class="minicart" id="minicart">
 <div id="miniItems"></div>
-<button onclick="goCart()">Gå til kurv</button>
+<button onclick="goCart()">
+Gå til kurv
+</button>
 </div>
 
 <script>
 
-let cart = JSON.parse(localStorage.getItem("cart")) || [];
+let cart =
+JSON.parse(localStorage.getItem("cart")) || [];
 
 function toggleMenu(){
-document.getElementById("sidebar").classList.toggle("active");
+document
+.getElementById("sidebar")
+.classList
+.toggle("active");
 }
 
-/* 🧺 MINI CART TOGGLE */
 function toggleCart(){
-let box = document.getElementById("minicart");
 
-if(box.style.display === "block"){
-box.style.display = "none";
-} else {
-box.style.display = "block";
+let box =
+document.getElementById("minicart");
+
+if(box.style.display==="block"){
+box.style.display="none";
+}else{
+box.style.display="block";
 updateUI();
 }
+
 }
 
 function goCart(){
 window.location.href="checkout.html";
 }
 
-/* 🧺 ZALANDO STYLE CART RENDER */
 function updateUI(){
 
-cart = JSON.parse(localStorage.getItem("cart")) || [];
+cart =
+JSON.parse(localStorage.getItem("cart")) || [];
 
-document.getElementById("cartCount").innerText = cart.length;
+document
+.getElementById("cartCount")
+.innerText = cart.length;
 
-let mini = document.getElementById("miniItems");
-mini.innerHTML = "";
+let mini =
+document.getElementById("miniItems");
+
+mini.innerHTML="";
 
 cart.slice(-5).forEach(item=>{
-let div = document.createElement("div");
-div.className = "minicart-item";
+
+let div =
+document.createElement("div");
+
+div.className="minicart-item";
 
 div.innerText =
 item.name +
-(item.top ? " | " + item.top : "") +
-(item.bottom ? " / " + item.bottom : "");
+(item.top ? " | "+item.top : "") +
+(item.bottom ? " / "+item.bottom : "");
 
 mini.appendChild(div);
+
 });
 
 }
 
-/* INIT */
 updateUI();
 
 </script>
