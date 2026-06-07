@@ -39,7 +39,7 @@ font-size:22px;
 font-weight:700;
 }
 
-/* RIGHT SIDE */
+/* RIGHT */
 .nav-right{
 display:flex;
 align-items:center;
@@ -107,7 +107,7 @@ background:#FFD700;
 /* HERO */
 .hero{
 margin-top:80px;
-height:85vh;
+height:70vh;
 display:flex;
 align-items:center;
 justify-content:center;
@@ -129,10 +129,44 @@ margin-top:15px;
 color:#666;
 }
 
+/* STEPS */
+.steps{
+max-width:1100px;
+margin:80px auto;
+display:flex;
+justify-content:center;
+gap:30px;
+flex-wrap:wrap;
+padding:0 20px;
+}
+
+.step{
+width:300px;
+padding:30px;
+border:1px solid #eee;
+border-radius:12px;
+text-align:center;
+transition:.2s;
+}
+
+.step:hover{
+transform:translateY(-5px);
+}
+
+.step span{
+font-size:40px;
+font-weight:700;
+color:#FFD700;
+}
+
+.step h3{
+margin:10px 0;
+}
+
 /* INFO */
 .info{
 max-width:900px;
-margin:120px auto;
+margin:100px auto;
 padding:0 20px;
 text-align:center;
 }
@@ -184,20 +218,18 @@ margin-bottom:6px;
 
 <div class="nav-right">
 
-<!-- CART -->
 <div class="cart" onclick="toggleCart()">
 🛒
 <span id="cartCount">0</span>
 </div>
 
-<!-- MENU -->
 <div class="menu-btn" onclick="toggleMenu()">☰</div>
 
 </div>
 
 </div>
 
-<!-- SIDEBAR (NO HOME) -->
+<!-- SIDEBAR -->
 <div class="sidebar" id="sidebar">
 <a href="product.html?id=basic">Basic Box</a>
 <a href="product.html?id=premium">Premium Box</a>
@@ -219,11 +251,34 @@ margin-bottom:6px;
 </div>
 </section>
 
+<!-- STEPS (DET DU VILLE HAVE TILBAGE) -->
+<section class="steps">
+
+<div class="step">
+<span>01</span>
+<h3>Vælg box</h3>
+<p>Gå i menuen og vælg din mystery box</p>
+</div>
+
+<div class="step">
+<span>02</span>
+<h3>Vi pakker</h3>
+<p>Vi sammensætter din order med stil</p>
+</div>
+
+<div class="step">
+<span>03</span>
+<h3>Unbox</h3>
+<p>Modtag din pakke og oplev overraskelsen</p>
+</div>
+
+</section>
+
 <!-- INFO -->
 <section class="info">
-<h2>Sådan fungerer det</h2>
+<h2>Om os</h2>
 <p>
-Vælg en box i menuen → vi pakker din order → du modtager din mystery box.
+MysteryStreetwear laver premium mystery boxes med fokus på kvalitet, stil og overraskelse.
 </p>
 </section>
 
@@ -231,12 +286,12 @@ Vælg en box i menuen → vi pakker din order → du modtager din mystery box.
 
 let cart = JSON.parse(localStorage.getItem("cart")) || [];
 
-/* MENU TOGGLE (WORKING OPEN/CLOSE) */
+/* MENU */
 function toggleMenu(){
 document.getElementById("sidebar").classList.toggle("active");
 }
 
-/* CART TOGGLE */
+/* CART */
 function toggleCart(){
 document.getElementById("minicart").classList.toggle("active");
 updateCart();
@@ -257,7 +312,7 @@ list.appendChild(div);
 });
 }
 
-/* CLOSE ON OUTSIDE CLICK */
+/* CLOSE OUTSIDE */
 document.addEventListener("click", function(e){
 const sidebar = document.getElementById("sidebar");
 const menuBtn = document.querySelector(".menu-btn");
