@@ -57,7 +57,11 @@ function render(){
 let box = document.getElementById("orders");
 box.innerHTML = "";
 
+let revenue = 0;
+
 orders.forEach((o,i)=>{
+
+revenue += o.total;
 
 let div = document.createElement("div");
 div.className = "box";
@@ -77,7 +81,7 @@ box.appendChild(div);
 
 function remove(i){
 orders.splice(i,1);
-localStorage.setItem("orders",JSON.stringify(orders));
+localStorage.setItem("orders", JSON.stringify(orders));
 render();
 }
 
