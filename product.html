@@ -7,9 +7,17 @@
 
 <style>
 
-*{margin:0;padding:0;box-sizing:border-box;font-family:Arial;}
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:Arial;
+}
 
-body{background:#fff;color:#111;}
+body{
+background:#fff;
+color:#111;
+}
 
 /* BACK */
 .back{
@@ -33,7 +41,11 @@ gap:40px;
 padding:20px;
 }
 
-img{width:100%;border-radius:14px;border:1px solid #eee;}
+img{
+width:100%;
+border-radius:14px;
+border:1px solid #eee;
+}
 
 h1{font-size:34px;margin-bottom:10px;}
 
@@ -46,12 +58,44 @@ border-radius:8px;
 margin:5px;
 cursor:pointer;
 }
-.size.active{background:#111;color:#fff;}
+
+.size.active{
+background:#111;
+color:#fff;
+}
 
 /* GUIDE */
-.guide{border:1px solid #eee;border-radius:12px;margin-top:15px;}
-.guide-title{padding:12px;background:#fafafa;cursor:pointer;font-weight:bold;}
-.guide-content{display:none;padding:12px;}
+.guide{
+border:1px solid #eee;
+border-radius:12px;
+margin-top:15px;
+overflow:hidden;
+}
+
+.guide-title{
+padding:12px;
+background:#f5f5f5;
+cursor:pointer;
+font-weight:bold;
+}
+
+.guide-content{
+display:none;
+padding:12px;
+}
+
+/* TABLE */
+table{
+width:100%;
+border-collapse:collapse;
+margin-top:10px;
+}
+
+th,td{
+border:1px solid #eee;
+padding:8px;
+font-size:13px;
+}
 
 /* BUTTON */
 button{
@@ -81,9 +125,9 @@ display:none;
 .popup button{
 width:100%;
 margin-top:10px;
+padding:10px;
 border:none;
 border-radius:8px;
-padding:10px;
 cursor:pointer;
 }
 
@@ -108,6 +152,7 @@ cursor:pointer;
 <div class="size" onclick="select(this,'top')">S</div>
 <div class="size" onclick="select(this,'top')">M</div>
 <div class="size" onclick="select(this,'top')">L</div>
+<div class="size" onclick="select(this,'top')">XL</div>
 </div>
 
 <h3>Bukse</h3>
@@ -115,22 +160,44 @@ cursor:pointer;
 <div class="size" onclick="select(this,'bottom')">28</div>
 <div class="size" onclick="select(this,'bottom')">30</div>
 <div class="size" onclick="select(this,'bottom')">32</div>
+<div class="size" onclick="select(this,'bottom')">34</div>
 </div>
 
-<!-- GUIDE -->
+<!-- GUIDE (FIXED 100%) -->
 <div class="guide">
 <div class="guide-title" onclick="toggleGuide(this)">
-Størrelsesguide
+📏 Størrelsesguide (klik her)
 </div>
 
 <div class="guide-content">
-Trøjer + Bukser size info her
+
+<h4>Trøjer</h4>
+<table>
+<tr><th>Size</th><th>Bryst</th></tr>
+<tr><td>S</td><td>86-92 cm</td></tr>
+<tr><td>M</td><td>92-98 cm</td></tr>
+<tr><td>L</td><td>98-104 cm</td></tr>
+<tr><td>XL</td><td>104-110 cm</td></tr>
+</table>
+
+<br>
+
+<h4>Bukser</h4>
+<table>
+<tr><th>Size</th><th>Talje</th></tr>
+<tr><td>28</td><td>71-73 cm</td></tr>
+<tr><td>30</td><td>76-78 cm</td></tr>
+<tr><td>32</td><td>81-83 cm</td></tr>
+<tr><td>34</td><td>86-88 cm</td></tr>
+</table>
+
 </div>
 </div>
 
 <button onclick="addToCart()">Tilføj til kurv</button>
 
 </div>
+
 </div>
 
 <!-- POPUP -->
@@ -150,17 +217,26 @@ let bottomSize = null;
 
 /* SIZE */
 function select(el,type){
+
 document.querySelectorAll(".size").forEach(e=>e.classList.remove("active"));
 el.classList.add("active");
 
 if(type==="top") topSize = el.innerText;
 if(type==="bottom") bottomSize = el.innerText;
+
 }
 
-/* GUIDE FIX */
+/* GUIDE FIX (100% WORKING) */
 function toggleGuide(el){
-let content = el.nextElementSibling;
-content.style.display = content.style.display === "block" ? "none" : "block";
+
+const content = el.parentElement.querySelector(".guide-content");
+
+if(content.style.display === "block"){
+content.style.display = "none";
+}else{
+content.style.display = "block";
+}
+
 }
 
 /* CART */
@@ -186,7 +262,7 @@ localStorage.setItem("cart", JSON.stringify(cart));
 document.getElementById("popup").style.display = "block";
 }
 
-/* POPUP ACTIONS */
+/* POPUP */
 function continueShop(){
 document.getElementById("popup").style.display = "none";
 }
