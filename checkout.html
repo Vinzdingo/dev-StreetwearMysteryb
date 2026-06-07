@@ -1,10 +1,9 @@
 <!DOCTYPE html>
-
 <html lang="da">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Checkout - MysteryStreetwear</title>
+<title>Checkout</title>
 
 <style>
 
@@ -12,130 +11,91 @@
 margin:0;
 padding:0;
 box-sizing:border-box;
-font-family:Arial,sans-serif;
+font-family:Arial;
 }
 
 body{
-background:#f7f7f7;
-color:#111;
-padding:40px 20px;
+background:#f6f6f6;
 }
 
-.back{
-display:inline-block;
-margin-bottom:25px;
-padding:10px 16px;
+.header{
 background:#fff;
-border:1px solid #eee;
-border-radius:10px;
-text-decoration:none;
-color:#111;
+padding:20px;
+text-align:center;
+border-bottom:1px solid #eee;
 }
 
-h1{
-margin-bottom:25px;
+.header h1{
+font-size:22px;
 }
 
 .container{
-max-width:1200px;
-margin:auto;
+max-width:1100px;
+margin:40px auto;
 display:grid;
-grid-template-columns:2fr 1fr;
-gap:25px;
+grid-template-columns:1.5fr 1fr;
+gap:20px;
+padding:20px;
 }
 
 .box{
 background:#fff;
-padding:25px;
-border-radius:16px;
-box-shadow:0 2px 8px rgba(0,0,0,.04);
+border-radius:14px;
+padding:20px;
+border:1px solid #eee;
 }
 
 .item{
-border:1px solid #eee;
-padding:18px;
-border-radius:12px;
-margin-bottom:15px;
+border-bottom:1px solid #eee;
+padding:15px 0;
 }
 
-.item-title{
-font-size:18px;
-font-weight:bold;
-margin-bottom:10px;
+.item h3{
+font-size:15px;
 }
 
-.item-info{
+.meta{
+font-size:13px;
 color:#666;
-margin-bottom:10px;
+margin-top:5px;
 }
 
-.price{
-font-weight:bold;
-margin-bottom:10px;
-}
-
-.remove{
-background:#f3f3f3;
-color:#111;
-border:none;
-padding:10px;
-border-radius:8px;
-cursor:pointer;
-}
-
-.summary-title{
-font-size:22px;
-margin-bottom:20px;
-}
-
-.row{
-display:flex;
-justify-content:space-between;
-padding:12px 0;
+.summary{
+position:sticky;
+top:20px;
+height:fit-content;
 }
 
 .total{
-border-top:1px solid #eee;
-margin-top:10px;
-padding-top:15px;
+font-size:22px;
 font-weight:bold;
-font-size:20px;
+margin:10px 0;
 }
 
-.checkout-btn{
+button{
 width:100%;
 padding:14px;
-border:none;
 background:#111;
 color:#fff;
+border:none;
 border-radius:10px;
 cursor:pointer;
-margin-top:20px;
-font-size:16px;
+margin-top:10px;
+}
+
+input{
+width:100%;
+padding:12px;
+margin-top:10px;
+border:1px solid #ddd;
+border-radius:8px;
 }
 
 .badges{
-margin-top:25px;
-}
-
-.badge{
-padding:10px 0;
-color:#555;
-font-size:14px;
-}
-
-.empty{
-text-align:center;
+font-size:13px;
 color:#666;
-padding:40px;
-}
-
-@media(max-width:900px){
-
-.container{
-grid-template-columns:1fr;
-}
-
+margin-top:10px;
+line-height:1.6;
 }
 
 </style>
@@ -144,64 +104,31 @@ grid-template-columns:1fr;
 
 <body>
 
-<a href="index.html" class="back">
-← Tilbage til shoppen
-</a>
-
-<h1>Checkout</h1>
+<div class="header">
+<h1>Secure Checkout</h1>
+</div>
 
 <div class="container">
 
 <div class="box" id="cartBox"></div>
 
-<div class="box">
+<div class="box summary">
 
-<div class="summary-title">
-Ordreoversigt
-</div>
+<h3>Order summary</h3>
 
-<div class="row">
-<span>Antal varer</span>
-<span id="count">0</span>
-</div>
+<p id="count"></p>
+<p class="total" id="total"></p>
 
-<div class="row">
-<span>Subtotal</span>
-<span id="subtotal">0 kr</span>
-</div>
+<input placeholder="Email">
+<input placeholder="Adresse">
+<input placeholder="Postnummer">
 
-<div class="row">
-<span>Fragt</span>
-<span>39 kr</span>
-</div>
-
-<div class="row total">
-<span>Total</span>
-<span id="total">0 kr</span>
-</div>
-
-<button class="checkout-btn" onclick="checkout()">
-Gennemfør ordre
-</button>
+<button onclick="checkout()">Betal nu</button>
 
 <div class="badges">
-
-<div class="badge">
-- Hurtig levering
-</div>
-
-<div class="badge">
-- Sikker betaling
-</div>
-
-<div class="badge">
-- Håndplukkede items
-</div>
-
-<div class="badge">
-- Premium mystery boxes
-</div>
-
+🔒 Sikker betaling<br>
+🚚 1–5 dages levering<br>
+↩️ 14 dages retur
 </div>
 
 </div>
@@ -210,100 +137,63 @@ Gennemfør ordre
 
 <script>
 
-let cart =
-JSON.parse(localStorage.getItem("cart")) || [];
+let cart = JSON.parse(localStorage.getItem("cart")) || [];
 
 function render(){
 
-let box =
-document.getElementById("cartBox");
-
-if(cart.length === 0){
-
-box.innerHTML = `
-<div class="empty">
-Din kurv er tom
-</div>
-`;
-
-document.getElementById("count").innerText = "0";
-document.getElementById("subtotal").innerText = "0 kr";
-document.getElementById("total").innerText = "39 kr";
-
-return;
-}
-
+let box = document.getElementById("cartBox");
 box.innerHTML = "";
 
-let subtotal = 0;
+let total = 0;
 
-cart.forEach((item,index)=>{
+cart.forEach((item,i)=>{
 
-subtotal += item.price || 299;
+total += item.price;
 
 let div = document.createElement("div");
-
 div.className = "item";
 
 div.innerHTML = `
-<div class="item-title">
-${item.name}
-</div>
-
-<div class="item-info">
-Trøje: ${item.top}<br>
-Bukser: ${item.bottom}
-</div>
-
-<div class="price">
-${item.price || 299} kr
-</div>
-
-<button class="remove"
-onclick="removeItem(${index})">
-Fjern vare
-</button>
+<h3>${item.name}</h3>
+<div class="meta">Size: ${item.top} / ${item.bottom}</div>
+<div class="meta">${item.price} kr</div>
 `;
 
 box.appendChild(div);
 
 });
 
-let shipping = 39;
-let total = subtotal + shipping;
-
 document.getElementById("count").innerText =
-cart.length;
-
-document.getElementById("subtotal").innerText =
-subtotal + " kr";
+"Items: " + cart.length;
 
 document.getElementById("total").innerText =
-total + " kr";
-
-}
-
-function removeItem(index){
-
-cart.splice(index,1);
-
-localStorage.setItem(
-"cart",
-JSON.stringify(cart)
-);
-
-render();
+"Total: " + total + " kr";
 
 }
 
 function checkout(){
 
-alert("Tak for din ordre!");
+if(cart.length === 0){
+alert("Kurven er tom");
+return;
+}
+
+/* FAKE ORDER SAVE */
+let orders = JSON.parse(localStorage.getItem("orders")) || [];
+
+orders.push({
+id: Date.now(),
+items: cart,
+total: cart.reduce((a,b)=>a+b.price,0),
+date: new Date().toISOString()
+});
+
+localStorage.setItem("orders", JSON.stringify(orders));
 
 localStorage.removeItem("cart");
 
-window.location.href = "index.html";
-
+alert("Order placed!");
+location.reload();
 }
 
 render();
