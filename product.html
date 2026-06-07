@@ -2,135 +2,259 @@
 <html lang="da">
 <head>
 <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Product</title>
 
 <style>
-body {
-  margin:0;
-  font-family:Arial;
-  background:#fff;
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
 }
 
-.container {
-  max-width:800px;
-  margin:auto;
-  padding:40px;
-  animation:fade 0.3s ease;
+body{
+font-family:Arial;
+background:#fff;
+color:#111;
 }
 
-@keyframes fade {
-  from {opacity:0; transform:translateY(10px);}
-  to {opacity:1;}
+.nav{
+height:80px;
+display:flex;
+justify-content:space-between;
+align-items:center;
+padding:0 40px;
+border-bottom:1px solid #eee;
 }
 
-.box {
-  border:1px solid #eee;
-  padding:20px;
-  border-radius:12px;
+.logo{
+font-weight:bold;
+font-size:22px;
 }
 
-img {
-  width:100%;
-  border-radius:10px;
+.container{
+max-width:1200px;
+margin:120px auto;
+display:flex;
+gap:60px;
+padding:0 40px;
 }
 
-.sizes button {
-  margin:5px;
-  padding:10px 15px;
-  border:none;
-  background:#eee;
-  cursor:pointer;
+.left{flex:1;}
+
+.main-img{
+width:100%;
+border-radius:12px;
+border:1px solid #eee;
 }
 
-.selected {
-  background:#FFD700;
+.thumbs{
+display:flex;
+gap:10px;
+margin-top:10px;
 }
 
-.btn {
-  margin-top:15px;
-  padding:12px;
-  background:#FFD700;
-  font-weight:bold;
-  text-align:center;
-  cursor:pointer;
-  border-radius:8px;
+.thumbs img{
+width:80px;
+height:80px;
+object-fit:cover;
+border-radius:8px;
+cursor:pointer;
+border:1px solid #eee;
+transition:.2s;
+}
+
+.thumbs img:hover{
+transform:scale(1.05);
+}
+
+.right{flex:1;}
+
+.title{
+font-size:36px;
+margin-bottom:10px;
+}
+
+.price{
+font-size:24px;
+margin-bottom:20px;
+}
+
+.desc{
+color:#666;
+line-height:1.6;
+margin-bottom:30px;
+}
+
+.sizes{
+display:flex;
+gap:10px;
+margin-bottom:25px;
+}
+
+.size{
+padding:12px 16px;
+border:1px solid #ddd;
+cursor:pointer;
+border-radius:8px;
+transition:.2s;
+}
+
+.size:hover{
+border-color:#FFD700;
+}
+
+.size.active{
+background:#FFD700;
+border-color:#FFD700;
+}
+
+.btn{
+display:inline-block;
+background:#FFD700;
+padding:15px 25px;
+border-radius:10px;
+font-weight:bold;
+cursor:pointer;
+transition:.2s;
+}
+
+.btn:hover{
+transform:translateY(-2px);
+}
+
+.acc{
+margin-top:40px;
+border-top:1px solid #eee;
+}
+
+.acc-item{
+border-bottom:1px solid #eee;
+padding:20px 0;
+cursor:pointer;
+}
+
+.acc-title{
+font-weight:bold;
+display:flex;
+justify-content:space-between;
+}
+
+.acc-content{
+display:none;
+margin-top:10px;
+color:#666;
+line-height:1.6;
+}
+
+.acc-item.active .acc-content{
+display:block;
 }
 </style>
 </head>
 
 <body>
 
+<div class="nav">
+<div class="logo">MysteryStreetwear</div>
+</div>
+
 <div class="container">
 
-<div class="box">
-  <img id="img">
-  <h2 id="title"></h2>
-  <p id="price"></p>
+<div class="left">
 
-  <h3>Size</h3>
+<img id="mainImg" class="main-img"
+src="https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?auto=format&fit=crop&w=900&q=80">
 
-  <div class="sizes">
-    <button onclick="pick(this,'S')">S</button>
-    <button onclick="pick(this,'M')">M</button>
-    <button onclick="pick(this,'L')">L</button>
-    <button onclick="pick(this,'XL')">XL</button>
-  </div>
+<div class="thumbs">
 
-  <div class="btn" onclick="add()">Add to cart</div>
+<img onclick="changeImg(this)" src="https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?auto=format&fit=crop&w=200&q=80">
+<img onclick="changeImg(this)" src="https://images.unsplash.com/photo-1521334884684-d80222895322?auto=format&fit=crop&w=200&q=80">
+<img onclick="changeImg(this)" src="https://images.unsplash.com/photo-1520975916090-3105956dac38?auto=format&fit=crop&w=200&q=80">
+
+</div>
+
+</div>
+
+<div class="right">
+
+<div class="title" id="title">Basic Box</div>
+<div class="price">299 kr</div>
+
+<div class="desc">
+En mystery box fyldt med streetwear items.
+</div>
+
+<div class="sizes">
+
+<div class="size" onclick="selectSize(this)">S</div>
+<div class="size" onclick="selectSize(this)">M</div>
+<div class="size" onclick="selectSize(this)">L</div>
+<div class="size" onclick="selectSize(this)">XL</div>
+
+</div>
+
+<div class="btn" onclick="addToCart()">
+Tilføj til kurv
+</div>
+
+<div class="acc">
+
+<div class="acc-item" onclick="toggleAcc(this)">
+<div class="acc-title">Størrelsesguide <span>+</span></div>
+<div class="acc-content">
+Bryst: 90-114 cm<br>
+Talje: 74-97 cm
+</div>
+</div>
+
+<div class="acc-item" onclick="toggleAcc(this)">
+<div class="acc-title">Indhold <span>+</span></div>
+<div class="acc-content">
+Hoodies, T-shirts, Cargos, Accessories
+</div>
+</div>
+
+<div class="acc-item" onclick="toggleAcc(this)">
+<div class="acc-title">Levering <span>+</span></div>
+<div class="acc-content">
+2-5 dage levering<br>
+14 dages retur
+</div>
+</div>
+
+</div>
+
 </div>
 
 </div>
 
 <script>
-const products = {
-  basic:{
-    name:"Basic Box",
-    price:299,
-    img:"https://images.unsplash.com/photo-1520975916090-3105956dac38"
-  },
-  premium:{
-    name:"Premium Box",
-    price:499,
-    img:"https://images.unsplash.com/photo-1520975682031-a6c3b3f4f5d8"
-  },
-  luxury:{
-    name:"Luxury Box",
-    price:799,
-    img:"https://images.unsplash.com/photo-1520975869018-5a6a0d2b5d1c"
-  }
-};
 
-const id = new URLSearchParams(window.location.search).get("id");
+let selectedSize = "";
 
-let selected = null;
-
-document.getElementById("title").innerText = products[id].name;
-document.getElementById("price").innerText = products[id].price + " kr";
-document.getElementById("img").src = products[id].img;
-
-function pick(el,size){
-  selected = size;
-  document.querySelectorAll("button").forEach(b=>b.classList.remove("selected"));
-  el.classList.add("selected");
+function changeImg(el){
+document.getElementById("mainImg").src = el.src;
 }
 
-function add(){
-  if(!selected){
-    alert("Select size");
-    return;
-  }
-
-  let cart = JSON.parse(localStorage.getItem("cart")) || [];
-
-  cart.push({
-    id:id,
-    size:selected
-  });
-
-  localStorage.setItem("cart", JSON.stringify(cart));
-
-  window.location.href = "cart.html";
+function selectSize(el){
+document.querySelectorAll(".size").forEach(s=>s.classList.remove("active"));
+el.classList.add("active");
+selectedSize = el.innerText;
 }
+
+function addToCart(){
+if(!selectedSize){
+alert("Vælg størrelse først");
+return;
+}
+alert("Tilføjet til kurv: " + selectedSize);
+}
+
+function toggleAcc(el){
+el.classList.toggle("active");
+}
+
 </script>
 
 </body>
