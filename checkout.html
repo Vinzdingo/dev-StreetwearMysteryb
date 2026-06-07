@@ -2,137 +2,29 @@
 <html lang="da">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Checkout</title>
 
 <style>
-
-*{
-margin:0;
-padding:0;
-box-sizing:border-box;
-font-family:Arial;
-}
-
-body{
-background:#f6f6f6;
-}
-
-.header{
-background:#fff;
-padding:20px;
-text-align:center;
-border-bottom:1px solid #eee;
-}
-
-.header h1{
-font-size:22px;
-}
-
-.container{
-max-width:1100px;
-margin:40px auto;
-display:grid;
-grid-template-columns:1.5fr 1fr;
-gap:20px;
-padding:20px;
-}
-
-.box{
-background:#fff;
-border-radius:14px;
-padding:20px;
-border:1px solid #eee;
-}
-
-.item{
-border-bottom:1px solid #eee;
-padding:15px 0;
-}
-
-.item h3{
-font-size:15px;
-}
-
-.meta{
-font-size:13px;
-color:#666;
-margin-top:5px;
-}
-
-.summary{
-position:sticky;
-top:20px;
-height:fit-content;
-}
-
-.total{
-font-size:22px;
-font-weight:bold;
-margin:10px 0;
-}
-
-button{
-width:100%;
-padding:14px;
-background:#111;
-color:#fff;
-border:none;
-border-radius:10px;
-cursor:pointer;
-margin-top:10px;
-}
-
-input{
-width:100%;
-padding:12px;
-margin-top:10px;
-border:1px solid #ddd;
-border-radius:8px;
-}
-
-.badges{
-font-size:13px;
-color:#666;
-margin-top:10px;
-line-height:1.6;
-}
-
+body{font-family:Arial;background:#f6f6f6;}
+.container{max-width:900px;margin:40px auto;display:grid;grid-template-columns:1.5fr 1fr;gap:20px;}
+.box{background:#fff;padding:20px;border-radius:14px;}
+button{width:100%;padding:14px;background:#111;color:#fff;border:none;border-radius:10px;}
+.item{border-bottom:1px solid #eee;padding:10px 0;}
 </style>
-
 </head>
 
 <body>
 
-<div class="header">
-<h1>Secure Checkout</h1>
-</div>
+<h1>Checkout</h1>
 
 <div class="container">
-
 <div class="box" id="cartBox"></div>
 
-<div class="box summary">
-
-<h3>Order summary</h3>
-
-<p id="count"></p>
-<p class="total" id="total"></p>
-
-<input placeholder="Email">
-<input placeholder="Adresse">
-<input placeholder="Postnummer">
-
-<button onclick="checkout()">Betal nu</button>
-
-<div class="badges">
-🔒 Sikker betaling<br>
-🚚 1–5 dages levering<br>
-↩️ 14 dages retur
+<div class="box">
+<h3>Summary</h3>
+<p id="total"></p>
+<button onclick="checkout()">Betal</button>
 </div>
-
-</div>
-
 </div>
 
 <script>
@@ -141,85 +33,48 @@ function getCart(){
 return JSON.parse(localStorage.getItem("cart")) || [];
 }
 
-function saveCart(cart){
-localStorage.setItem("cart", JSON.stringify(cart));
+function saveOrders(o){
+localStorage.setItem("orders", JSON.stringify(o));
 }
 
-let cart = getCart();
-
-/* RENDER */
 function render(){
 
-cart = getCart();
-
+let cart = getCart();
 let box = document.getElementById("cartBox");
 box.innerHTML = "";
 
 let total = 0;
 
-cart.forEach((item,i)=>{
+cart.forEach(i=>{
+total += i.price * i.qty;
 
-total += item.price * item.qty;
-
-let div = document.createElement("div");
-div.className = "item";
-
-div.innerHTML = `
-<b>${item.name}</b><br>
-Size: ${item.top} / ${item.bottom}<br>
-Qty: ${item.qty}<br>
-${item.price * item.qty} kr<br>
-<button onclick="removeItem(${i})">Fjern</button>
-`;
-
-box.appendChild(div);
-
+box.innerHTML += `
+<div class="item">
+<b>${i.name}</b><br>
+${i.top} / ${i.bottom}
+</div>`;
 });
 
-document.getElementById("count").innerText = "Items: " + cart.length;
 document.getElementById("total").innerText = "Total: " + total + " kr";
-
 }
 
-/* REMOVE FIX */
-function removeItem(index){
-
-let cart = getCart();
-
-cart.splice(index,1);
-
-saveCart(cart);
-
-render();
-
-}
-
-/* CHECKOUT */
 function checkout(){
 
 let cart = getCart();
-
-if(cart.length === 0){
-alert("Kurven er tom");
-return;
-}
 
 let orders = JSON.parse(localStorage.getItem("orders")) || [];
 
 orders.push({
 id: Date.now(),
 items: cart,
-total: cart.reduce((a,b)=>a + (b.price*b.qty),0),
-date: new Date().toISOString()
+total: cart.reduce((a,b)=>a+b.price*b.qty,0)
 });
 
 localStorage.setItem("orders", JSON.stringify(orders));
-
 localStorage.removeItem("cart");
 
-alert("Order placed!");
-
-render();
+alert("Order placed");
+location.reload();
 }
 
 render();
