@@ -16,31 +16,33 @@ body{
 font-family:Arial;
 background:#fff;
 color:#111;
+overflow-x:hidden;
 }
 
-.nav{
-height:80px;
-display:flex;
-justify-content:space-between;
-align-items:center;
-padding:0 40px;
-border-bottom:1px solid #eee;
-}
-
-.logo{
+/* BACK BUTTON */
+.back{
+position:fixed;
+top:20px;
+left:20px;
+font-size:18px;
 font-weight:bold;
-font-size:22px;
+cursor:pointer;
+z-index:9999;
 }
 
+/* LAYOUT FULL WIDTH */
 .container{
-max-width:1200px;
-margin:120px auto;
+width:100%;
+min-height:100vh;
 display:flex;
-gap:60px;
-padding:0 40px;
+gap:80px;
+padding:140px 80px;
 }
 
-.left{flex:1;}
+/* LEFT */
+.left{
+flex:1;
+}
 
 .main-img{
 width:100%;
@@ -51,7 +53,7 @@ border:1px solid #eee;
 .thumbs{
 display:flex;
 gap:10px;
-margin-top:10px;
+margin-top:15px;
 }
 
 .thumbs img{
@@ -68,15 +70,18 @@ transition:.2s;
 transform:scale(1.05);
 }
 
-.right{flex:1;}
+/* RIGHT */
+.right{
+flex:1;
+}
 
 .title{
-font-size:36px;
+font-size:42px;
 margin-bottom:10px;
 }
 
 .price{
-font-size:24px;
+font-size:26px;
 margin-bottom:20px;
 }
 
@@ -86,6 +91,7 @@ line-height:1.6;
 margin-bottom:30px;
 }
 
+/* SIZES */
 .sizes{
 display:flex;
 gap:10px;
@@ -95,8 +101,8 @@ margin-bottom:25px;
 .size{
 padding:12px 16px;
 border:1px solid #ddd;
-cursor:pointer;
 border-radius:8px;
+cursor:pointer;
 transition:.2s;
 }
 
@@ -109,10 +115,11 @@ background:#FFD700;
 border-color:#FFD700;
 }
 
+/* BUTTON */
 .btn{
 display:inline-block;
 background:#FFD700;
-padding:15px 25px;
+padding:16px 26px;
 border-radius:10px;
 font-weight:bold;
 cursor:pointer;
@@ -123,8 +130,9 @@ transition:.2s;
 transform:translateY(-2px);
 }
 
+/* ACCORDION */
 .acc{
-margin-top:40px;
+margin-top:50px;
 border-top:1px solid #eee;
 }
 
@@ -155,43 +163,40 @@ display:block;
 
 <body>
 
-<div class="nav">
-<div class="logo">MysteryStreetwear</div>
-</div>
+<div class="back" onclick="history.back()">← Tilbage</div>
 
 <div class="container">
 
+<!-- LEFT -->
 <div class="left">
 
-<img id="mainImg" class="main-img"
-src="https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?auto=format&fit=crop&w=900&q=80">
+<img id="mainImg" class="main-img">
 
 <div class="thumbs">
 
-<img onclick="changeImg(this)" src="https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?auto=format&fit=crop&w=200&q=80">
-<img onclick="changeImg(this)" src="https://images.unsplash.com/photo-1521334884684-d80222895322?auto=format&fit=crop&w=200&q=80">
-<img onclick="changeImg(this)" src="https://images.unsplash.com/photo-1520975916090-3105956dac38?auto=format&fit=crop&w=200&q=80">
+<img onclick="changeImg(this)">
+<img onclick="changeImg(this)">
+<img onclick="changeImg(this)">
 
 </div>
 
 </div>
 
+<!-- RIGHT -->
 <div class="right">
 
-<div class="title" id="title">Basic Box</div>
-<div class="price">299 kr</div>
+<div class="title" id="title">Loading...</div>
+<div class="price" id="price"></div>
 
 <div class="desc">
-En mystery box fyldt med streetwear items.
+Eksklusiv mystery box med håndplukkede streetwear items.
 </div>
 
 <div class="sizes">
-
 <div class="size" onclick="selectSize(this)">S</div>
 <div class="size" onclick="selectSize(this)">M</div>
 <div class="size" onclick="selectSize(this)">L</div>
 <div class="size" onclick="selectSize(this)">XL</div>
-
 </div>
 
 <div class="btn" onclick="addToCart()">
@@ -201,22 +206,52 @@ Tilføj til kurv
 <div class="acc">
 
 <div class="acc-item" onclick="toggleAcc(this)">
-<div class="acc-title">Størrelsesguide <span>+</span></div>
-<div class="acc-content">
-Bryst: 90-114 cm<br>
-Talje: 74-97 cm
+  <div class="acc-title">Størrelsesguide <span>+</span></div>
+
+  <div class="acc-content">
+
+    <strong>Trøjer (T-shirts / Hoodies)</strong><br><br>
+
+    <table style="width:100%; border-collapse:collapse; margin-bottom:20px;">
+      <tr>
+        <th style="text-align:left;">Størrelse</th>
+        <th>Bryst (cm)</th>
+        <th>Længde (cm)</th>
+      </tr>
+      <tr><td>S</td><td>90-96</td><td>66-70</td></tr>
+      <tr><td>M</td><td>96-102</td><td>70-74</td></tr>
+      <tr><td>L</td><td>102-108</td><td>74-78</td></tr>
+      <tr><td>XL</td><td>108-114</td><td>78-82</td></tr>
+    </table>
+
+    <strong>Bukser (Cargos / Pants)</strong><br><br>
+
+    <table style="width:100%; border-collapse:collapse;">
+      <tr>
+        <th style="text-align:left;">Størrelse</th>
+        <th>Talje (cm)</th>
+        <th>Benlængde (cm)</th>
+      </tr>
+      <tr><td>S</td><td>74-79</td><td>76-80</td></tr>
+      <tr><td>M</td><td>79-84</td><td>80-84</td></tr>
+      <tr><td>L</td><td>84-90</td><td>84-88</td></tr>
+      <tr><td>XL</td><td>90-96</td><td>88-92</td></tr>
+    </table>
+
+  </div>
+</div>
 </div>
 </div>
 
 <div class="acc-item" onclick="toggleAcc(this)">
 <div class="acc-title">Indhold <span>+</span></div>
 <div class="acc-content">
-Hoodies, T-shirts, Cargos, Accessories
+Hoodies, T-shirts, Bukser, Jackets
 </div>
 </div>
 
 <div class="acc-item" onclick="toggleAcc(this)">
-<div class="acc-title">Levering <span>+</span></div>
+<div class="acc-title">Levering & retur <span>+</span></div>
 <div class="acc-content">
 2-5 dage levering<br>
 14 dages retur
@@ -231,11 +266,38 @@ Hoodies, T-shirts, Cargos, Accessories
 
 <script>
 
-let selectedSize = "";
+const params = new URLSearchParams(window.location.search);
+const id = params.get("id");
+
+const products = {
+basic:{
+name:"Basic Box",
+price:299,
+img:"https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?auto=format&fit=crop&w=900&q=80"
+},
+premium:{
+name:"Premium Box",
+price:499,
+img:"https://images.unsplash.com/photo-1521334884684-d80222895322?auto=format&fit=crop&w=900&q=80"
+},
+luxury:{
+name:"Luxury Box",
+price:799,
+img:"https://images.unsplash.com/photo-1520975916090-3105956dac38?auto=format&fit=crop&w=900&q=80"
+}
+};
+
+const product = products[id] || products.basic;
+
+document.getElementById("title").innerText = product.name;
+document.getElementById("price").innerText = product.price + " kr";
+document.getElementById("mainImg").src = product.img;
 
 function changeImg(el){
 document.getElementById("mainImg").src = el.src;
 }
+
+let selectedSize = "";
 
 function selectSize(el){
 document.querySelectorAll(".size").forEach(s=>s.classList.remove("active"));
@@ -248,7 +310,7 @@ if(!selectedSize){
 alert("Vælg størrelse først");
 return;
 }
-alert("Tilføjet til kurv: " + selectedSize);
+alert("Tilføjet: " + product.name + " - " + selectedSize);
 }
 
 function toggleAcc(el){
