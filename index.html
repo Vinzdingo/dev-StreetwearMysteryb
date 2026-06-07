@@ -19,7 +19,7 @@ color:#111;
 overflow-x:hidden;
 }
 
-/* NAVBAR */
+/* ===== NAVBAR ===== */
 .navbar{
 height:80px;
 display:flex;
@@ -39,9 +39,38 @@ font-size:22px;
 font-weight:700;
 }
 
+/* RIGHT SIDE */
+.nav-right{
+display:flex;
+align-items:center;
+gap:18px;
+}
+
+/* CART ICON */
+.cart{
+position:relative;
+font-size:22px;
+cursor:pointer;
+}
+
+.cart span{
+position:absolute;
+top:-8px;
+right:-10px;
+background:#FFD700;
+color:#000;
+font-size:11px;
+width:18px;
+height:18px;
+display:flex;
+align-items:center;
+justify-content:center;
+border-radius:50%;
+}
+
 /* MENU */
 .menu-btn{
-font-size:30px;
+font-size:28px;
 cursor:pointer;
 }
 
@@ -69,7 +98,6 @@ padding:18px 25px;
 text-decoration:none;
 color:#111;
 border-bottom:1px solid #eee;
-font-size:16px;
 }
 
 .sidebar a:hover{
@@ -79,7 +107,7 @@ background:#FFD700;
 /* HERO */
 .hero{
 margin-top:80px;
-height:85vh;
+height:80vh;
 display:flex;
 align-items:center;
 justify-content:center;
@@ -92,67 +120,115 @@ background-position:center;
 }
 
 .hero h1{
-font-size:64px;
+font-size:60px;
 letter-spacing:2px;
 }
 
 .hero p{
-margin-top:20px;
 color:#666;
-font-size:18px;
+margin-top:15px;
 }
 
-/* SECTIONS */
-.section{
+/* FILTER */
+.filters{
+max-width:1100px;
+margin:40px auto;
+display:flex;
+gap:10px;
+padding:0 20px;
+flex-wrap:wrap;
+}
+
+.filter-btn{
+padding:8px 14px;
+border:1px solid #eee;
+border-radius:20px;
+cursor:pointer;
+font-size:14px;
+}
+
+.filter-btn.active{
+background:#111;
+color:#fff;
+}
+
+/* PRODUCTS */
+.grid{
+max-width:1100px;
+margin:auto;
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
+gap:20px;
+padding:20px;
+}
+
+.card{
+border:1px solid #eee;
+border-radius:12px;
+overflow:hidden;
+cursor:pointer;
+transition:.25s;
+}
+
+.card:hover{
+transform:translateY(-6px);
+}
+
+.card img{
+width:100%;
+height:220px;
+object-fit:cover;
+}
+
+.card .info{
+padding:15px;
+}
+
+/* INFO */
+.info-section{
 max-width:900px;
-margin:120px auto;
+margin:100px auto;
 padding:0 20px;
 text-align:center;
 }
 
-.section h2{
-font-size:34px;
-margin-bottom:15px;
+.block{
+margin-bottom:70px;
 }
 
-.section p{
+.block h2{
+font-size:32px;
+margin-bottom:10px;
+}
+
+.block p{
 color:#666;
-line-height:1.7;
+line-height:1.6;
 }
 
-/* STEPS */
-.steps{
-display:flex;
-justify-content:center;
-gap:25px;
-flex-wrap:wrap;
-margin-top:40px;
-}
-
-.step{
-width:260px;
-padding:30px;
+/* MINI CART */
+.minicart{
+position:fixed;
+top:80px;
+right:20px;
+width:280px;
+background:#fff;
 border:1px solid #eee;
-border-radius:12px;
+border-radius:10px;
+padding:15px;
+display:none;
+z-index:9999;
+box-shadow:0 10px 30px rgba(0,0,0,0.08);
 }
 
-.step span{
-font-size:40px;
-font-weight:bold;
-color:#FFD700;
+.minicart.active{
+display:block;
 }
 
-.step h3{
-margin:10px 0;
-}
-
-/* FOOTER */
-footer{
-margin-top:120px;
-padding:40px;
-text-align:center;
-border-top:1px solid #eee;
-color:#666;
+.minicart-item{
+font-size:14px;
+color:#555;
+margin-bottom:6px;
 }
 
 </style>
@@ -165,75 +241,142 @@ color:#666;
 
 <div class="logo">MysteryStreetwear</div>
 
+<div class="nav-right">
+
+<div class="cart" onclick="toggleCart()">
+🛒
+<span id="cartCount">0</span>
+</div>
+
 <div class="menu-btn" onclick="toggleMenu()">☰</div>
 
 </div>
+</div>
 
-<!-- SIDEBAR (ONLY PRODUCTS HERE) -->
+<!-- SIDEBAR -->
 <div class="sidebar" id="sidebar">
+<a href="index.html">Home</a>
 <a href="product.html?id=basic">Basic Box</a>
 <a href="product.html?id=premium">Premium Box</a>
 <a href="product.html?id=luxury">Luxury Box</a>
 <a href="cart.html">Kurv</a>
 </div>
 
+<!-- MINI CART -->
+<div class="minicart" id="minicart">
+<h4>Din kurv</h4>
+<div id="miniItems"></div>
+</div>
+
 <!-- HERO -->
 <section class="hero">
 <div>
 <h1>MYSTERY STREETWEAR</h1>
-<p>Premium streetwear mystery boxes med stil og kvalitet</p>
+<p>Premium streetwear boxes med stil og overraskelser</p>
 </div>
 </section>
 
-<!-- HOW IT WORKS -->
-<section class="section">
+<!-- FILTER -->
+<div class="filters">
+<div class="filter-btn active" onclick="filter('all',event)">Alle</div>
+<div class="filter-btn" onclick="filter('basic',event)">Basic</div>
+<div class="filter-btn" onclick="filter('premium',event)">Premium</div>
+<div class="filter-btn" onclick="filter('luxury',event)">Luxury</div>
+</div>
 
+<!-- PRODUCTS -->
+<div class="grid">
+
+<div class="card basic" onclick="addToCart('Basic Box')">
+<img src="https://telecaixa.com/cdn/shop/files/1078.jpg?v=1711978877">
+<div class="info">
+<h3>Basic Box</h3>
+<p>299 kr</p>
+</div>
+</div>
+
+<div class="card premium" onclick="addToCart('Premium Box')">
+<img src="https://images.unsplash.com/photo-1521334884684-d80222895322?auto=format&fit=crop&w=900&q=80">
+<div class="info">
+<h3>Premium Box</h3>
+<p>499 kr</p>
+</div>
+</div>
+
+<div class="card luxury" onclick="addToCart('Luxury Box')">
+<img src="https://images.unsplash.com/photo-1520975916090-3105956dac38?auto=format&fit=crop&w=900&q=80">
+<div class="info">
+<h3>Luxury Box</h3>
+<p>799 kr</p>
+</div>
+</div>
+
+</div>
+
+<!-- INFO -->
+<div class="info-section">
+
+<div class="block">
 <h2>Sådan fungerer det</h2>
-
-<div class="steps">
-
-<div class="step">
-<span>01</span>
-<h3>Vælg box</h3>
-<p>Find din stil i menuen</p>
+<p>Vælg en box → vi pakker → du modtager din mystery box.</p>
 </div>
 
-<div class="step">
-<span>02</span>
-<h3>Vi pakker</h3>
-<p>Vi sammensætter din box</p>
-</div>
-
-<div class="step">
-<span>03</span>
-<h3>Unbox</h3>
-<p>Modtag og oplev overraskelsen</p>
-</div>
-
-</div>
-
-</section>
-
-<!-- ABOUT -->
-<section class="section">
-
+<div class="block">
 <h2>Om os</h2>
-<p>
-MysteryStreetwear er et premium streetwear brand hvor du køber mystery boxes
-med nøje udvalgte items og en unik unboxing oplevelse.
-</p>
+<p>Premium streetwear mystery boxes med fokus på stil og kvalitet.</p>
+</div>
 
-</section>
-
-<footer>
-© 2026 MysteryStreetwear
-</footer>
+</div>
 
 <script>
 
+let cart = JSON.parse(localStorage.getItem("cart")) || [];
+
+/* MENU */
 function toggleMenu(){
 document.getElementById("sidebar").classList.toggle("active");
 }
+
+/* FILTER */
+function filter(type,event){
+document.querySelectorAll(".filter-btn").forEach(b=>b.classList.remove("active"));
+if(event) event.target.classList.add("active");
+
+document.querySelectorAll(".card").forEach(card=>{
+card.style.display = (type==="all" || card.classList.contains(type)) ? "block" : "none";
+});
+}
+
+/* ADD TO CART */
+function addToCart(name){
+cart.push(name);
+localStorage.setItem("cart", JSON.stringify(cart));
+updateCart();
+}
+
+/* CART UPDATE */
+function updateCart(){
+document.getElementById("cartCount").innerText = cart.length;
+
+let list = document.getElementById("miniItems");
+list.innerHTML = "";
+
+cart.slice(-5).forEach(item=>{
+let div = document.createElement("div");
+div.className="minicart-item";
+div.innerText=item;
+list.appendChild(div);
+});
+}
+
+/* TOGGLE CART */
+function toggleCart(){
+document.getElementById("minicart").classList.toggle("active");
+updateCart();
+}
+
+/* INIT */
+updateCart();
 
 </script>
 
