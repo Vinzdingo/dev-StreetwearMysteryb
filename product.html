@@ -149,12 +149,12 @@ cursor:pointer;
 
 <div>
 
-<h1 id="title"></h1>
-<div class="price" id="price"></div>
+<h1 id="title">Mystery Box</h1>
+<div class="price">299 kr</div>
 
 <div class="bullets">
 ✓ Håndplukkede items<br>
-✓ Vælg størrelser + farve<br>
+✓ Vælg størrelser<br>
 ✓ Hurtig levering
 </div>
 
@@ -174,20 +174,20 @@ cursor:pointer;
 <div class="size" onclick="select(this,'bottom')">34</div>
 </div>
 
-<!-- 🔥 GUIDE (FIXED CLICK SYSTEM) -->
+<!-- GUIDE -->
 <div class="guide" onclick="toggleGuide(this)">
 
-<div class="guide-title">📏 Størrelsesguide (klik for at åbne)</div>
+<div class="guide-title">📏 Størrelsesguide (klik)</div>
 
 <div class="guide-content">
 
 <h4>Trøjer</h4>
 <table>
 <tr><th>Size</th><th>Bryst</th></tr>
-<tr><td>S</td><td>86-92 cm</td></tr>
-<tr><td>M</td><td>92-98 cm</td></tr>
-<tr><td>L</td><td>98-104 cm</td></tr>
-<tr><td>XL</td><td>104-110 cm</td></tr>
+<tr><td>S</td><td>86-92</td></tr>
+<tr><td>M</td><td>92-98</td></tr>
+<tr><td>L</td><td>98-104</td></tr>
+<tr><td>XL</td><td>104-110</td></tr>
 </table>
 
 <br>
@@ -195,13 +195,14 @@ cursor:pointer;
 <h4>Bukser</h4>
 <table>
 <tr><th>Size</th><th>Talje</th></tr>
-<tr><td>28</td><td>71-73 cm</td></tr>
-<tr><td>30</td><td>76-78 cm</td></tr>
-<tr><td>32</td><td>81-83 cm</td></tr>
-<tr><td>34</td><td>86-88 cm</td></tr>
+<tr><td>28</td><td>71-73</td></tr>
+<tr><td>30</td><td>76-78</td></tr>
+<tr><td>32</td><td>81-83</td></tr>
+<tr><td>34</td><td>86-88</td></tr>
 </table>
 
 </div>
+
 </div>
 
 <button onclick="addToCart()">Tilføj til kurv</button>
@@ -225,6 +226,7 @@ cursor:pointer;
 let selectedTop = null;
 let selectedBottom = null;
 
+/* CART */
 function getCart(){
 return JSON.parse(localStorage.getItem("cart")) || [];
 }
@@ -245,7 +247,22 @@ if(type==="top") selectedTop = el.innerText;
 if(type==="bottom") selectedBottom = el.innerText;
 }
 
-/* ADD TO CART (FORCE SAFE) */
+/* GUIDE FIX (🔥 THIS WAS MISSING) */
+function toggleGuide(el){
+
+const content = el.querySelector(".guide-content");
+
+if(!content) return;
+
+if(content.style.display === "block"){
+content.style.display = "none";
+} else {
+content.style.display = "block";
+}
+
+}
+
+/* ADD TO CART */
 function addToCart(){
 
 if(!selectedTop || !selectedBottom){
@@ -257,7 +274,7 @@ let cart = getCart();
 
 const item = {
 id: Date.now(),
-name: document.getElementById("title").innerText,
+name: "Mystery Box",
 price: 299,
 top: selectedTop,
 bottom: selectedBottom,
