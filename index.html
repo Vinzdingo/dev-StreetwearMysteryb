@@ -19,7 +19,7 @@ color:#111;
 overflow-x:hidden;
 }
 
-/* ===== NAVBAR ===== */
+/* NAVBAR */
 .navbar{
 height:80px;
 display:flex;
@@ -39,14 +39,14 @@ font-size:22px;
 font-weight:700;
 }
 
-/* RIGHT SIDE */
+/* RIGHT */
 .nav-right{
 display:flex;
 align-items:center;
-gap:18px;
+gap:15px;
 }
 
-/* CART ICON */
+/* CART */
 .cart{
 position:relative;
 font-size:22px;
@@ -68,7 +68,7 @@ justify-content:center;
 border-radius:50%;
 }
 
-/* MENU */
+/* MENU BTN */
 .menu-btn{
 font-size:28px;
 cursor:pointer;
@@ -107,7 +107,7 @@ background:#FFD700;
 /* HERO */
 .hero{
 margin-top:80px;
-height:80vh;
+height:85vh;
 display:flex;
 align-items:center;
 justify-content:center;
@@ -125,83 +125,24 @@ letter-spacing:2px;
 }
 
 .hero p{
-color:#666;
 margin-top:15px;
-}
-
-/* FILTER */
-.filters{
-max-width:1100px;
-margin:40px auto;
-display:flex;
-gap:10px;
-padding:0 20px;
-flex-wrap:wrap;
-}
-
-.filter-btn{
-padding:8px 14px;
-border:1px solid #eee;
-border-radius:20px;
-cursor:pointer;
-font-size:14px;
-}
-
-.filter-btn.active{
-background:#111;
-color:#fff;
-}
-
-/* PRODUCTS */
-.grid{
-max-width:1100px;
-margin:auto;
-display:grid;
-grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
-gap:20px;
-padding:20px;
-}
-
-.card{
-border:1px solid #eee;
-border-radius:12px;
-overflow:hidden;
-cursor:pointer;
-transition:.25s;
-}
-
-.card:hover{
-transform:translateY(-6px);
-}
-
-.card img{
-width:100%;
-height:220px;
-object-fit:cover;
-}
-
-.card .info{
-padding:15px;
+color:#666;
 }
 
 /* INFO */
-.info-section{
+.info{
 max-width:900px;
-margin:100px auto;
+margin:120px auto;
 padding:0 20px;
 text-align:center;
 }
 
-.block{
-margin-bottom:70px;
-}
-
-.block h2{
+.info h2{
 font-size:32px;
-margin-bottom:10px;
+margin-bottom:15px;
 }
 
-.block p{
+.info p{
 color:#666;
 line-height:1.6;
 }
@@ -251,6 +192,7 @@ margin-bottom:6px;
 <div class="menu-btn" onclick="toggleMenu()">☰</div>
 
 </div>
+
 </div>
 
 <!-- SIDEBAR -->
@@ -272,89 +214,34 @@ margin-bottom:6px;
 <section class="hero">
 <div>
 <h1>MYSTERY STREETWEAR</h1>
-<p>Premium streetwear boxes med stil og overraskelser</p>
+<p>Premium streetwear mystery boxes</p>
 </div>
 </section>
 
-<!-- FILTER -->
-<div class="filters">
-<div class="filter-btn active" onclick="filter('all',event)">Alle</div>
-<div class="filter-btn" onclick="filter('basic',event)">Basic</div>
-<div class="filter-btn" onclick="filter('premium',event)">Premium</div>
-<div class="filter-btn" onclick="filter('luxury',event)">Luxury</div>
-</div>
-
-<!-- PRODUCTS -->
-<div class="grid">
-
-<div class="card basic" onclick="addToCart('Basic Box')">
-<img src="https://telecaixa.com/cdn/shop/files/1078.jpg?v=1711978877">
-<div class="info">
-<h3>Basic Box</h3>
-<p>299 kr</p>
-</div>
-</div>
-
-<div class="card premium" onclick="addToCart('Premium Box')">
-<img src="https://images.unsplash.com/photo-1521334884684-d80222895322?auto=format&fit=crop&w=900&q=80">
-<div class="info">
-<h3>Premium Box</h3>
-<p>499 kr</p>
-</div>
-</div>
-
-<div class="card luxury" onclick="addToCart('Luxury Box')">
-<img src="https://images.unsplash.com/photo-1520975916090-3105956dac38?auto=format&fit=crop&w=900&q=80">
-<div class="info">
-<h3>Luxury Box</h3>
-<p>799 kr</p>
-</div>
-</div>
-
-</div>
-
 <!-- INFO -->
-<div class="info-section">
-
-<div class="block">
+<section class="info">
 <h2>Sådan fungerer det</h2>
-<p>Vælg en box → vi pakker → du modtager din mystery box.</p>
-</div>
-
-<div class="block">
-<h2>Om os</h2>
-<p>Premium streetwear mystery boxes med fokus på stil og kvalitet.</p>
-</div>
-
-</div>
+<p>
+Vælg en box i menuen → vi pakker din order → du modtager din mystery box.
+</p>
+</section>
 
 <script>
 
 let cart = JSON.parse(localStorage.getItem("cart")) || [];
 
-/* MENU */
+/* MENU (FIXED OPEN + CLOSE) */
 function toggleMenu(){
 document.getElementById("sidebar").classList.toggle("active");
 }
 
-/* FILTER */
-function filter(type,event){
-document.querySelectorAll(".filter-btn").forEach(b=>b.classList.remove("active"));
-if(event) event.target.classList.add("active");
-
-document.querySelectorAll(".card").forEach(card=>{
-card.style.display = (type==="all" || card.classList.contains(type)) ? "block" : "none";
-});
-}
-
-/* ADD TO CART */
-function addToCart(name){
-cart.push(name);
-localStorage.setItem("cart", JSON.stringify(cart));
+/* CART */
+function toggleCart(){
+document.getElementById("minicart").classList.toggle("active");
 updateCart();
 }
 
-/* CART UPDATE */
+/* CART COUNT */
 function updateCart(){
 document.getElementById("cartCount").innerText = cart.length;
 
@@ -364,16 +251,26 @@ list.innerHTML = "";
 cart.slice(-5).forEach(item=>{
 let div = document.createElement("div");
 div.className="minicart-item";
-div.innerText=item;
+div.innerText = item;
 list.appendChild(div);
 });
 }
 
-/* TOGGLE CART */
-function toggleCart(){
-document.getElementById("minicart").classList.toggle("active");
-updateCart();
+/* CLOSE ON CLICK OUTSIDE */
+document.addEventListener("click", function(e){
+const sidebar = document.getElementById("sidebar");
+const menuBtn = document.querySelector(".menu-btn");
+const cartBox = document.getElementById("minicart");
+const cartIcon = document.querySelector(".cart");
+
+if(sidebar && !sidebar.contains(e.target) && !menuBtn.contains(e.target)){
+sidebar.classList.remove("active");
 }
+
+if(cartBox && !cartIcon.contains(e.target)){
+cartBox.classList.remove("active");
+}
+});
 
 /* INIT */
 updateCart();
