@@ -6,168 +6,209 @@
 <title>MysteryStreetwear</title>
 
 <style>
-*{margin:0;padding:0;box-sizing:border-box;}
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+}
 
 body{
-font-family:Arial;
+font-family:Arial,sans-serif;
 background:#fff;
 color:#111;
 overflow-x:hidden;
 }
 
-/* TOPBAR */
-.topbar{
+/* NAVBAR */
+.navbar{
+height:80px;
+display:flex;
+justify-content:space-between;
+align-items:center;
+padding:0 40px;
+border-bottom:1px solid #eee;
+background:#fff;
+position:fixed;
+top:0;
+width:100%;
+z-index:1000;
+}
+
+.logo{
+font-size:24px;
+font-weight:bold;
+}
+
+.menu-btn{
+font-size:32px;
+cursor:pointer;
+user-select:none;
+}
+
+/* SIDEBAR */
+.sidebar{
+position:fixed;
+top:0;
+right:-320px;
+width:320px;
+height:100%;
+background:#fff;
+box-shadow:-10px 0 30px rgba(0,0,0,.08);
+transition:.35s ease;
+z-index:2000;
+padding-top:100px;
+}
+
+.sidebar.active{
+right:0;
+}
+
+.sidebar a{
+display:block;
+padding:20px 30px;
+text-decoration:none;
+color:#111;
+font-size:18px;
+border-bottom:1px solid #eee;
+transition:.2s;
+}
+
+.sidebar a:hover{
+background:#FFD700;
+}
+
+/* OVERLAY (NY) */
+.overlay{
 position:fixed;
 top:0;
 left:0;
 width:100%;
-height:70px;
-display:flex;
-justify-content:space-between;
-align-items:center;
-padding:0 25px;
-background:#fff;
-border-bottom:1px solid #eee;
-z-index:9999;
-}
-
-.logo{
-font-weight:bold;
-font-size:18px;
-letter-spacing:1px;
-}
-
-.icons{
-display:flex;
-gap:15px;
-align-items:center;
-cursor:pointer;
-}
-
-/* CART ICON */
-.cart{
-position:relative;
-}
-
-.cart span{
-position:absolute;
-top:-8px;
-right:-10px;
-background:#FFD700;
-color:#000;
-font-size:12px;
-width:18px;
-height:18px;
-display:flex;
-align-items:center;
-justify-content:center;
-border-radius:50%;
-}
-
-/* MENU BUTTON */
-.menu-btn{
-font-size:22px;
-cursor:pointer;
-}
-
-/* SIDE MENU */
-.sidemenu{
-position:fixed;
-top:0;
-left:-300px;
-width:280px;
 height:100%;
-background:#111;
-color:#fff;
-padding:25px;
+background:rgba(0,0,0,0.25);
+opacity:0;
+pointer-events:none;
 transition:.3s;
-z-index:10000;
+z-index:1500;
 }
 
-.sidemenu.active{
-left:0;
-}
-
-.sidemenu h3{
-margin-bottom:20px;
-}
-
-.sidemenu a{
-display:block;
-color:#fff;
-text-decoration:none;
-margin-bottom:15px;
-opacity:.8;
-}
-
-.sidemenu a:hover{
+.overlay.active{
 opacity:1;
+pointer-events:auto;
 }
 
 /* HERO */
 .hero{
-margin-top:90px;
-padding:60px 25px;
+margin-top:80px;
+height:90vh;
+background:
+linear-gradient(rgba(255,255,255,.55),rgba(255,255,255,.55)),
+url('https://images.unsplash.com/photo-1523398002811-999ca8dec234?auto=format&fit=crop&w=1600&q=80');
+background-size:cover;
+background-position:center;
+display:flex;
+align-items:center;
+justify-content:center;
 text-align:center;
 }
 
+.hero-content{
+animation:fadeUp 1s ease;
+}
+
 .hero h1{
-font-size:42px;
-margin-bottom:10px;
+font-size:72px;
+margin-bottom:20px;
 }
 
 .hero p{
-color:#666;
+font-size:22px;
+max-width:700px;
+margin:auto;
+line-height:1.6;
 }
 
-/* PRODUCTS */
-.grid{
-max-width:1100px;
-margin:40px auto;
-display:grid;
-grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
-gap:20px;
-padding:0 20px;
+/* INFO */
+.info-section{
+max-width:1200px;
+margin:120px auto;
+padding:0 40px;
 }
 
-.card{
+.info-box{
+text-align:center;
+margin-bottom:120px;
+}
+
+.info-box h2{
+font-size:42px;
+margin-bottom:60px;
+}
+
+.steps{
+display:flex;
+justify-content:center;
+gap:40px;
+flex-wrap:wrap;
+}
+
+.step{
+width:300px;
+padding:40px;
 border:1px solid #eee;
-border-radius:14px;
-overflow:hidden;
-cursor:pointer;
+border-radius:20px;
 transition:.3s;
-background:#fff;
 }
 
-.card:hover{
-transform:translateY(-6px);
+.step:hover{
+transform:translateY(-8px);
+box-shadow:0 15px 30px rgba(0,0,0,.08);
 }
 
-.card img{
-width:100%;
-height:220px;
-object-fit:cover;
+.step span{
+font-size:48px;
+font-weight:bold;
+color:#FFD700;
 }
 
-.card .info{
-padding:15px;
+.step h3{
+margin:15px 0;
 }
 
-.card h3{
-margin-bottom:5px;
+.step p{
+color:#666;
+line-height:1.6;
 }
 
-.card p{
+/* ABOUT */
+.about-box{
+max-width:850px;
+margin:auto;
+text-align:center;
+}
+
+.about-box h2{
+font-size:42px;
+margin-bottom:25px;
+}
+
+.about-box p{
+color:#666;
+line-height:1.8;
+margin-bottom:20px;
+}
+
+/* FOOTER */
+footer{
+margin-top:120px;
+padding:40px;
+text-align:center;
+border-top:1px solid #eee;
 color:#666;
 }
 
 /* ANIMATION */
-.fade{
-animation:fade .5s ease;
-}
-
-@keyframes fade{
-from{opacity:0;transform:translateY(20px);}
+@keyframes fadeUp{
+from{opacity:0;transform:translateY(40px);}
 to{opacity:1;transform:translateY(0);}
 }
 
@@ -176,89 +217,90 @@ to{opacity:1;transform:translateY(0);}
 
 <body>
 
-<!-- SIDEMENU -->
-<div class="sidemenu" id="menu">
-<h3>MysteryStreetwear</h3>
-<a href="#">Home</a>
-<a href="#">Shop</a>
-<a href="#">New drops</a>
-<a href="#">About</a>
-</div>
+<!-- OVERLAY -->
+<div class="overlay" id="overlay" onclick="closeMenu()"></div>
 
-<!-- TOPBAR -->
-<div class="topbar">
-
-<div class="menu-btn" onclick="toggleMenu()">☰</div>
-
+<!-- NAVBAR -->
+<div class="navbar">
 <div class="logo">MysteryStreetwear</div>
-
-<div class="icons">
-<div class="cart" onclick="goCart()">
-🛒
-<span id="cartCount">0</span>
-</div>
+<div class="menu-btn" onclick="toggleMenu()">☰</div>
 </div>
 
+<!-- SIDEBAR -->
+<div class="sidebar" id="sidebar">
+<a href="product.html?id=basic" onclick="closeMenu()">Basic Box</a>
+<a href="product.html?id=premium" onclick="closeMenu()">Premium Box</a>
+<a href="product.html?id=luxury" onclick="closeMenu()">Luxury Box</a>
+<a href="cart.html">Kurv</a>
+<a href="#">FAQ</a>
 </div>
 
 <!-- HERO -->
-<div class="hero fade">
-<h1>Streetwear Mystery Boxes</h1>
-<p>Premium outfits. Handpicked. Delivered fast.</p>
+<section class="hero">
+<div class="hero-content">
+<h1>STREETWEAR<br>MYSTERY BOXES</h1>
+<p>
+Eksklusive mystery boxes med håndplukkede streetwear items.
+Hver box er sammensat med fokus på kvalitet, stil og overraskelser.
+</p>
+</div>
+</section>
+
+<!-- INFO -->
+<section class="info-section">
+
+<div class="info-box">
+<h2>Sådan fungerer det</h2>
+
+<div class="steps">
+<div class="step">
+<span>01</span>
+<h3>Vælg en box</h3>
+<p>Find den mystery box der passer til dig.</p>
 </div>
 
-<!-- PRODUCTS -->
-<div class="grid">
-
-<div class="card fade" onclick="openProduct('basic')">
-<img src="https://telecaixa.com/cdn/shop/files/1078.jpg?v=1711978877">
-<div class="info">
-<h3>Basic Box</h3>
-<p>299 kr</p>
-</div>
+<div class="step">
+<span>02</span>
+<h3>Vælg størrelse</h3>
+<p>Vi matcher indholdet efter din størrelse.</p>
 </div>
 
-<div class="card fade" onclick="openProduct('premium')">
-<img src="https://images.unsplash.com/photo-1521334884684-d80222895322?auto=format&fit=crop&w=900&q=80">
-<div class="info">
-<h3>Premium Box</h3>
-<p>499 kr</p>
+<div class="step">
+<span>03</span>
+<h3>Modtag pakken</h3>
+<p>Åbn din mystery box og oplev overraskelsen.</p>
+</div>
 </div>
 </div>
 
-<div class="card fade" onclick="openProduct('luxury')">
-<img src="https://images.unsplash.com/photo-1520975916090-3105956dac38?auto=format&fit=crop&w=900&q=80">
-<div class="info">
-<h3>Luxury Box</h3>
-<p>799 kr</p>
-</div>
+<div class="about-box">
+<h2>Om MysteryStreetwear</h2>
+<p>MysteryStreetwear er skabt til streetwear-entusiaster.</p>
+<p>Målet er en stærk unboxing oplevelse hver gang.</p>
 </div>
 
-</div>
+</section>
+
+<footer>
+<p>© 2026 MysteryStreetwear</p>
+</footer>
 
 <script>
 
-/* MENU */
 function toggleMenu(){
-document.getElementById("menu").classList.toggle("active");
+document.getElementById("sidebar").classList.toggle("active");
+document.getElementById("overlay").classList.toggle("active");
 }
 
-/* NAV TO PRODUCT */
-function openProduct(id){
-window.location.href = "product.html?id=" + id;
+function closeMenu(){
+document.getElementById("sidebar").classList.remove("active");
+document.getElementById("overlay").classList.remove("active");
 }
 
-/* CART COUNT */
-function updateCart(){
-let cart = JSON.parse(localStorage.getItem("cart")) || [];
-document.getElementById("cartCount").innerText = cart.length;
-}
-
-function goCart(){
-window.location.href = "cart.html";
-}
-
-updateCart();
+/* ekstra sikker luk */
+document.addEventListener("keydown", (e)=>{
+if(e.key === "Escape") closeMenu();
+});
 
 </script>
 
