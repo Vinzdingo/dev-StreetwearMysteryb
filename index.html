@@ -6,20 +6,16 @@
 <title>MysteryStreetwear</title>
 
 <style>
-*{
-margin:0;
-padding:0;
-box-sizing:border-box;
-}
+*{margin:0;padding:0;box-sizing:border-box;}
 
 body{
-font-family:Arial,sans-serif;
+font-family:Arial;
 background:#fff;
 color:#111;
 overflow-x:hidden;
 }
 
-/* ===== NAVBAR ===== */
+/* NAVBAR */
 .navbar{
 height:80px;
 display:flex;
@@ -34,10 +30,7 @@ width:100%;
 z-index:1000;
 }
 
-.logo{
-font-size:24px;
-font-weight:bold;
-}
+.logo{font-size:24px;font-weight:bold;}
 
 .nav-right{
 display:flex;
@@ -45,20 +38,10 @@ align-items:center;
 gap:20px;
 }
 
-/* CART */
 .cart{
 position:relative;
 cursor:pointer;
 font-size:22px;
-transition:.2s;
-}
-
-.cart:hover{
-transform:scale(1.1);
-}
-
-.cart.bounce{
-animation:bounce .4s;
 }
 
 .cart span{
@@ -81,10 +64,9 @@ font-weight:bold;
 .menu-btn{
 font-size:32px;
 cursor:pointer;
-user-select:none;
 }
 
-/* SIDEBAR */
+/* SIDEMENU */
 .sidebar{
 position:fixed;
 top:0;
@@ -93,14 +75,12 @@ width:320px;
 height:100%;
 background:#fff;
 box-shadow:-10px 0 30px rgba(0,0,0,.08);
-transition:.35s ease;
+transition:.3s;
 z-index:2000;
 padding-top:100px;
 }
 
-.sidebar.active{
-right:0;
-}
+.sidebar.active{right:0;}
 
 .sidebar a{
 display:block;
@@ -109,168 +89,127 @@ text-decoration:none;
 color:#111;
 font-size:18px;
 border-bottom:1px solid #eee;
+}
+
+.sidebar a:hover{background:#FFD700;}
+
+/* FILTER */
+.filters{
+max-width:1100px;
+margin:120px auto 20px;
+display:flex;
+gap:15px;
+padding:0 20px;
+flex-wrap:wrap;
+}
+
+.filter-btn{
+padding:10px 15px;
+border:1px solid #eee;
+border-radius:10px;
+cursor:pointer;
 transition:.2s;
 }
 
-.sidebar a:hover{
+.filter-btn.active{
 background:#FFD700;
+border-color:#FFD700;
 }
 
-/* OVERLAY */
-.overlay{
-position:fixed;
-top:0;
-left:0;
-width:100%;
-height:100%;
-background:rgba(0,0,0,0.25);
-opacity:0;
-pointer-events:none;
-transition:.3s;
-z-index:1500;
-}
-
-.overlay.active{
-opacity:1;
-pointer-events:auto;
-}
-
-/* HERO */
-.hero{
-margin-top:80px;
-height:90vh;
-background:
-linear-gradient(rgba(255,255,255,.55),rgba(255,255,255,.55)),
-url('https://images.unsplash.com/photo-1523398002811-999ca8dec234?auto=format&fit=crop&w=1600&q=80');
-background-size:cover;
-background-position:center;
-display:flex;
-align-items:center;
-justify-content:center;
-text-align:center;
-}
-
-.hero-content{
-animation:fadeUp 1s ease;
-}
-
-.hero h1{
-font-size:72px;
-margin-bottom:20px;
-}
-
-.hero p{
-font-size:22px;
-max-width:700px;
+/* GRID */
+.grid{
+max-width:1100px;
 margin:auto;
-line-height:1.6;
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
+gap:20px;
+padding:20px;
+}
+
+.card{
+border:1px solid #eee;
+border-radius:14px;
+overflow:hidden;
+cursor:pointer;
+transition:.3s;
+position:relative;
+}
+
+.card:hover{
+transform:translateY(-6px);
+}
+
+.card img{
+width:100%;
+height:220px;
+object-fit:cover;
+}
+
+.card .info{
+padding:15px;
+}
+
+/* MINI CART */
+.minicart{
+position:fixed;
+top:80px;
+right:30px;
+width:300px;
+background:#fff;
+border:1px solid #eee;
+border-radius:12px;
+box-shadow:0 10px 30px rgba(0,0,0,.1);
+padding:15px;
+display:none;
+z-index:9999;
+}
+
+.minicart.active{display:block;}
+
+.minicart h4{margin-bottom:10px;}
+
+.minicart-item{
+font-size:14px;
+margin-bottom:8px;
+color:#555;
 }
 
 /* INFO */
 .info-section{
-max-width:1200px;
-margin:120px auto;
-padding:0 40px;
+max-width:1100px;
+margin:80px auto;
+padding:20px;
 }
 
-.info-box{
-text-align:center;
-margin-bottom:120px;
+.block{
+margin-bottom:80px;
 }
 
-.info-box h2{
-font-size:42px;
-margin-bottom:60px;
-}
-
-.steps{
-display:flex;
-justify-content:center;
-gap:40px;
-flex-wrap:wrap;
-}
-
-.step{
-width:300px;
-padding:40px;
-border:1px solid #eee;
-border-radius:20px;
-transition:.4s;
-opacity:0;
-transform:translateY(40px);
-}
-
-.step.show{
-opacity:1;
-transform:translateY(0);
-}
-
-.step:hover{
-transform:translateY(-10px);
-box-shadow:0 15px 30px rgba(0,0,0,.08);
-}
-
-.step span{
-font-size:48px;
-font-weight:bold;
-color:#FFD700;
-}
-
-.step h3{
-margin:15px 0;
-}
-
-.step p{
-color:#666;
-line-height:1.6;
-}
-
-/* ABOUT */
-.about-box{
-max-width:850px;
-margin:auto;
-text-align:center;
-}
-
-.about-box h2{
-font-size:42px;
-margin-bottom:25px;
-}
-
-.about-box p{
-color:#666;
-line-height:1.8;
+.block h2{
+font-size:36px;
 margin-bottom:20px;
 }
 
-/* FOOTER */
-footer{
-margin-top:120px;
-padding:40px;
-text-align:center;
-border-top:1px solid #eee;
+.block p{
 color:#666;
+line-height:1.7;
 }
 
-/* ANIMATIONS */
-@keyframes fadeUp{
-from{opacity:0;transform:translateY(40px);}
-to{opacity:1;transform:translateY(0);}
-}
-
-@keyframes bounce{
+/* ANIMATION FIX */
+@keyframes fly{
 0%{transform:scale(1);}
-50%{transform:scale(1.3);}
-100%{transform:scale(1);}
+50%{transform:scale(0.7);}
+100%{transform:translateY(-200px) scale(0.2);opacity:0;}
+}
+
+.fly{
+animation:fly .6s ease forwards;
 }
 
 </style>
 </head>
 
 <body>
-
-<!-- OVERLAY -->
-<div class="overlay" id="overlay" onclick="closeMenu()"></div>
 
 <!-- NAVBAR -->
 <div class="navbar">
@@ -279,7 +218,7 @@ to{opacity:1;transform:translateY(0);}
 
 <div class="nav-right">
 
-<div class="cart" id="cart" onclick="goCart()">
+<div class="cart" onclick="toggleCart()">
 🛒
 <span id="cartCount">0</span>
 </div>
@@ -290,90 +229,134 @@ to{opacity:1;transform:translateY(0);}
 
 </div>
 
-<!-- SIDEBAR -->
+<!-- SIDEMENU -->
 <div class="sidebar" id="sidebar">
-<a href="product.html?id=basic" onclick="closeMenu()">Basic Box</a>
-<a href="product.html?id=premium" onclick="closeMenu()">Premium Box</a>
-<a href="product.html?id=luxury" onclick="closeMenu()">Luxury Box</a>
-<a href="cart.html" onclick="closeMenu()">Kurv</a>
+<a href="product.html?id=basic">Basic Box</a>
+<a href="product.html?id=premium">Premium Box</a>
+<a href="product.html?id=luxury">Luxury Box</a>
+<a href="cart.html">Kurv</a>
 </div>
 
-<!-- HERO -->
-<section class="hero">
-<div class="hero-content">
-<h1>STREETWEAR<br>MYSTERY BOXES</h1>
-<p>Premium streetwear. Curated. Delivered.</p>
+<!-- MINI CART -->
+<div class="minicart" id="minicart">
+<h4>Din kurv</h4>
+<div id="miniItems"></div>
+<button onclick="goCart()" style="margin-top:10px;width:100%;padding:10px;background:#FFD700;border:none;border-radius:10px;">
+Checkout
+</button>
 </div>
-</section>
+
+<!-- FILTERS -->
+<div class="filters">
+<div class="filter-btn active" onclick="filter('all',event)">Alle</div>
+<div class="filter-btn" onclick="filter('basic',event)">Basic</div>
+<div class="filter-btn" onclick="filter('premium',event)">Premium</div>
+<div class="filter-btn" onclick="filter('luxury',event)">Luxury</div>
+</div>
+
+<!-- PRODUCTS -->
+<div class="grid">
+
+<div class="card basic" onclick="addToCart(this,'Basic Box')">
+<img src="https://telecaixa.com/cdn/shop/files/1078.jpg?v=1711978877">
+<div class="info"><h3>Basic Box</h3><p>299 kr</p></div>
+</div>
+
+<div class="card premium" onclick="addToCart(this,'Premium Box')">
+<img src="https://images.unsplash.com/photo-1521334884684-d80222895322?auto=format&fit=crop&w=900&q=80">
+<div class="info"><h3>Premium Box</h3><p>499 kr</p></div>
+</div>
+
+<div class="card luxury" onclick="addToCart(this,'Luxury Box')">
+<img src="https://images.unsplash.com/photo-1520975916090-3105956dac38?auto=format&fit=crop&w=900&q=80">
+<div class="info"><h3>Luxury Box</h3><p>799 kr</p></div>
+</div>
+
+</div>
 
 <!-- INFO -->
-<section class="info-section">
+<div class="info-section">
 
-<div class="info-box">
+<div class="block">
 <h2>Sådan fungerer det</h2>
+<p>Vælg en box → vælg størrelse → modtag pakken og oplev overraskelsen.</p>
+</div>
 
-<div class="steps">
-<div class="step"> <span>01</span><h3>Vælg box</h3><p>Find din stil</p></div>
-<div class="step"> <span>02</span><h3>Vælg størrelse</h3><p>Perfekt fit</p></div>
-<div class="step"> <span>03</span><h3>Modtag</h3><p>Unbox oplevelse</p></div>
+<div class="block">
+<h2>Om MysteryStreetwear</h2>
+<p>Vi laver premium streetwear mystery boxes med fokus på kvalitet og stil.</p>
 </div>
 
 </div>
-
-<div class="about-box">
-<h2>Om os</h2>
-<p>Streetwear mystery boxes med kvalitet og stil.</p>
-</div>
-
-</section>
-
-<footer>
-<p>© 2026 MysteryStreetwear</p>
-</footer>
 
 <script>
+
+let cart = JSON.parse(localStorage.getItem("cart")) || [];
 
 /* MENU */
 function toggleMenu(){
 document.getElementById("sidebar").classList.toggle("active");
-document.getElementById("overlay").classList.toggle("active");
 }
 
-function closeMenu(){
-document.getElementById("sidebar").classList.remove("active");
-document.getElementById("overlay").classList.remove("active");
-}
+/* FILTER FIX */
+function filter(type,event){
+document.querySelectorAll(".filter-btn").forEach(b=>b.classList.remove("active"));
+if(event) event.target.classList.add("active");
 
-/* CART */
-function goCart(){
-window.location.href = "cart.html";
-}
-
-/* CART COUNT */
-function updateCart(){
-let cart = JSON.parse(localStorage.getItem("cart")) || [];
-document.getElementById("cartCount").innerText = cart.length;
-}
-
-/* BOUNCE EFFECT WHEN UPDATED */
-function addBounce(){
-let cart = document.getElementById("cart");
-cart.classList.add("bounce");
-setTimeout(()=>cart.classList.remove("bounce"),400);
-}
-
-/* SCROLL ANIMATION */
-function reveal(){
-document.querySelectorAll(".step").forEach(el=>{
-let top = el.getBoundingClientRect().top;
-if(top < window.innerHeight - 100){
-el.classList.add("show");
-}
+document.querySelectorAll(".card").forEach(card=>{
+card.style.display = (type==="all" || card.classList.contains(type)) ? "block" : "none";
 });
 }
 
-window.addEventListener("scroll",reveal);
-window.addEventListener("load",reveal);
+/* CART */
+function addToCart(el,name){
+
+cart.push(name);
+localStorage.setItem("cart",JSON.stringify(cart));
+updateCart();
+
+/* fly animation FIX */
+let clone = el.cloneNode(true);
+let rect = el.getBoundingClientRect();
+
+clone.style.position="fixed";
+clone.style.top=rect.top+"px";
+clone.style.left=rect.left+"px";
+clone.style.width="200px";
+clone.style.zIndex="9999";
+
+clone.classList.add("fly");
+
+document.body.appendChild(clone);
+
+setTimeout(()=>clone.remove(),600);
+}
+
+/* CART UPDATE */
+function updateCart(){
+document.getElementById("cartCount").innerText = cart.length;
+}
+
+/* MINI CART */
+function toggleCart(){
+let mc = document.getElementById("minicart");
+mc.classList.toggle("active");
+
+let list = document.getElementById("miniItems");
+list.innerHTML="";
+
+cart.slice(-3).forEach(item=>{
+let div=document.createElement("div");
+div.className="minicart-item";
+div.innerText=item;
+list.appendChild(div);
+});
+}
+
+/* NAV */
+function goCart(){
+window.location.href="cart.html";
+}
 
 /* INIT */
 updateCart();
