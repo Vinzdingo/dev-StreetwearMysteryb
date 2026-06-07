@@ -19,25 +19,47 @@ background:#fff;
 color:#111;
 }
 
+/* TOP NAV */
+.topbar{
+position:fixed;
+top:0;
+left:0;
+width:100%;
+height:70px;
+background:#fff;
+border-bottom:1px solid #eee;
+display:flex;
+align-items:center;
+justify-content:space-between;
+padding:0 20px;
+z-index:1000;
+}
+
+.btn{
+padding:8px 12px;
+border:1px solid #ddd;
+border-radius:8px;
+cursor:pointer;
+background:#fff;
+}
+
 /* LAYOUT */
 .container{
 max-width:1100px;
-margin:120px auto;
+margin:100px auto;
 display:grid;
 grid-template-columns:1fr 1fr;
 gap:40px;
 padding:20px;
 }
 
-/* IMAGE */
 img{
 width:100%;
 border-radius:14px;
 border:1px solid #eee;
 }
 
-/* TEXT */
-h1{font-size:34px;margin-bottom:10px;}
+h1{font-size:32px;margin-bottom:10px;}
 .price{margin:10px 0;color:#444;}
 
 /* SIZE */
@@ -86,7 +108,7 @@ padding:8px;
 font-size:13px;
 }
 
-/* BUTTON */
+/* BUTTONS */
 button{
 width:100%;
 padding:14px;
@@ -108,33 +130,60 @@ color:#fff;
 padding:15px;
 border-radius:12px;
 display:none;
+width:260px;
 }
 
 .popup button{
+width:100%;
 margin-top:10px;
+border:none;
+border-radius:8px;
+padding:10px;
+cursor:pointer;
+}
+
+.yellow{
 background:#FFD700;
 color:#111;
 }
+
+.white{
+background:#fff;
+color:#111;
+}
+
 </style>
 
 </head>
 
 <body>
 
+<!-- TOP BAR -->
+<div class="topbar">
+
+<button class="btn" onclick="goHome()">← Menu</button>
+
+<div><b>Mystery Box</b></div>
+
+<button class="btn" onclick="goCart()">🛒</button>
+
+</div>
+
 <div class="container">
 
-<!-- 🖼 BOX IMAGE -->
+<!-- IMAGE -->
 <div>
 <img src="https://telecaixa.com/cdn/shop/files/1078.jpg?v=1711978877">
 </div>
 
+<!-- INFO -->
 <div>
 
 <h1>Mystery Box</h1>
 <div class="price">299 kr</div>
 
 <h3>Trøje størrelse</h3>
-<div id="top">
+<div>
 <div class="size" onclick="select(this,'top')">S</div>
 <div class="size" onclick="select(this,'top')">M</div>
 <div class="size" onclick="select(this,'top')">L</div>
@@ -142,18 +191,17 @@ color:#111;
 </div>
 
 <h3>Bukse størrelse</h3>
-<div id="bottom">
+<div>
 <div class="size" onclick="select(this,'bottom')">28</div>
 <div class="size" onclick="select(this,'bottom')">30</div>
 <div class="size" onclick="select(this,'bottom')">32</div>
 <div class="size" onclick="select(this,'bottom')">34</div>
 </div>
 
-<!-- 📏 GUIDE -->
+<!-- GUIDE -->
 <div class="guide">
-
 <div class="guide-title" onclick="toggleGuide(this)">
-📏 Størrelsesguide (klik)
+📏 Størrelsesguide
 </div>
 
 <div class="guide-content">
@@ -161,10 +209,10 @@ color:#111;
 <h4>Trøjer</h4>
 <table>
 <tr><th>Size</th><th>Bryst</th></tr>
-<tr><td>S</td><td>86-92 cm</td></tr>
-<tr><td>M</td><td>92-98 cm</td></tr>
-<tr><td>L</td><td>98-104 cm</td></tr>
-<tr><td>XL</td><td>104-110 cm</td></tr>
+<tr><td>S</td><td>86-92</td></tr>
+<tr><td>M</td><td>92-98</td></tr>
+<tr><td>L</td><td>98-104</td></tr>
+<tr><td>XL</td><td>104-110</td></tr>
 </table>
 
 <br>
@@ -172,14 +220,13 @@ color:#111;
 <h4>Bukser</h4>
 <table>
 <tr><th>Size</th><th>Talje</th></tr>
-<tr><td>28</td><td>71-73 cm</td></tr>
-<tr><td>30</td><td>76-78 cm</td></tr>
-<tr><td>32</td><td>81-83 cm</td></tr>
-<tr><td>34</td><td>86-88 cm</td></tr>
+<tr><td>28</td><td>71-73</td></tr>
+<tr><td>30</td><td>76-78</td></tr>
+<tr><td>32</td><td>81-83</td></tr>
+<tr><td>34</td><td>86-88</td></tr>
 </table>
 
 </div>
-
 </div>
 
 <button onclick="addToCart()">Tilføj til kurv</button>
@@ -190,34 +237,44 @@ color:#111;
 
 <!-- POPUP -->
 <div class="popup" id="popup">
-Tilføjet ✔
-<br>
-<button onclick="location.href='checkout.html'">Gå til checkout</button>
+
+<p>Tilføjet til kurv ✔</p>
+
+<button class="yellow" onclick="continueShopping()">Shop videre</button>
+<button class="white" onclick="goCart()">Gå til kurv</button>
+
 </div>
 
 <script>
 
-let topSize=null;
-let bottomSize=null;
+let topSize = null;
+let bottomSize = null;
+
+/* NAV */
+function goHome(){
+window.location.href = "index.html";
+}
+
+function goCart(){
+window.location.href = "checkout.html";
+}
+
+/* GUIDE FIX */
+function toggleGuide(el){
+let content = el.nextElementSibling;
+content.style.display =
+content.style.display === "block" ? "none" : "block";
+}
 
 /* SIZE SELECT */
 function select(el,type){
 
-document.querySelectorAll("#"+type+" .size")
-.forEach(e=>e.classList.remove("active"));
-
+document.querySelectorAll(".size").forEach(e=>e.classList.remove("active"));
 el.classList.add("active");
 
-if(type==="top") topSize=el.innerText;
-if(type==="bottom") bottomSize=el.innerText;
+if(type==="top") topSize = el.innerText;
+if(type==="bottom") bottomSize = el.innerText;
 
-}
-
-/* GUIDE FIX (100% WORKING EVERY TIME) */
-function toggleGuide(el){
-const content = el.nextElementSibling;
-content.style.display =
-content.style.display === "block" ? "none" : "block";
 }
 
 /* CART */
@@ -238,9 +295,14 @@ bottom:bottomSize,
 qty:1
 });
 
-localStorage.setItem("cart",JSON.stringify(cart));
+localStorage.setItem("cart", JSON.stringify(cart));
 
-document.getElementById("popup").style.display="block";
+document.getElementById("popup").style.display = "block";
+}
+
+/* SHOP VIDERE */
+function continueShopping(){
+document.getElementById("popup").style.display = "none";
 }
 
 </script>
