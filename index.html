@@ -66,6 +66,7 @@ display:flex;
 align-items:center;
 justify-content:center;
 font-size:11px;
+font-weight:bold;
 }
 
 .menu{
@@ -176,7 +177,7 @@ margin-bottom:10px;
 
 .trust-section{
 max-width:1100px;
-margin:0 auto 100px;
+margin:0 auto 80px;
 padding:0 20px;
 display:grid;
 grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
@@ -202,6 +203,26 @@ margin-bottom:8px;
 .trust p{
 color:#666;
 font-size:14px;
+}
+
+/* ABOUT */
+
+.about{
+max-width:900px;
+margin:0 auto 100px;
+padding:0 20px;
+text-align:center;
+}
+
+.about h2{
+font-size:38px;
+margin-bottom:20px;
+}
+
+.about p{
+color:#666;
+line-height:1.8;
+font-size:17px;
 }
 
 /* MINI CART */
@@ -236,11 +257,22 @@ cursor:pointer;
 font-weight:bold;
 }
 
+/* FOOTER */
+
+footer{
+padding:40px 20px;
+text-align:center;
+border-top:1px solid #eee;
+color:#777;
+}
+
 </style>
 
 </head>
 
 <body>
+
+<!-- NAVBAR -->
 
 <div class="navbar">
 
@@ -263,12 +295,21 @@ MysteryStreetwear
 
 </div>
 
+<!-- SIDEBAR -->
+
 <div class="sidebar" id="sidebar">
-<a href="product.html">Basic Box</a>
-<a href="product.html">Premium Box</a>
-<a href="product.html">Luxury Box</a>
+
+<a href="product.html?box=basic">Basic Box</a>
+
+<a href="product.html?box=premium">Premium Box</a>
+
+<a href="product.html?box=luxury">Luxury Box</a>
+
 <a href="checkout.html">Kurv</a>
+
 </div>
+
+<!-- HERO -->
 
 <section class="hero">
 
@@ -287,12 +328,14 @@ Vælg din box, vælg dine størrelser og oplev overraskelsen.
 
 </section>
 
+<!-- STEPS -->
+
 <section class="steps">
 
 <div class="step">
 <span>1</span>
 <h3>Vælg mysterybox</h3>
-<p>Find den box der passer bedst til dig.</p>
+<p>Find den mystery box der passer bedst til dig.</p>
 </div>
 
 <div class="step">
@@ -304,10 +347,12 @@ Vælg din box, vælg dine størrelser og oplev overraskelsen.
 <div class="step">
 <span>3</span>
 <h3>Modtag og unbox</h3>
-<p>Åbn pakken og oplev indholdet.</p>
+<p>Åbn pakken og oplev overraskelsen.</p>
 </div>
 
 </section>
+
+<!-- TRUST -->
 
 <section class="trust-section">
 
@@ -337,35 +382,58 @@ Vælg din box, vælg dine størrelser og oplev overraskelsen.
 
 </section>
 
-<div class="minicart" id="minicart">
-  <section class="about">
+<!-- ABOUT -->
+
+<section class="about">
 
 <h2>Om MysteryStreetwear</h2>
 
 <p>
 MysteryStreetwear er skabt til streetwear-entusiaster,
-der elsker overraskelser. Hver box sammensættes med fokus
-på kvalitet, stil og en unik unboxing-oplevelse.
+der elsker overraskelser. Hver mystery box sammensættes
+med fokus på kvalitet, stil og en unik unboxing-oplevelse.
+
+Vi udvælger produkter med fokus på moderne streetwear,
+så du får en spændende oplevelse hver gang du åbner
+en ny box.
+
 </p>
 
 </section>
+
+<!-- MINI CART -->
+
+<div class="minicart" id="minicart">
+
 <div id="miniItems"></div>
+
 <button onclick="goCart()">
 Gå til kurv
 </button>
+
 </div>
+
+<footer>
+© 2026 MysteryStreetwear
+</footer>
 
 <script>
 
 let cart =
 JSON.parse(localStorage.getItem("cart")) || [];
 
+/* MENU */
+
 function toggleMenu(){
+
 document
 .getElementById("sidebar")
 .classList
 .toggle("active");
+
 }
+
+/* CART */
 
 function toggleCart(){
 
@@ -373,17 +441,28 @@ let box =
 document.getElementById("minicart");
 
 if(box.style.display==="block"){
+
 box.style.display="none";
+
 }else{
+
 box.style.display="block";
 updateUI();
+
 }
 
 }
+
+/* GO TO CART */
 
 function goCart(){
-window.location.href="checkout.html";
+
+window.location.href =
+"checkout.html";
+
 }
+
+/* UPDATE UI */
 
 function updateUI(){
 
@@ -392,30 +471,61 @@ JSON.parse(localStorage.getItem("cart")) || [];
 
 document
 .getElementById("cartCount")
-.innerText = cart.length;
+.innerText =
+cart.length;
 
 let mini =
 document.getElementById("miniItems");
 
-mini.innerHTML="";
+mini.innerHTML = "";
+
+if(cart.length===0){
+
+mini.innerHTML =
+"<div class='minicart-item'>Din kurv er tom</div>";
+
+return;
+
+}
 
 cart.slice(-5).forEach(item=>{
 
 let div =
 document.createElement("div");
 
-div.className="minicart-item";
+div.className =
+"minicart-item";
 
 div.innerText =
 item.name +
-(item.top ? " | "+item.top : "") +
-(item.bottom ? " / "+item.bottom : "");
+(item.top ? " | " + item.top : "") +
+(item.bottom ? " / " + item.bottom : "");
 
 mini.appendChild(div);
 
 });
 
 }
+
+/* CLOSE MENU CLICK OUTSIDE */
+
+document.addEventListener("click",function(e){
+
+const sidebar =
+document.getElementById("sidebar");
+
+const menu =
+document.querySelector(".menu");
+
+if(
+!sidebar.contains(e.target)
+&&
+!menu.contains(e.target)
+){
+sidebar.classList.remove("active");
+}
+
+});
 
 updateUI();
 
