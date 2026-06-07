@@ -9,15 +9,22 @@
 body{font-family:Arial;background:#f6f6f6;margin:0;}
 
 .header{
-background:#111;color:#fff;padding:20px;text-align:center;
+background:#111;
+color:#fff;
+padding:20px;
+text-align:center;
 }
 
 .container{
-max-width:900px;margin:30px auto;padding:20px;
+max-width:900px;
+margin:30px auto;
+padding:20px;
 }
 
 .box{
-background:#fff;padding:20px;border-radius:12px;
+background:#fff;
+padding:20px;
+border-radius:12px;
 margin-bottom:15px;
 }
 
@@ -44,6 +51,17 @@ border-radius:10px;
 cursor:pointer;
 margin-top:10px;
 }
+
+#thankyou{
+display:none;
+text-align:center;
+padding:40px;
+}
+
+.big{
+font-size:22px;
+font-weight:bold;
+}
 </style>
 </head>
 
@@ -55,16 +73,24 @@ margin-top:10px;
 
 <div class="container">
 
+<!-- CART -->
 <div class="box" id="cartBox"></div>
 
+<!-- CUSTOMER -->
 <div class="box">
-<h3>Customer info</h3>
+<h3>Kunde info</h3>
 
 <input id="email" placeholder="Email">
 <input id="address" placeholder="Adresse">
 <input id="zip" placeholder="Postnummer">
 
 <button onclick="placeOrder()">PLACE ORDER</button>
+</div>
+
+<!-- THANK YOU -->
+<div id="thankyou">
+<div class="big">✔ Order placed!</div>
+<p>Tak for din ordre</p>
 </div>
 
 </div>
@@ -79,15 +105,21 @@ function getOrders(){
 return JSON.parse(localStorage.getItem("orders")) || [];
 }
 
-function saveOrders(orders){
-localStorage.setItem("orders", JSON.stringify(orders));
+function saveOrders(o){
+localStorage.setItem("orders", JSON.stringify(o));
 }
 
 function render(){
 
 let cart = getCart();
 let box = document.getElementById("cartBox");
+
 box.innerHTML = "";
+
+if(cart.length === 0){
+box.innerHTML = "<p>Din kurv er tom</p>";
+return;
+}
 
 let total = 0;
 
@@ -131,14 +163,14 @@ date: new Date().toISOString()
 };
 
 orders.push(order);
-
 saveOrders(orders);
 
+// CLEAR CART
 localStorage.removeItem("cart");
 
-alert("Order created ✔");
-
-window.location.href = "admin.html";
+// SHOW THANK YOU (NO REDIRECT BUG EVER AGAIN)
+document.querySelector(".container").style.display = "none";
+document.getElementById("thankyou").style.display = "block";
 }
 
 render();
