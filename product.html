@@ -10,7 +10,7 @@
 margin:0;
 padding:0;
 box-sizing:border-box;
-font-family:Arial;
+font-family:Arial, sans-serif;
 }
 
 body{
@@ -19,27 +19,20 @@ color:#111;
 padding-bottom:100px;
 }
 
-/* NAVBAR */
-.navbar{
-height:80px;
-display:flex;
-justify-content:space-between;
-align-items:center;
-padding:0 30px;
-border-bottom:1px solid #eee;
+/* BACK BUTTON */
+.back{
 position:fixed;
-top:0;
-width:100%;
+top:20px;
+left:20px;
+padding:10px 14px;
+border:1px solid #eee;
+border-radius:10px;
+cursor:pointer;
 background:#fff;
-z-index:1000;
+z-index:9999;
 }
 
-.logo{
-font-size:20px;
-font-weight:bold;
-}
-
-/* LAYOUT */
+/* CONTAINER */
 .container{
 max-width:1100px;
 margin:120px auto;
@@ -50,19 +43,13 @@ gap:40px;
 }
 
 /* IMAGE */
-.image{
+.image img{
 width:100%;
 border-radius:12px;
-overflow:hidden;
 border:1px solid #eee;
 }
 
-.image img{
-width:100%;
-display:block;
-}
-
-/* INFO */
+/* TITLE */
 h1{
 font-size:34px;
 margin-bottom:10px;
@@ -73,12 +60,12 @@ color:#666;
 margin-bottom:20px;
 }
 
-/* SIZE BUTTONS */
+/* SIZE BOXES */
 .sizes{
 display:flex;
 gap:10px;
-margin:10px 0 20px;
 flex-wrap:wrap;
+margin:10px 0 20px;
 }
 
 .size{
@@ -109,8 +96,8 @@ margin-top:20px;
 /* FOLD OUT */
 .item{
 border:1px solid #eee;
-margin-top:15px;
 border-radius:10px;
+margin-top:15px;
 overflow:hidden;
 }
 
@@ -139,7 +126,7 @@ padding:8px;
 font-size:14px;
 }
 
-/* CART POPUP */
+/* POPUP */
 .popup{
 position:fixed;
 bottom:20px;
@@ -152,28 +139,24 @@ display:none;
 flex-direction:column;
 gap:10px;
 z-index:9999;
+width:240px;
 }
 
 .popup button{
-background:#fff;
-color:#111;
+border:none;
 padding:10px;
 border-radius:8px;
-border:none;
 cursor:pointer;
 }
 
-/* MINI CART BUTTON */
-.top-cart{
-position:fixed;
-top:25px;
-right:25px;
-background:#111;
-color:#fff;
-padding:10px 14px;
-border-radius:10px;
-cursor:pointer;
-font-size:14px;
+.popup .shop{
+background:#fff;
+color:#111;
+}
+
+.popup .cart{
+background:#FFD700;
+color:#111;
 }
 
 </style>
@@ -181,33 +164,34 @@ font-size:14px;
 
 <body>
 
-<div class="navbar">
-<div class="logo">MysteryStreetwear</div>
+<!-- BACK -->
+<div class="back" onclick="goBack()">← Tilbage</div>
+
+<!-- POPUP -->
+<div class="popup" id="popup">
+<div id="popupText"></div>
+
+<button class="cart" onclick="goCart()">Gå til kurv</button>
+<button class="shop" onclick="closePopup()">Shop videre</button>
 </div>
 
-<!-- CART BUTTON -->
-<div class="top-cart" onclick="goCart()">
-🛒 Kurv
-</div>
-
+<!-- PRODUCT -->
 <div class="container">
 
-<!-- IMAGE -->
 <div class="image">
 <img src="https://telecaixa.com/cdn/shop/files/1078.jpg?v=1711978877">
 </div>
 
-<!-- INFO -->
 <div>
 
 <h1 id="title">Mystery Box</h1>
 <div class="price">299 - 799 kr</div>
 
 <p style="color:#666;margin-bottom:15px;">
-Vælg din størrelse og tilføj til kurv
+Vælg dine størrelser før du tilføjer til kurv
 </p>
 
-<!-- TRØJE SIZE -->
+<!-- TRØJE -->
 <h3>Trøje størrelse</h3>
 <div class="sizes" id="topSizes">
 <div class="size" onclick="selectSize(this,'top')">S</div>
@@ -216,7 +200,7 @@ Vælg din størrelse og tilføj til kurv
 <div class="size" onclick="selectSize(this,'top')">XL</div>
 </div>
 
-<!-- BUKSER SIZE -->
+<!-- BUKSER -->
 <h3>Bukse størrelse</h3>
 <div class="sizes" id="bottomSizes">
 <div class="size" onclick="selectSize(this,'bottom')">28</div>
@@ -225,16 +209,17 @@ Vælg din størrelse og tilføj til kurv
 <div class="size" onclick="selectSize(this,'bottom')">34</div>
 </div>
 
-<!-- SIZE GUIDES -->
+<!-- GUIDES -->
+
 <div class="item" onclick="toggle(this)">
 <div class="title">Trøje størrelsesguide <span>+</span></div>
 <div class="content">
 <table>
 <tr><th>Size</th><th>Bryst</th></tr>
-<tr><td>S</td><td>86-92</td></tr>
-<tr><td>M</td><td>92-98</td></tr>
-<tr><td>L</td><td>98-104</td></tr>
-<tr><td>XL</td><td>104-110</td></tr>
+<tr><td>S</td><td>86-92 cm</td></tr>
+<tr><td>M</td><td>92-98 cm</td></tr>
+<tr><td>L</td><td>98-104 cm</td></tr>
+<tr><td>XL</td><td>104-110 cm</td></tr>
 </table>
 </div>
 </div>
@@ -252,7 +237,6 @@ Vælg din størrelse og tilføj til kurv
 </div>
 </div>
 
-<!-- DELIVERY -->
 <div class="item" onclick="toggle(this)">
 <div class="title">Levering <span>+</span></div>
 <div class="content">
@@ -265,17 +249,15 @@ Vælg din størrelse og tilføj til kurv
 </div>
 </div>
 
-<!-- POPUP -->
-<div class="popup" id="popup">
-<div id="popupText"></div>
-<button onclick="goCart()">Gå til kurv</button>
-<button onclick="continueShop()">Shop videre</button>
-</div>
-
 <script>
 
 let selectedTop = null;
 let selectedBottom = null;
+
+/* BACK */
+function goBack(){
+window.history.back();
+}
 
 /* SIZE SELECT */
 function selectSize(el,type){
@@ -328,13 +310,12 @@ document.getElementById("popupText").innerText =
 document.getElementById("popup").style.display="flex";
 }
 
-/* NAV */
-function goCart(){
-window.location.href="cart.html";
+function closePopup(){
+document.getElementById("popup").style.display="none";
 }
 
-function continueShop(){
-document.getElementById("popup").style.display="none";
+function goCart(){
+window.location.href="cart.html";
 }
 
 </script>
