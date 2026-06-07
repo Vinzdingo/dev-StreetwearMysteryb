@@ -2,255 +2,148 @@
 <html lang="da">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Checkout</title>
 
 <style>
+body{font-family:Arial;background:#f6f6f6;padding:20px;}
 
-*{
-margin:0;
-padding:0;
-box-sizing:border-box;
-font-family:Arial;
-}
-
-body{
-background:#f6f6f6;
-}
-
-/* HEADER */
-.header{
+.container{
+max-width:900px;
+margin:auto;
 background:#fff;
 padding:20px;
-text-align:center;
-border-bottom:1px solid #eee;
-}
-
-/* PROGRESS */
-.progress{
-display:flex;
-justify-content:center;
-gap:10px;
-margin:20px 0;
+border-radius:12px;
 }
 
 .step{
-padding:8px 14px;
-border-radius:20px;
-background:#eee;
-font-size:13px;
+display:none;
 }
 
 .step.active{
+display:block;
+}
+
+.bar{
+display:flex;
+gap:10px;
+margin-bottom:20px;
+}
+
+.dot{
+flex:1;
+height:6px;
+background:#ddd;
+border-radius:10px;
+}
+
+.dot.active{
 background:#111;
-color:#fff;
-}
-
-/* CONTAINER */
-.container{
-max-width:1000px;
-margin:auto;
-display:grid;
-grid-template-columns:1.5fr 1fr;
-gap:20px;
-padding:20px;
-}
-
-.box{
-background:#fff;
-padding:20px;
-border-radius:14px;
-border:1px solid #eee;
-}
-
-/* ITEMS */
-.item{
-border-bottom:1px solid #eee;
-padding:12px 0;
 }
 
 button{
 width:100%;
 padding:12px;
+margin-top:10px;
+border:none;
+border-radius:8px;
 background:#111;
 color:#fff;
-border:none;
-border-radius:10px;
-margin-top:10px;
 cursor:pointer;
 }
-
-input{
-width:100%;
-padding:12px;
-margin-top:10px;
-border:1px solid #ddd;
-border-radius:8px;
-}
-
-.hidden{display:none;}
-
 </style>
-
 </head>
 
 <body>
 
-<div class="header">
-<h1>Checkout</h1>
-
-<div class="progress">
-<div class="step active" id="s1">Kurv</div>
-<div class="step" id="s2">Adresse</div>
-<div class="step" id="s3">Betaling</div>
-</div>
-
-</div>
-
 <div class="container">
 
-<!-- LEFT -->
-<div class="box" id="left"></div>
+<div class="bar">
+<div class="dot active" id="d1"></div>
+<div class="dot" id="d2"></div>
+<div class="dot" id="d3"></div>
+</div>
 
-<!-- RIGHT -->
-<div class="box">
+<!-- STEP 1 -->
+<div class="step active" id="step1">
+<h2>Kurv</h2>
+<div id="cart"></div>
+<button onclick="next(2)">Gå til levering</button>
+</div>
 
-<h3>Summary</h3>
-<p id="count"></p>
+<!-- STEP 2 -->
+<div class="step" id="step2">
+<h2>Levering</h2>
+
+<input placeholder="Navn">
+<input placeholder="Adresse">
+<input placeholder="Postnr">
+
+<button onclick="next(3)">Gå til betaling</button>
+</div>
+
+<!-- STEP 3 -->
+<div class="step" id="step3">
+<h2>Bekræft ordre</h2>
+
 <p id="total"></p>
 
-<button onclick="nextStep()" id="nextBtn">Videre</button>
-
+<button onclick="placeOrder()">Betal nu</button>
 </div>
 
 </div>
 
 <script>
 
-let step = 1;
+let cart = JSON.parse(localStorage.getItem("cart")) || [];
 
-function getCart(){
-return JSON.parse(localStorage.getItem("cart")) || [];
-}
+function renderCart(){
 
-function saveCart(c){
-localStorage.setItem("cart", JSON.stringify(c));
-}
+let box = document.getElementById("cart");
+box.innerHTML="";
 
-/* RENDER STEP */
-function render(){
+let total=0;
 
-let cart = getCart();
+cart.forEach(i=>{
+total += i.price * i.qty;
 
-let left = document.getElementById("left");
-left.innerHTML = "";
-
-if(step === 1){
-
-left.innerHTML = "<h3>Din kurv</h3>";
-
-cart.forEach((item,i)=>{
-
-left.innerHTML += `
-<div class="item">
-<b>${item.name}</b><br>
-${item.top} / ${item.bottom}<br>
-Qty: ${item.qty}
-</div>
+box.innerHTML += `
+<p>${i.name} (${i.top}/${i.bottom}) - ${i.qty}</p>
 `;
-
 });
 
+document.getElementById("total").innerText="Total: "+total+" kr";
 }
 
-if(step === 2){
-
-left.innerHTML = `
-<h3>Adresse</h3>
-<input placeholder="Navn">
-<input placeholder="Adresse">
-<input placeholder="Postnummer">
-<input placeholder="Email">
-`;
-
-}
-
-if(step === 3){
-
-left.innerHTML = `
-<h3>Betaling</h3>
-<p>Kort betaling (demo)</p>
-<input placeholder="Kort nummer">
-<input placeholder="MM/YY">
-<input placeholder="CVC">
-`;
-}
-
-updateSummary();
-updateSteps();
-}
-
-/* SUMMARY */
-function updateSummary(){
-
-let cart = getCart();
-
-document.getElementById("count").innerText =
-"Items: " + cart.length;
-
-let total = 0;
-cart.forEach(i=>total += i.price * i.qty);
-
-document.getElementById("total").innerText =
-"Total: " + total + " kr";
-
-}
-
-/* STEPS UI */
-function updateSteps(){
+function next(step){
 
 document.querySelectorAll(".step").forEach(s=>s.classList.remove("active"));
+document.getElementById("step"+step).classList.add("active");
 
-document.getElementById("s"+step).classList.add("active");
+document.querySelectorAll(".dot").forEach(d=>d.classList.remove("active"));
+document.getElementById("d"+step).classList.add("active");
 
-document.getElementById("nextBtn").innerText =
-step === 3 ? "Betal nu" : "Videre";
+renderCart();
 }
 
-/* FLOW */
-function nextStep(){
-
-if(step < 3){
-step++;
-render();
-return;
-}
-
-/* CHECKOUT */
-let cart = getCart();
-
-if(cart.length === 0){
-alert("Kurven er tom");
-return;
-}
+function placeOrder(){
 
 let orders = JSON.parse(localStorage.getItem("orders")) || [];
 
 orders.push({
-id: Date.now(),
-items: cart,
-total: cart.reduce((a,b)=>a + b.price*b.qty,0)
+id:Date.now(),
+items:cart,
+total:cart.reduce((a,b)=>a+b.price*b.qty,0),
+step:"completed"
 });
 
-localStorage.setItem("orders", JSON.stringify(orders));
+localStorage.setItem("orders",JSON.stringify(orders));
 localStorage.removeItem("cart");
 
 alert("Order placed!");
-
-window.location.href = "index.html";
+window.location.href="index.html";
 }
 
-render();
+renderCart();
 
 </script>
 
