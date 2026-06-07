@@ -18,39 +18,18 @@ background:#fff;
 color:#111;
 }
 
-/* TOP BAR */
-.nav{
-height:80px;
-display:flex;
-justify-content:space-between;
-align-items:center;
-padding:0 40px;
-border-bottom:1px solid #eee;
-position:fixed;
-top:0;
-width:100%;
-background:#fff;
-z-index:1000;
-}
-
-.logo{
-font-size:22px;
-font-weight:bold;
-}
-
-/* BACK */
 .back{
 position:fixed;
-top:90px;
+top:20px;
 left:20px;
-cursor:pointer;
 font-weight:bold;
+cursor:pointer;
+z-index:9999;
 }
 
-/* MAIN */
 .container{
 max-width:1200px;
-margin:140px auto;
+margin:120px auto;
 display:flex;
 gap:80px;
 padding:0 40px;
@@ -63,9 +42,9 @@ padding:0 40px;
 width:100%;
 border-radius:12px;
 border:1px solid #eee;
+object-fit:cover;
 }
 
-/* thumbnails */
 .thumbs{
 display:flex;
 gap:10px;
@@ -75,23 +54,28 @@ margin-top:10px;
 .thumbs img{
 width:80px;
 height:80px;
-object-fit:cover;
 border-radius:8px;
 cursor:pointer;
 border:1px solid #eee;
+object-fit:cover;
+transition:.2s;
+}
+
+.thumbs img:hover{
+transform:scale(1.05);
 }
 
 /* RIGHT */
 .right{flex:1;}
 
 .title{
-font-size:42px;
+font-size:40px;
 margin-bottom:10px;
 }
 
 .price{
 font-size:24px;
-margin-bottom:20px;
+margin-bottom:15px;
 }
 
 .desc{
@@ -100,9 +84,19 @@ margin-bottom:25px;
 line-height:1.6;
 }
 
+.btn{
+display:inline-block;
+background:#FFD700;
+padding:14px 22px;
+border-radius:10px;
+font-weight:bold;
+cursor:pointer;
+margin-top:20px;
+}
+
 /* SIZE */
 .size-group{
-margin-bottom:20px;
+margin-top:20px;
 }
 
 .size-title{
@@ -128,75 +122,47 @@ background:#FFD700;
 border-color:#FFD700;
 }
 
-/* BUTTON */
-.btn{
-display:inline-block;
-background:#FFD700;
-padding:14px 22px;
-border-radius:10px;
-font-weight:bold;
-cursor:pointer;
-margin-top:20px;
-}
-
-/* SECTIONS */
-.sections{
-max-width:1200px;
-margin:80px auto;
-padding:0 40px;
-}
-
-.section{
-border-top:1px solid #eee;
-padding:40px 0;
-}
-
-.section h2{
-margin-bottom:10px;
-}
-
-.section p{
-color:#666;
-line-height:1.6;
-}
-
 </style>
 </head>
 
 <body>
 
-<div class="nav">
-<div class="logo">MysteryStreetwear</div>
-</div>
-
 <div class="back" onclick="history.back()">← Tilbage</div>
 
 <div class="container">
 
-<!-- LEFT IMAGES -->
+<!-- LEFT -->
 <div class="left">
 
 <img id="mainImg" class="main-img">
 
 <div class="thumbs">
 
-<img onclick="changeImg(this)" src="https://images.unsplash.com/photo-1520975958225-8c8c3d0c0d3b?auto=format&fit=crop&w=300&q=80">
-<img onclick="changeImg(this)" src="https://images.unsplash.com/photo-1520975916090-3105956dac38?auto=format&fit=crop&w=300&q=80">
-<img onclick="changeImg(this)" src="https://images.unsplash.com/photo-1521334884684-d80222895322?auto=format&fit=crop&w=300&q=80">
+<img onclick="changeImg(this)"
+src="https://telecaixa.com/cdn/shop/files/1078.jpg?v=1711978877">
+
+<img onclick="changeImg(this)"
+src="https://images.unsplash.com/photo-1607082349566-187342175e2f?auto=format&fit=crop&w=300&q=80">
+
+<img onclick="changeImg(this)"
+src="https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&w=300&q=80">
 
 </div>
 
 </div>
 
-<!-- RIGHT INFO -->
+<!-- RIGHT -->
 <div class="right">
 
 <div class="title" id="title">Mystery Box</div>
 <div class="price" id="price"></div>
 
 <div class="desc">
-Eksklusive MysteryStreetwear boxes med håndplukkede streetwear items.
-Hver box er unik.
+MysteryStreetwear box med håndplukkede items. Hver box er unik.
+</div>
+
+<div class="btn" onclick="addToCart()">
+Tilføj til kurv
 </div>
 
 <!-- TRØJER -->
@@ -221,33 +187,6 @@ Hver box er unik.
 </div>
 </div>
 
-<div class="btn" onclick="addToCart()">
-Tilføj til kurv
-</div>
-
-</div>
-
-</div>
-
-<!-- INFO -->
-<div class="sections">
-
-<div class="section">
-<h2>Hvad indeholder boksen</h2>
-<p>Hoodies, T-shirts, Cargos, Jackets, Accessories</p>
-</div>
-
-<div class="section">
-<h2>Levering & retur</h2>
-<p>2-5 dage levering • 14 dages retur</p>
-</div>
-
-<div class="section">
-<h2>Størrelsesguide</h2>
-<p>
-Trøjer: 90-114 cm bryst<br>
-Bukser: 74-96 cm talje
-</p>
 </div>
 
 </div>
@@ -261,7 +200,7 @@ const products = {
 basic:{
 name:"Basic Box",
 price:299,
-img:"https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?auto=format&fit=crop&w=900&q=80"
+img:"https://telecaixa.com/cdn/shop/files/1078.jpg?v=1711978877"
 },
 premium:{
 name:"Premium Box",
@@ -294,11 +233,25 @@ selectedSize = el.innerText;
 }
 
 function addToCart(){
+
 if(!selectedSize){
 alert("Vælg størrelse");
 return;
 }
-alert("Tilføjet til kurv: " + product.name);
+
+let cart = JSON.parse(localStorage.getItem("cart")) || [];
+
+cart.push({
+id:id,
+name:product.name,
+price:product.price,
+size:selectedSize,
+img:product.img
+});
+
+localStorage.setItem("cart", JSON.stringify(cart));
+
+alert("Tilføjet til kurv ✔");
 }
 
 </script>
