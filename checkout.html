@@ -7,13 +7,51 @@
 
 <style>
 
-body{font-family:Arial;background:#f6f6f6;margin:0;}
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:Arial;
+}
 
+body{
+background:#f6f6f6;
+}
+
+/* HEADER */
+.header{
+background:#fff;
+padding:20px;
+text-align:center;
+border-bottom:1px solid #eee;
+}
+
+/* PROGRESS */
+.progress{
+display:flex;
+justify-content:center;
+gap:10px;
+margin:20px 0;
+}
+
+.step{
+padding:8px 14px;
+border-radius:20px;
+background:#eee;
+font-size:13px;
+}
+
+.step.active{
+background:#111;
+color:#fff;
+}
+
+/* CONTAINER */
 .container{
 max-width:1000px;
-margin:40px auto;
+margin:auto;
 display:grid;
-grid-template-columns:2fr 1fr;
+grid-template-columns:1.5fr 1fr;
 gap:20px;
 padding:20px;
 }
@@ -21,17 +59,19 @@ padding:20px;
 .box{
 background:#fff;
 padding:20px;
-border-radius:12px;
+border-radius:14px;
+border:1px solid #eee;
 }
 
+/* ITEMS */
 .item{
 border-bottom:1px solid #eee;
-padding:10px 0;
+padding:12px 0;
 }
 
 button{
 width:100%;
-padding:14px;
+padding:12px;
 background:#111;
 color:#fff;
 border:none;
@@ -40,38 +80,46 @@ margin-top:10px;
 cursor:pointer;
 }
 
-.step{
-padding:10px;
-margin-bottom:10px;
-background:#f1f1f1;
+input{
+width:100%;
+padding:12px;
+margin-top:10px;
+border:1px solid #ddd;
 border-radius:8px;
 }
 
-.step.active{
-background:#111;
-color:#fff;
-}
+.hidden{display:none;}
+
 </style>
+
 </head>
 
 <body>
 
+<div class="header">
+<h1>Checkout</h1>
+
+<div class="progress">
+<div class="step active" id="s1">Kurv</div>
+<div class="step" id="s2">Adresse</div>
+<div class="step" id="s3">Betaling</div>
+</div>
+
+</div>
+
 <div class="container">
 
-<div class="box" id="cartBox"></div>
+<!-- LEFT -->
+<div class="box" id="left"></div>
 
+<!-- RIGHT -->
 <div class="box">
 
-<div class="step active">1. Kurv</div>
-<div class="step">2. Info</div>
-<div class="step">3. Betaling</div>
-
 <h3>Summary</h3>
-
 <p id="count"></p>
 <p id="total"></p>
 
-<button onclick="checkout()">Betal (demo)</button>
+<button onclick="nextStep()" id="nextBtn">Videre</button>
 
 </div>
 
@@ -79,56 +127,127 @@ color:#fff;
 
 <script>
 
+let step = 1;
+
 function getCart(){
 return JSON.parse(localStorage.getItem("cart")) || [];
 }
 
 function saveCart(c){
-localStorage.setItem("cart",JSON.stringify(c));
+localStorage.setItem("cart", JSON.stringify(c));
 }
 
+/* RENDER STEP */
 function render(){
 
-let cart=getCart();
-let box=document.getElementById("cartBox");
+let cart = getCart();
 
-box.innerHTML="";
+let left = document.getElementById("left");
+left.innerHTML = "";
 
-let total=0;
+if(step === 1){
+
+left.innerHTML = "<h3>Din kurv</h3>";
 
 cart.forEach((item,i)=>{
 
-total += item.price;
-
-let div=document.createElement("div");
-div.className="item";
-
-div.innerHTML=`
+left.innerHTML += `
+<div class="item">
 <b>${item.name}</b><br>
 ${item.top} / ${item.bottom}<br>
-<button onclick="remove(${i})">Fjern</button>
+Qty: ${item.qty}
+</div>
 `;
-
-box.appendChild(div);
 
 });
 
-document.getElementById("count").innerText="Items: "+cart.length;
-document.getElementById("total").innerText="Total: "+total+" kr";
+}
+
+if(step === 2){
+
+left.innerHTML = `
+<h3>Adresse</h3>
+<input placeholder="Navn">
+<input placeholder="Adresse">
+<input placeholder="Postnummer">
+<input placeholder="Email">
+`;
 
 }
 
-function remove(i){
-let cart=getCart();
-cart.splice(i,1);
-saveCart(cart);
+if(step === 3){
+
+left.innerHTML = `
+<h3>Betaling</h3>
+<p>Kort betaling (demo)</p>
+<input placeholder="Kort nummer">
+<input placeholder="MM/YY">
+<input placeholder="CVC">
+`;
+}
+
+updateSummary();
+updateSteps();
+}
+
+/* SUMMARY */
+function updateSummary(){
+
+let cart = getCart();
+
+document.getElementById("count").innerText =
+"Items: " + cart.length;
+
+let total = 0;
+cart.forEach(i=>total += i.price * i.qty);
+
+document.getElementById("total").innerText =
+"Total: " + total + " kr";
+
+}
+
+/* STEPS UI */
+function updateSteps(){
+
+document.querySelectorAll(".step").forEach(s=>s.classList.remove("active"));
+
+document.getElementById("s"+step).classList.add("active");
+
+document.getElementById("nextBtn").innerText =
+step === 3 ? "Betal nu" : "Videre";
+}
+
+/* FLOW */
+function nextStep(){
+
+if(step < 3){
+step++;
 render();
+return;
 }
 
-function checkout(){
-alert("Order placed (demo)");
+/* CHECKOUT */
+let cart = getCart();
+
+if(cart.length === 0){
+alert("Kurven er tom");
+return;
+}
+
+let orders = JSON.parse(localStorage.getItem("orders")) || [];
+
+orders.push({
+id: Date.now(),
+items: cart,
+total: cart.reduce((a,b)=>a + b.price*b.qty,0)
+});
+
+localStorage.setItem("orders", JSON.stringify(orders));
 localStorage.removeItem("cart");
-render();
+
+alert("Order placed!");
+
+window.location.href = "index.html";
 }
 
 render();
