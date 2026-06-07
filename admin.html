@@ -1,1 +1,89 @@
+<!DOCTYPE html>
+<html lang="da">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Admin Panel</title>
 
+<style>
+
+body{
+font-family:Arial;
+background:#111;
+color:#fff;
+padding:30px;
+}
+
+.box{
+background:#1e1e1e;
+padding:20px;
+border-radius:12px;
+margin-bottom:15px;
+}
+
+h1{
+margin-bottom:20px;
+}
+
+.order{
+border-bottom:1px solid #333;
+padding:10px 0;
+}
+
+button{
+padding:8px 12px;
+border:none;
+border-radius:8px;
+cursor:pointer;
+margin-top:10px;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<h1>Admin Control Panel</h1>
+
+<div id="orders"></div>
+
+<script>
+
+let orders = JSON.parse(localStorage.getItem("orders")) || [];
+
+function render(){
+
+let box = document.getElementById("orders");
+box.innerHTML = "";
+
+orders.forEach((o,i)=>{
+
+let div = document.createElement("div");
+div.className = "box";
+
+div.innerHTML = `
+<b>Order #${o.id}</b><br>
+Total: ${o.total} kr<br>
+Items: ${o.items.length}<br>
+<button onclick="remove(${i})">Slet order</button>
+`;
+
+box.appendChild(div);
+
+});
+
+}
+
+function remove(i){
+orders.splice(i,1);
+localStorage.setItem("orders",JSON.stringify(orders));
+render();
+}
+
+render();
+
+</script>
+
+</body>
+</html>
