@@ -50,6 +50,15 @@ gap:20px;
 position:relative;
 cursor:pointer;
 font-size:22px;
+transition:.2s;
+}
+
+.cart:hover{
+transform:scale(1.1);
+}
+
+.cart.bounce{
+animation:bounce .4s;
 }
 
 .cart span{
@@ -100,6 +109,7 @@ text-decoration:none;
 color:#111;
 font-size:18px;
 border-bottom:1px solid #eee;
+transition:.2s;
 }
 
 .sidebar a:hover{
@@ -185,11 +195,18 @@ width:300px;
 padding:40px;
 border:1px solid #eee;
 border-radius:20px;
-transition:.3s;
+transition:.4s;
+opacity:0;
+transform:translateY(40px);
+}
+
+.step.show{
+opacity:1;
+transform:translateY(0);
 }
 
 .step:hover{
-transform:translateY(-8px);
+transform:translateY(-10px);
 box-shadow:0 15px 30px rgba(0,0,0,.08);
 }
 
@@ -235,10 +252,16 @@ border-top:1px solid #eee;
 color:#666;
 }
 
-/* ANIMATION */
+/* ANIMATIONS */
 @keyframes fadeUp{
 from{opacity:0;transform:translateY(40px);}
 to{opacity:1;transform:translateY(0);}
+}
+
+@keyframes bounce{
+0%{transform:scale(1);}
+50%{transform:scale(1.3);}
+100%{transform:scale(1);}
 }
 
 </style>
@@ -256,7 +279,7 @@ to{opacity:1;transform:translateY(0);}
 
 <div class="nav-right">
 
-<div class="cart" onclick="goCart()">
+<div class="cart" id="cart" onclick="goCart()">
 🛒
 <span id="cartCount">0</span>
 </div>
@@ -279,10 +302,7 @@ to{opacity:1;transform:translateY(0);}
 <section class="hero">
 <div class="hero-content">
 <h1>STREETWEAR<br>MYSTERY BOXES</h1>
-<p>
-Eksklusive mystery boxes med håndplukkede streetwear items.
-Hver box er sammensat med fokus på kvalitet og stil.
-</p>
+<p>Premium streetwear. Curated. Delivered.</p>
 </div>
 </section>
 
@@ -293,31 +313,16 @@ Hver box er sammensat med fokus på kvalitet og stil.
 <h2>Sådan fungerer det</h2>
 
 <div class="steps">
-<div class="step">
-<span>01</span>
-<h3>Vælg en box</h3>
-<p>Find den mystery box der passer til dig.</p>
-</div>
-
-<div class="step">
-<span>02</span>
-<h3>Vælg størrelse</h3>
-<p>Vi matcher efter din størrelse.</p>
-</div>
-
-<div class="step">
-<span>03</span>
-<h3>Modtag pakken</h3>
-<p>Åbn din mystery box.</p>
-</div>
+<div class="step"> <span>01</span><h3>Vælg box</h3><p>Find din stil</p></div>
+<div class="step"> <span>02</span><h3>Vælg størrelse</h3><p>Perfekt fit</p></div>
+<div class="step"> <span>03</span><h3>Modtag</h3><p>Unbox oplevelse</p></div>
 </div>
 
 </div>
 
 <div class="about-box">
-<h2>Om MysteryStreetwear</h2>
-<p>Vi laver premium mystery boxes til streetwear lovers.</p>
-<p>Fokus på kvalitet, stil og overraskelse.</p>
+<h2>Om os</h2>
+<p>Streetwear mystery boxes med kvalitet og stil.</p>
 </div>
 
 </section>
@@ -345,13 +350,33 @@ window.location.href = "cart.html";
 }
 
 /* CART COUNT */
-function updateCartCount(){
+function updateCart(){
 let cart = JSON.parse(localStorage.getItem("cart")) || [];
 document.getElementById("cartCount").innerText = cart.length;
 }
 
-updateCartCount();
-window.addEventListener("focus", updateCartCount);
+/* BOUNCE EFFECT WHEN UPDATED */
+function addBounce(){
+let cart = document.getElementById("cart");
+cart.classList.add("bounce");
+setTimeout(()=>cart.classList.remove("bounce"),400);
+}
+
+/* SCROLL ANIMATION */
+function reveal(){
+document.querySelectorAll(".step").forEach(el=>{
+let top = el.getBoundingClientRect().top;
+if(top < window.innerHeight - 100){
+el.classList.add("show");
+}
+});
+}
+
+window.addEventListener("scroll",reveal);
+window.addEventListener("load",reveal);
+
+/* INIT */
+updateCart();
 
 </script>
 
