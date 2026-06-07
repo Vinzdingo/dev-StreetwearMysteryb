@@ -50,18 +50,22 @@ margin-top:10px;
 
 <script>
 
-let orders = JSON.parse(localStorage.getItem("orders")) || [];
+function getOrders(){
+return JSON.parse(localStorage.getItem("orders")) || [];
+}
+
+function saveOrders(o){
+localStorage.setItem("orders", JSON.stringify(o));
+}
 
 function render(){
+
+let orders = getOrders();
 
 let box = document.getElementById("orders");
 box.innerHTML = "";
 
-let revenue = 0;
-
 orders.forEach((o,i)=>{
-
-revenue += o.total;
 
 let div = document.createElement("div");
 div.className = "box";
@@ -70,7 +74,7 @@ div.innerHTML = `
 <b>Order #${o.id}</b><br>
 Total: ${o.total} kr<br>
 Items: ${o.items.length}<br>
-<button onclick="remove(${i})">Slet order</button>
+<button onclick="remove(${i})">Slet</button>
 `;
 
 box.appendChild(div);
@@ -80,9 +84,15 @@ box.appendChild(div);
 }
 
 function remove(i){
+
+let orders = getOrders();
+
 orders.splice(i,1);
-localStorage.setItem("orders", JSON.stringify(orders));
+
+saveOrders(orders);
+
 render();
+
 }
 
 render();
