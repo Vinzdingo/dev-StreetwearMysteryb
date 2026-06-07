@@ -3,94 +3,260 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Product</title>
+<title>Product - MysteryStreetwear</title>
 
 <style>
-body{font-family:Arial;padding:20px;}
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:Arial, sans-serif;
+}
 
+body{
+background:#fff;
+color:#111;
+padding-bottom:80px;
+}
+
+/* BACK BUTTON */
 .back{
 position:fixed;
 top:20px;
 left:20px;
-cursor:pointer;
-padding:10px;
+padding:10px 14px;
 border:1px solid #eee;
 border-radius:10px;
+cursor:pointer;
 background:#fff;
+z-index:9999;
+font-size:14px;
 }
 
-.sizes{display:flex;gap:10px;margin:10px 0;}
+/* LAYOUT */
+.container{
+max-width:1100px;
+margin:120px auto;
+padding:20px;
+display:grid;
+grid-template-columns:1fr 1fr;
+gap:40px;
+}
+
+/* IMAGE */
+.image img{
+width:100%;
+border-radius:12px;
+border:1px solid #eee;
+}
+
+/* TITLE */
+h1{
+font-size:34px;
+margin-bottom:10px;
+}
+
+.price{
+color:#666;
+margin-bottom:20px;
+}
+
+/* SIZES */
+.sizes{
+display:flex;
+gap:10px;
+flex-wrap:wrap;
+margin:10px 0 20px;
+}
 
 .size{
-padding:10px;
+padding:10px 14px;
 border:1px solid #ddd;
+border-radius:8px;
 cursor:pointer;
+transition:.2s;
+font-size:14px;
 }
 
-.size.active{background:#111;color:#fff;}
+.size.active{
+background:#111;
+color:#fff;
+}
 
+/* BUTTON */
 button{
-margin-top:20px;
-padding:12px;
 width:100%;
+padding:14px;
+border:none;
+background:#111;
+color:#fff;
+border-radius:10px;
+cursor:pointer;
+margin-top:20px;
+font-size:15px;
 }
+
+/* FOLD OUT */
+.item{
+border:1px solid #eee;
+border-radius:10px;
+margin-top:15px;
+overflow:hidden;
+}
+
+.title{
+padding:14px;
+cursor:pointer;
+display:flex;
+justify-content:space-between;
+font-size:14px;
+}
+
+.content{
+display:none;
+padding:14px;
+border-top:1px solid #eee;
+color:#666;
+font-size:14px;
+}
+
+table{
+width:100%;
+border-collapse:collapse;
+margin-top:10px;
+}
+
+td,th{
+border:1px solid #eee;
+padding:8px;
+font-size:13px;
+text-align:left;
+}
+
 </style>
 </head>
 
 <body>
 
+<!-- BACK -->
 <div class="back" onclick="history.back()">← Tilbage</div>
 
-<h1>Mystery Box</h1>
+<div class="container">
 
-<h3>Trøje</h3>
-<div class="sizes" id="top">
+<!-- IMAGE -->
+<div class="image">
+<img src="https://telecaixa.com/cdn/shop/files/1078.jpg?v=1711978877">
+</div>
+
+<!-- INFO -->
+<div>
+
+<h1 id="title">Mystery Box</h1>
+<div class="price">299 - 799 kr</div>
+
+<p style="color:#666;margin-bottom:15px;">
+Vælg dine størrelser
+</p>
+
+<!-- TOP SIZE -->
+<h3>Trøje størrelse</h3>
+<div class="sizes" id="topSizes">
 <div class="size" onclick="select(this,'top')">S</div>
 <div class="size" onclick="select(this,'top')">M</div>
 <div class="size" onclick="select(this,'top')">L</div>
+<div class="size" onclick="select(this,'top')">XL</div>
 </div>
 
-<h3>Bukser</h3>
-<div class="sizes" id="bottom">
+<!-- BOTTOM SIZE -->
+<h3>Bukse størrelse</h3>
+<div class="sizes" id="bottomSizes">
 <div class="size" onclick="select(this,'bottom')">28</div>
 <div class="size" onclick="select(this,'bottom')">30</div>
 <div class="size" onclick="select(this,'bottom')">32</div>
+<div class="size" onclick="select(this,'bottom')">34</div>
 </div>
 
-<button onclick="add()">Tilføj til kurv</button>
+<!-- GUIDES -->
+<div class="item" onclick="toggle(this)">
+<div class="title">Trøje størrelsesguide <span>+</span></div>
+<div class="content">
+<table>
+<tr><th>Size</th><th>Bryst (cm)</th></tr>
+<tr><td>S</td><td>86-92</td></tr>
+<tr><td>M</td><td>92-98</td></tr>
+<tr><td>L</td><td>98-104</td></tr>
+<tr><td>XL</td><td>104-110</td></tr>
+</table>
+</div>
+</div>
+
+<div class="item" onclick="toggle(this)">
+<div class="title">Bukse størrelsesguide <span>+</span></div>
+<div class="content">
+<table>
+<tr><th>Size</th><th>CM</th></tr>
+<tr><td>28</td><td>71-73</td></tr>
+<tr><td>30</td><td>76-78</td></tr>
+<tr><td>32</td><td>81-83</td></tr>
+<tr><td>34</td><td>86-88</td></tr>
+</table>
+</div>
+</div>
+
+<div class="item" onclick="toggle(this)">
+<div class="title">Levering <span>+</span></div>
+<div class="content">
+2-5 dage levering. 14 dages retur.
+</div>
+</div>
+
+<button onclick="addToCart()">Tilføj til kurv</button>
+
+</div>
+</div>
 
 <script>
 
-let topSize=null;
-let bottomSize=null;
+let selectedTop = null;
+let selectedBottom = null;
 
+/* SIZE SELECT */
 function select(el,type){
 
-document.querySelectorAll("#"+type+" .size").forEach(e=>e.classList.remove("active"));
+document.querySelectorAll("#"+type+"Sizes .size")
+.forEach(e=>e.classList.remove("active"));
+
 el.classList.add("active");
 
-if(type==="top") topSize=el.innerText;
-if(type==="bottom") bottomSize=el.innerText;
+if(type==="top") selectedTop = el.innerText;
+if(type==="bottom") selectedBottom = el.innerText;
 }
 
-function add(){
+/* FOLD OUT */
+function toggle(el){
+let content = el.querySelector(".content");
+content.style.display = content.style.display==="block" ? "none" : "block";
+}
 
-if(!topSize || !bottomSize){
-alert("Vælg størrelser");
+/* ADD TO CART */
+function addToCart(){
+
+if(!selectedTop || !selectedBottom){
+alert("Vælg både trøje og bukse størrelse");
 return;
 }
 
 let cart = JSON.parse(localStorage.getItem("cart")) || [];
 
 cart.push({
-name:"Mystery Box",
-top:topSize,
-bottom:bottomSize
+name: document.getElementById("title").innerText,
+top:selectedTop,
+bottom:selectedBottom
 });
 
-localStorage.setItem("cart",JSON.stringify(cart));
+localStorage.setItem("cart", JSON.stringify(cart));
 
-alert("Tilføjet til kurv");
+alert("Tilføjet til kurv ✔");
 }
 
 </script>
