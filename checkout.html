@@ -1,45 +1,152 @@
 <!DOCTYPE html>
+
 <html lang="da">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Checkout</title>
+<title>Checkout - MysteryStreetwear</title>
 
 <style>
-body{font-family:Arial;background:#f7f7f7;padding:30px;}
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:Arial,sans-serif;
+}
+
+body{
+background:#f7f7f7;
+color:#111;
+padding:40px 20px;
+}
+
+.back{
+display:inline-block;
+margin-bottom:25px;
+padding:10px 16px;
+background:#fff;
+border:1px solid #eee;
+border-radius:10px;
+text-decoration:none;
+color:#111;
+}
+
+h1{
+margin-bottom:25px;
+}
 
 .container{
-max-width:900px;
+max-width:1200px;
 margin:auto;
 display:grid;
 grid-template-columns:2fr 1fr;
-gap:20px;
+gap:25px;
 }
 
 .box{
 background:#fff;
-padding:20px;
-border-radius:12px;
+padding:25px;
+border-radius:16px;
+box-shadow:0 2px 8px rgba(0,0,0,.04);
 }
 
 .item{
-border-bottom:1px solid #eee;
-padding:10px 0;
+border:1px solid #eee;
+padding:18px;
+border-radius:12px;
+margin-bottom:15px;
 }
 
-button{
+.item-title{
+font-size:18px;
+font-weight:bold;
+margin-bottom:10px;
+}
+
+.item-info{
+color:#666;
+margin-bottom:10px;
+}
+
+.price{
+font-weight:bold;
+margin-bottom:10px;
+}
+
+.remove{
+background:#f3f3f3;
+color:#111;
+border:none;
+padding:10px;
+border-radius:8px;
+cursor:pointer;
+}
+
+.summary-title{
+font-size:22px;
+margin-bottom:20px;
+}
+
+.row{
+display:flex;
+justify-content:space-between;
+padding:12px 0;
+}
+
+.total{
+border-top:1px solid #eee;
+margin-top:10px;
+padding-top:15px;
+font-weight:bold;
+font-size:20px;
+}
+
+.checkout-btn{
 width:100%;
-padding:12px;
+padding:14px;
+border:none;
 background:#111;
 color:#fff;
-border:none;
-margin-top:10px;
+border-radius:10px;
+cursor:pointer;
+margin-top:20px;
+font-size:16px;
+}
+
+.badges{
+margin-top:25px;
+}
+
+.badge{
+padding:10px 0;
+color:#555;
+font-size:14px;
+}
+
+.empty{
+text-align:center;
+color:#666;
+padding:40px;
+}
+
+@media(max-width:900px){
+
+.container{
+grid-template-columns:1fr;
+}
+
 }
 
 </style>
+
 </head>
 
 <body>
+
+<a href="index.html" class="back">
+← Tilbage til shoppen
+</a>
 
 <h1>Checkout</h1>
 
@@ -48,56 +155,155 @@ margin-top:10px;
 <div class="box" id="cartBox"></div>
 
 <div class="box">
-<h3>Summary</h3>
-<p id="count"></p>
-<p id="total"></p>
-<button onclick="checkout()">Betal</button>
+
+<div class="summary-title">
+Ordreoversigt
+</div>
+
+<div class="row">
+<span>Antal varer</span>
+<span id="count">0</span>
+</div>
+
+<div class="row">
+<span>Subtotal</span>
+<span id="subtotal">0 kr</span>
+</div>
+
+<div class="row">
+<span>Fragt</span>
+<span>39 kr</span>
+</div>
+
+<div class="row total">
+<span>Total</span>
+<span id="total">0 kr</span>
+</div>
+
+<button class="checkout-btn" onclick="checkout()">
+Gennemfør ordre
+</button>
+
+<div class="badges">
+
+<div class="badge">
+- Hurtig levering
+</div>
+
+<div class="badge">
+- Sikker betaling
+</div>
+
+<div class="badge">
+- Håndplukkede items
+</div>
+
+<div class="badge">
+- Premium mystery boxes
+</div>
+
+</div>
+
 </div>
 
 </div>
 
 <script>
 
-let cart = JSON.parse(localStorage.getItem("cart")) || [];
+let cart =
+JSON.parse(localStorage.getItem("cart")) || [];
 
 function render(){
 
-let box=document.getElementById("cartBox");
-box.innerHTML="";
+let box =
+document.getElementById("cartBox");
 
-cart.forEach((item,i)=>{
+if(cart.length === 0){
 
-let div=document.createElement("div");
-div.className="item";
+box.innerHTML = `
+<div class="empty">
+Din kurv er tom
+</div>
+`;
 
-div.innerHTML=`
-<b>${item.name}</b><br>
-${item.top} / ${item.bottom}<br>
-<button onclick="remove(${i})">Fjern</button>
+document.getElementById("count").innerText = "0";
+document.getElementById("subtotal").innerText = "0 kr";
+document.getElementById("total").innerText = "39 kr";
+
+return;
+}
+
+box.innerHTML = "";
+
+let subtotal = 0;
+
+cart.forEach((item,index)=>{
+
+subtotal += item.price || 299;
+
+let div = document.createElement("div");
+
+div.className = "item";
+
+div.innerHTML = `
+<div class="item-title">
+${item.name}
+</div>
+
+<div class="item-info">
+Trøje: ${item.top}<br>
+Bukser: ${item.bottom}
+</div>
+
+<div class="price">
+${item.price || 299} kr
+</div>
+
+<button class="remove"
+onclick="removeItem(${index})">
+Fjern vare
+</button>
 `;
 
 box.appendChild(div);
 
 });
 
-document.getElementById("count").innerText="Items: "+cart.length;
+let shipping = 39;
+let total = subtotal + shipping;
 
-let total=0;
-cart.forEach(i=>total+=i.price||299);
+document.getElementById("count").innerText =
+cart.length;
 
-document.getElementById("total").innerText="Total: "+total+" kr";
+document.getElementById("subtotal").innerText =
+subtotal + " kr";
+
+document.getElementById("total").innerText =
+total + " kr";
+
 }
 
-function remove(i){
-cart.splice(i,1);
-localStorage.setItem("cart",JSON.stringify(cart));
+function removeItem(index){
+
+cart.splice(index,1);
+
+localStorage.setItem(
+"cart",
+JSON.stringify(cart)
+);
+
 render();
+
 }
 
 function checkout(){
-alert("Order placed (demo)");
+
+alert("Tak for din ordre!");
+
 localStorage.removeItem("cart");
-location.reload();
+
+window.location.href = "index.html";
+
 }
 
 render();
