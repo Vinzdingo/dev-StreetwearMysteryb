@@ -162,9 +162,6 @@ body{
 
 <p>Eksklusive mystery boxes med håndplukkede streetwear items.</p>
 
-<a href="product.html?id=basic" class="btn">Udforsk</a>
-```
-
   </div>
 
 </section>
@@ -173,6 +170,20 @@ body{
 function toggleMenu(){
   document.getElementById("sidebar").classList.toggle("active");
 }
+
+document.addEventListener("click", function(e){
+
+  const sidebar = document.getElementById("sidebar");
+  const button = document.querySelector(".menu-btn");
+
+  if(
+    !sidebar.contains(e.target) &&
+    !button.contains(e.target)
+  ){
+    sidebar.classList.remove("active");
+  }
+
+});
 </script>
 
 </body>
