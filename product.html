@@ -3,20 +3,20 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Product | MysteryStreetwear</title>
+<title>Product - MysteryStreetwear</title>
 
 <style>
 *{
 margin:0;
 padding:0;
 box-sizing:border-box;
-font-family:Arial, sans-serif;
+font-family:Arial;
 }
 
 body{
 background:#fff;
 color:#111;
-overflow-x:hidden;
+padding-bottom:100px;
 }
 
 /* NAVBAR */
@@ -25,7 +25,7 @@ height:80px;
 display:flex;
 justify-content:space-between;
 align-items:center;
-padding:0 40px;
+padding:0 30px;
 border-bottom:1px solid #eee;
 position:fixed;
 top:0;
@@ -35,66 +35,40 @@ z-index:1000;
 }
 
 .logo{
-font-size:22px;
-font-weight:700;
-}
-
-/* BACK BUTTON */
-.back{
-cursor:pointer;
-font-size:16px;
-color:#555;
+font-size:20px;
+font-weight:bold;
 }
 
 /* LAYOUT */
 .container{
 max-width:1100px;
 margin:120px auto;
-display:flex;
-gap:50px;
-padding:0 20px;
+padding:20px;
+display:grid;
+grid-template-columns:1fr 1fr;
+gap:40px;
 }
 
-/* LEFT */
-.left{
-flex:1;
-}
-
-.main-img{
+/* IMAGE */
+.image{
 width:100%;
-height:420px;
-object-fit:cover;
 border-radius:12px;
+overflow:hidden;
 border:1px solid #eee;
 }
 
-.thumbs{
-display:flex;
-gap:10px;
-margin-top:10px;
+.image img{
+width:100%;
+display:block;
 }
 
-.thumbs img{
-width:70px;
-height:70px;
-object-fit:cover;
-border-radius:8px;
-cursor:pointer;
-border:1px solid #eee;
-}
-
-/* RIGHT */
-.right{
-flex:1;
-}
-
-.right h1{
-font-size:32px;
+/* INFO */
+h1{
+font-size:34px;
 margin-bottom:10px;
 }
 
 .price{
-font-size:20px;
 color:#666;
 margin-bottom:20px;
 }
@@ -103,7 +77,7 @@ margin-bottom:20px;
 .sizes{
 display:flex;
 gap:10px;
-margin:15px 0;
+margin:10px 0 20px;
 flex-wrap:wrap;
 }
 
@@ -118,59 +92,88 @@ transition:.2s;
 .size.active{
 background:#111;
 color:#fff;
-border-color:#111;
 }
 
-/* ADD BUTTON */
-.add{
-margin-top:20px;
+/* BUTTON */
+button{
 width:100%;
 padding:14px;
-background:#FFD700;
 border:none;
+background:#111;
+color:#fff;
 border-radius:10px;
 cursor:pointer;
-font-size:16px;
-font-weight:bold;
+margin-top:20px;
 }
 
-/* FOLDERS */
-.details{
-margin-top:40px;
-border-top:1px solid #eee;
-}
-
+/* FOLD OUT */
 .item{
-border-bottom:1px solid #eee;
-padding:15px 0;
-cursor:pointer;
+border:1px solid #eee;
+margin-top:15px;
+border-radius:10px;
+overflow:hidden;
 }
 
 .title{
+padding:14px;
+cursor:pointer;
 display:flex;
 justify-content:space-between;
-font-weight:600;
 }
 
 .content{
 display:none;
-margin-top:10px;
+padding:14px;
+border-top:1px solid #eee;
 color:#666;
-font-size:14px;
 }
 
-/* TABLE */
 table{
 width:100%;
 border-collapse:collapse;
-margin-top:10px;
-font-size:14px;
 }
 
 td,th{
 border:1px solid #eee;
 padding:8px;
-text-align:left;
+font-size:14px;
+}
+
+/* CART POPUP */
+.popup{
+position:fixed;
+bottom:20px;
+right:20px;
+background:#111;
+color:#fff;
+padding:15px;
+border-radius:12px;
+display:none;
+flex-direction:column;
+gap:10px;
+z-index:9999;
+}
+
+.popup button{
+background:#fff;
+color:#111;
+padding:10px;
+border-radius:8px;
+border:none;
+cursor:pointer;
+}
+
+/* MINI CART BUTTON */
+.top-cart{
+position:fixed;
+top:25px;
+right:25px;
+background:#111;
+color:#fff;
+padding:10px 14px;
+border-radius:10px;
+cursor:pointer;
+font-size:14px;
 }
 
 </style>
@@ -179,122 +182,159 @@ text-align:left;
 <body>
 
 <div class="navbar">
-<div class="back" onclick="history.back()">← Tilbage</div>
 <div class="logo">MysteryStreetwear</div>
+</div>
+
+<!-- CART BUTTON -->
+<div class="top-cart" onclick="goCart()">
+🛒 Kurv
 </div>
 
 <div class="container">
 
-<!-- LEFT -->
-<div class="left">
-<img id="mainImg" class="main-img" src="https://telecaixa.com/cdn/shop/files/1078.jpg?v=1711978877">
-
-<div class="thumbs">
-<img src="https://telecaixa.com/cdn/shop/files/1078.jpg?v=1711978877" onclick="changeImg(this)">
-<img src="https://images.unsplash.com/photo-1521334884684-d80222895322?auto=format&fit=crop&w=900&q=80" onclick="changeImg(this)">
-<img src="https://images.unsplash.com/photo-1520975916090-3105956dac38?auto=format&fit=crop&w=900&q=80" onclick="changeImg(this)">
-</div>
+<!-- IMAGE -->
+<div class="image">
+<img src="https://telecaixa.com/cdn/shop/files/1078.jpg?v=1711978877">
 </div>
 
-<!-- RIGHT -->
-<div class="right">
-<h1 id="title">Basic Box</h1>
-<div class="price">299 kr</div>
+<!-- INFO -->
+<div>
 
-<p>Premium mystery box med streetwear items udvalgt til din stil.</p>
+<h1 id="title">Mystery Box</h1>
+<div class="price">299 - 799 kr</div>
 
-<h3 style="margin-top:20px;">Størrelse</h3>
+<p style="color:#666;margin-bottom:15px;">
+Vælg din størrelse og tilføj til kurv
+</p>
 
-<div class="sizes">
-<div class="size" onclick="selectSize(this)">S</div>
-<div class="size" onclick="selectSize(this)">M</div>
-<div class="size" onclick="selectSize(this)">L</div>
-<div class="size" onclick="selectSize(this)">XL</div>
+<!-- TRØJE SIZE -->
+<h3>Trøje størrelse</h3>
+<div class="sizes" id="topSizes">
+<div class="size" onclick="selectSize(this,'top')">S</div>
+<div class="size" onclick="selectSize(this,'top')">M</div>
+<div class="size" onclick="selectSize(this,'top')">L</div>
+<div class="size" onclick="selectSize(this,'top')">XL</div>
 </div>
 
-<button class="add" onclick="addToCart()">Add to cart</button>
+<!-- BUKSER SIZE -->
+<h3>Bukse størrelse</h3>
+<div class="sizes" id="bottomSizes">
+<div class="size" onclick="selectSize(this,'bottom')">28</div>
+<div class="size" onclick="selectSize(this,'bottom')">30</div>
+<div class="size" onclick="selectSize(this,'bottom')">32</div>
+<div class="size" onclick="selectSize(this,'bottom')">34</div>
+</div>
 
-<!-- FOLDERS -->
-<div class="details">
-
+<!-- SIZE GUIDES -->
 <div class="item" onclick="toggle(this)">
-<div class="title">Størrelsesguide <span>+</span></div>
+<div class="title">Trøje størrelsesguide <span>+</span></div>
 <div class="content">
 <table>
-<tr><th>Størrelse</th><th>Bryst</th></tr>
-<tr><td>S</td><td>86-92 cm</td></tr>
-<tr><td>M</td><td>92-98 cm</td></tr>
-<tr><td>L</td><td>98-104 cm</td></tr>
-<tr><td>XL</td><td>104-110 cm</td></tr>
+<tr><th>Size</th><th>Bryst</th></tr>
+<tr><td>S</td><td>86-92</td></tr>
+<tr><td>M</td><td>92-98</td></tr>
+<tr><td>L</td><td>98-104</td></tr>
+<tr><td>XL</td><td>104-110</td></tr>
 </table>
 </div>
 </div>
 
 <div class="item" onclick="toggle(this)">
-<div class="title">Hvad indeholder boksen <span>+</span></div>
+<div class="title">Bukse størrelsesguide <span>+</span></div>
 <div class="content">
-T-shirts, hoodies, accessories og eksklusive streetwear items.
+<table>
+<tr><th>Size</th><th>CM</th></tr>
+<tr><td>28</td><td>71-73</td></tr>
+<tr><td>30</td><td>76-78</td></tr>
+<tr><td>32</td><td>81-83</td></tr>
+<tr><td>34</td><td>86-88</td></tr>
+</table>
 </div>
 </div>
 
+<!-- DELIVERY -->
 <div class="item" onclick="toggle(this)">
-<div class="title">Levering & retur <span>+</span></div>
+<div class="title">Levering <span>+</span></div>
 <div class="content">
-Levering 2-5 dage. 14 dages returret.
+2-5 dage levering. 14 dages retur.
 </div>
 </div>
 
-<div class="item" onclick="toggle(this)">
-<div class="title">FAQ <span>+</span></div>
-<div class="content">
-Alle boxe er unikke og håndplukket.
+<button onclick="addToCart()">Tilføj til kurv</button>
+
 </div>
 </div>
 
-</div>
-
-</div>
-
+<!-- POPUP -->
+<div class="popup" id="popup">
+<div id="popupText"></div>
+<button onclick="goCart()">Gå til kurv</button>
+<button onclick="continueShop()">Shop videre</button>
 </div>
 
 <script>
 
-let selectedSize = null;
+let selectedTop = null;
+let selectedBottom = null;
 
-/* IMAGE SWITCH */
-function changeImg(el){
-document.getElementById("mainImg").src = el.src;
+/* SIZE SELECT */
+function selectSize(el,type){
+
+if(type==="top"){
+document.querySelectorAll("#topSizes .size").forEach(s=>s.classList.remove("active"));
+selectedTop = el.innerText;
 }
 
-/* SIZE */
-function selectSize(el){
-document.querySelectorAll(".size").forEach(s=>s.classList.remove("active"));
+if(type==="bottom"){
+document.querySelectorAll("#bottomSizes .size").forEach(s=>s.classList.remove("active"));
+selectedBottom = el.innerText;
+}
+
 el.classList.add("active");
-selectedSize = el.innerText;
 }
 
-/* FOLDERS */
+/* FOLD OUT */
 function toggle(el){
 let content = el.querySelector(".content");
 content.style.display = content.style.display==="block" ? "none" : "block";
 }
 
-/* CART */
+/* ADD TO CART */
 function addToCart(){
-let title = document.getElementById("title").innerText;
 
-if(!selectedSize){
-alert("Vælg størrelse først");
+if(!selectedTop || !selectedBottom){
+alert("Vælg både trøje og bukse størrelse");
 return;
 }
 
 let cart = JSON.parse(localStorage.getItem("cart")) || [];
 
-cart.push(title + " - " + selectedSize);
+cart.push({
+name: document.getElementById("title").innerText,
+top:selectedTop,
+bottom:selectedBottom
+});
 
 localStorage.setItem("cart", JSON.stringify(cart));
 
-alert("Tilføjet til kurv!");
+showPopup();
+}
+
+/* POPUP */
+function showPopup(){
+document.getElementById("popupText").innerText =
+"Tilføjet til kurv ✔";
+
+document.getElementById("popup").style.display="flex";
+}
+
+/* NAV */
+function goCart(){
+window.location.href="cart.html";
+}
+
+function continueShop(){
+document.getElementById("popup").style.display="none";
 }
 
 </script>
