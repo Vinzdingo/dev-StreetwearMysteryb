@@ -2,19 +2,66 @@
 <html lang="da">
 <head>
 <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Checkout</title>
 
 <style>
-body{font-family:Arial;background:#f6f6f6;padding:20px;}
-
-.container{
-max-width:900px;
-margin:auto;
-background:#fff;
-padding:20px;
-border-radius:12px;
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:Arial;
 }
 
+body{
+background:#f5f6f8;
+}
+
+/* HEADER */
+.header{
+background:#fff;
+padding:20px;
+text-align:center;
+border-bottom:1px solid #eee;
+}
+
+/* WRAP */
+.container{
+max-width:1000px;
+margin:30px auto;
+display:grid;
+grid-template-columns:1.5fr 1fr;
+gap:20px;
+padding:20px;
+}
+
+/* BOX */
+.box{
+background:#fff;
+border-radius:14px;
+padding:20px;
+border:1px solid #eee;
+}
+
+/* PROGRESS */
+.progress{
+display:flex;
+gap:10px;
+margin-bottom:20px;
+}
+
+.stepDot{
+flex:1;
+height:6px;
+background:#ddd;
+border-radius:10px;
+}
+
+.stepDot.active{
+background:#111;
+}
+
+/* STEPS */
 .step{
 display:none;
 }
@@ -23,71 +70,111 @@ display:none;
 display:block;
 }
 
-.bar{
-display:flex;
-gap:10px;
-margin-bottom:20px;
+/* ITEM */
+.item{
+border-bottom:1px solid #eee;
+padding:12px 0;
+font-size:14px;
 }
 
-.dot{
-flex:1;
-height:6px;
-background:#ddd;
-border-radius:10px;
-}
-
-.dot.active{
-background:#111;
-}
-
-button{
+/* INPUT */
+input{
 width:100%;
 padding:12px;
 margin-top:10px;
-border:none;
+border:1px solid #ddd;
 border-radius:8px;
+}
+
+/* BUTTON */
+button{
+width:100%;
+padding:14px;
+margin-top:10px;
+border:none;
+border-radius:10px;
 background:#111;
 color:#fff;
 cursor:pointer;
+}
+
+.secondary{
+background:#eee;
+color:#111;
+}
+
+/* SUMMARY */
+.total{
+font-size:20px;
+font-weight:bold;
+margin-top:10px;
+}
+
+.small{
+font-size:13px;
+color:#666;
+margin-top:5px;
 }
 </style>
 </head>
 
 <body>
 
+<div class="header">
+<h2>Secure Checkout</h2>
+</div>
+
 <div class="container">
 
-<div class="bar">
-<div class="dot active" id="d1"></div>
-<div class="dot" id="d2"></div>
-<div class="dot" id="d3"></div>
+<!-- LEFT -->
+<div class="box">
+
+<div class="progress">
+<div class="stepDot active" id="dot1"></div>
+<div class="stepDot" id="dot2"></div>
+<div class="stepDot" id="dot3"></div>
 </div>
 
 <!-- STEP 1 -->
 <div class="step active" id="step1">
-<h2>Kurv</h2>
-<div id="cart"></div>
-<button onclick="next(2)">Gå til levering</button>
+<h3>Din kurv</h3>
+<div id="cartBox"></div>
+
+<button onclick="next(2)">Videre</button>
 </div>
 
 <!-- STEP 2 -->
 <div class="step" id="step2">
-<h2>Levering</h2>
+<h3>Levering</h3>
 
+<input placeholder="Email">
 <input placeholder="Navn">
 <input placeholder="Adresse">
-<input placeholder="Postnr">
+<input placeholder="Postnummer">
 
 <button onclick="next(3)">Gå til betaling</button>
+<button class="secondary" onclick="next(1)">Tilbage</button>
 </div>
 
 <!-- STEP 3 -->
 <div class="step" id="step3">
-<h2>Bekræft ordre</h2>
+<h3>Betaling</h3>
 
-<p id="total"></p>
+<p class="small">Dette er demo checkout (ingen rigtig betaling endnu)</p>
 
-<button onclick="placeOrder()">Betal nu</button>
+<div id="summaryTotal"></div>
+
+<button onclick="placeOrder()">Bekræft ordre</button>
+<button class="secondary" onclick="next(2)">Tilbage</button>
+</div>
+
+</div>
+
+<!-- RIGHT -->
+<div class="box">
+<h3>Order summary</h3>
+<p id="count"></p>
+<p class="total" id="total"></p>
 </div>
 
 </div>
@@ -96,22 +183,29 @@ cursor:pointer;
 
 let cart = JSON.parse(localStorage.getItem("cart")) || [];
 
-function renderCart(){
+function render(){
 
-let box = document.getElementById("cart");
-box.innerHTML="";
+let box = document.getElementById("cartBox");
+box.innerHTML = "";
 
-let total=0;
+let total = 0;
 
 cart.forEach(i=>{
 total += i.price * i.qty;
 
 box.innerHTML += `
-<p>${i.name} (${i.top}/${i.bottom}) - ${i.qty}</p>
+<div class="item">
+<b>${i.name}</b><br>
+Size: ${i.top} / ${i.bottom}<br>
+Qty: ${i.qty}
+</div>
 `;
 });
 
-document.getElementById("total").innerText="Total: "+total+" kr";
+document.getElementById("count").innerText = "Items: " + cart.length;
+document.getElementById("total").innerText = total + " kr";
+document.getElementById("summaryTotal").innerHTML =
+"<h2>Total: " + total + " kr</h2>";
 }
 
 function next(step){
@@ -119,31 +213,36 @@ function next(step){
 document.querySelectorAll(".step").forEach(s=>s.classList.remove("active"));
 document.getElementById("step"+step).classList.add("active");
 
-document.querySelectorAll(".dot").forEach(d=>d.classList.remove("active"));
-document.getElementById("d"+step).classList.add("active");
+document.querySelectorAll(".stepDot").forEach(d=>d.classList.remove("active"));
+document.getElementById("dot"+step).classList.add("active");
 
-renderCart();
+render();
 }
 
 function placeOrder(){
 
+if(cart.length === 0){
+alert("Kurven er tom");
+return;
+}
+
 let orders = JSON.parse(localStorage.getItem("orders")) || [];
 
 orders.push({
-id:Date.now(),
-items:cart,
-total:cart.reduce((a,b)=>a+b.price*b.qty,0),
-step:"completed"
+id: Date.now(),
+items: cart,
+total: cart.reduce((a,b)=>a + b.price*b.qty,0),
+date: new Date().toISOString()
 });
 
-localStorage.setItem("orders",JSON.stringify(orders));
+localStorage.setItem("orders", JSON.stringify(orders));
 localStorage.removeItem("cart");
 
 alert("Order placed!");
-window.location.href="index.html";
+window.location.href = "index.html";
 }
 
-renderCart();
+render();
 
 </script>
 
