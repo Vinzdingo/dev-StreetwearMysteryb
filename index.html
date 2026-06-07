@@ -25,9 +25,9 @@ background:#fff;
 z-index:1000;
 }
 
-.logo{font-weight:bold;font-size:22px;}
+.logo{font-size:22px;font-weight:bold;}
 
-.nav-right{display:flex;gap:15px;align-items:center;}
+.nav-right{display:flex;align-items:center;gap:15px;}
 
 .cart{
 position:relative;
@@ -49,10 +49,7 @@ font-size:11px;
 }
 
 /* MENU */
-.menu{
-font-size:28px;
-cursor:pointer;
-}
+.menu-btn{font-size:28px;cursor:pointer;}
 
 /* SIDEBAR */
 .sidebar{
@@ -92,6 +89,7 @@ background:
 linear-gradient(rgba(255,255,255,.7),rgba(255,255,255,.95)),
 url('https://images.unsplash.com/photo-1523398002811-999ca8dec234?auto=format&fit=crop&w=1600&q=80');
 background-size:cover;
+background-position:center;
 }
 
 .hero h1{font-size:58px;}
@@ -114,10 +112,7 @@ border:1px solid #eee;
 padding:25px;
 border-radius:12px;
 text-align:center;
-transition:.2s;
 }
-
-.step:hover{transform:translateY(-5px);}
 
 .step span{
 font-size:40px;
@@ -125,14 +120,11 @@ color:#FFD700;
 font-weight:bold;
 }
 
-.step h3{margin:10px 0;}
-
 </style>
 </head>
 
 <body>
 
-<!-- NAV -->
 <div class="navbar">
 
 <div class="logo">MysteryStreetwear</div>
@@ -140,17 +132,15 @@ font-weight:bold;
 <div class="nav-right">
 
 <div class="cart" onclick="goCart()">
-🛒
-<span id="cartCount">0</span>
+🛒 <span id="cartCount">0</span>
 </div>
 
-<div class="menu" onclick="toggleMenu()">☰</div>
-
-</div>
+<div class="menu-btn" onclick="toggleMenu()">☰</div>
 
 </div>
 
-<!-- SIDEBAR -->
+</div>
+
 <div class="sidebar" id="sidebar">
 <a href="product.html?id=basic">Basic Box</a>
 <a href="product.html?id=premium">Premium Box</a>
@@ -158,7 +148,6 @@ font-weight:bold;
 <a href="cart.html">Kurv</a>
 </div>
 
-<!-- HERO -->
 <div class="hero">
 <div>
 <h1>MYSTERY STREETWEAR</h1>
@@ -166,45 +155,25 @@ font-weight:bold;
 </div>
 </div>
 
-<!-- FLOW 1-2-3 -->
 <div class="steps">
-
-<div class="step">
-<span>1</span>
-<h3>Vælg box</h3>
-<p>Gå i menuen og vælg din box</p>
-</div>
-
-<div class="step">
-<span>2</span>
-<h3>Vi pakker</h3>
-<p>Vi sammensætter dit outfit</p>
-</div>
-
-<div class="step">
-<span>3</span>
-<h3>Modtag</h3>
-<p>Unbox din surprise</p>
-</div>
-
+<div class="step"><span>1</span><h3>Vælg box</h3></div>
+<div class="step"><span>2</span><h3>Vi pakker</h3></div>
+<div class="step"><span>3</span><h3>Unbox</h3></div>
 </div>
 
 <script>
 
 let cart = JSON.parse(localStorage.getItem("cart")) || [];
 
-/* MENU */
+document.getElementById("cartCount").innerText = cart.length;
+
 function toggleMenu(){
 document.getElementById("sidebar").classList.toggle("active");
 }
 
-/* CART */
 function goCart(){
 window.location.href="cart.html";
 }
-
-/* INIT */
-document.getElementById("cartCount").innerText = cart.length;
 
 </script>
 
