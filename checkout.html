@@ -137,11 +137,20 @@ line-height:1.6;
 
 <script>
 
-let cart = JSON.parse(localStorage.getItem("cart")) || [];
-let orders = JSON.parse(localStorage.getItem("orders")) || [];
+function getCart(){
+return JSON.parse(localStorage.getItem("cart")) || [];
+}
+
+function saveCart(cart){
+localStorage.setItem("cart", JSON.stringify(cart));
+}
+
+let cart = getCart();
 
 /* RENDER */
 function render(){
+
+cart = getCart();
 
 let box = document.getElementById("cartBox");
 box.innerHTML = "";
@@ -159,7 +168,7 @@ div.innerHTML = `
 <b>${item.name}</b><br>
 Size: ${item.top} / ${item.bottom}<br>
 Qty: ${item.qty}<br>
-${item.price * item.qty} kr<br><br>
+${item.price * item.qty} kr<br>
 <button onclick="removeItem(${i})">Fjern</button>
 `;
 
@@ -167,19 +176,20 @@ box.appendChild(div);
 
 });
 
-document.getElementById("count").innerText =
-"Items: " + cart.length;
-
-document.getElementById("total").innerText =
-"Total: " + total + " kr";
+document.getElementById("count").innerText = "Items: " + cart.length;
+document.getElementById("total").innerText = "Total: " + total + " kr";
 
 }
 
-/* REMOVE ITEM FIX */
+/* REMOVE FIX */
 function removeItem(index){
 
+let cart = getCart();
+
 cart.splice(index,1);
-localStorage.setItem("cart", JSON.stringify(cart));
+
+saveCart(cart);
+
 render();
 
 }
@@ -187,10 +197,14 @@ render();
 /* CHECKOUT */
 function checkout(){
 
+let cart = getCart();
+
 if(cart.length === 0){
 alert("Kurven er tom");
 return;
 }
+
+let orders = JSON.parse(localStorage.getItem("orders")) || [];
 
 orders.push({
 id: Date.now(),
@@ -204,7 +218,8 @@ localStorage.setItem("orders", JSON.stringify(orders));
 localStorage.removeItem("cart");
 
 alert("Order placed!");
-location.reload();
+
+render();
 }
 
 render();
