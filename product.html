@@ -29,6 +29,7 @@ border:1px solid #eee;
 border-radius:10px;
 cursor:pointer;
 background:#fff;
+z-index:10;
 }
 
 /* LAYOUT */
@@ -47,9 +48,20 @@ border-radius:14px;
 border:1px solid #eee;
 }
 
+/* TITLE */
 h1{font-size:34px;margin-bottom:10px;}
+.price{font-size:20px;margin:10px 0;color:#444;}
 
-/* SIZE */
+/* SIZE SYSTEM */
+.size-group{
+margin:10px 0 20px;
+}
+
+.size-title{
+font-weight:bold;
+margin:10px 0;
+}
+
 .size{
 display:inline-block;
 padding:10px 14px;
@@ -57,6 +69,11 @@ border:1px solid #ddd;
 border-radius:8px;
 margin:5px;
 cursor:pointer;
+transition:.2s;
+}
+
+.size:hover{
+border-color:#111;
 }
 
 .size.active{
@@ -84,7 +101,6 @@ display:none;
 padding:12px;
 }
 
-/* TABLE */
 table{
 width:100%;
 border-collapse:collapse;
@@ -131,42 +147,56 @@ border-radius:8px;
 cursor:pointer;
 }
 
+.cartBtn{background:#FFD700;color:#111;}
+.shop{background:#fff;color:#111;}
+
 </style>
 
 </head>
 
 <body>
 
-<div class="back" onclick="history.back()">← Menu</div>
+<div class="back" onclick="history.back()">← Tilbage</div>
 
 <div class="container">
 
+<!-- IMAGE -->
+<div>
 <img src="https://telecaixa.com/cdn/shop/files/1078.jpg?v=1711978877">
+</div>
 
+<!-- PRODUCT INFO -->
 <div>
 
 <h1>Mystery Box</h1>
+<div class="price">299 kr</div>
 
-<h3>Trøje</h3>
-<div>
-<div class="size" onclick="select(this,'top')">S</div>
-<div class="size" onclick="select(this,'top')">M</div>
-<div class="size" onclick="select(this,'top')">L</div>
-<div class="size" onclick="select(this,'top')">XL</div>
+<p>✓ Håndplukkede items<br>✓ Vælg størrelser<br>✓ Hurtig levering</p>
+
+<!-- TRØJE -->
+<div class="size-group">
+<div class="size-title">Trøje størrelse</div>
+
+<div class="size" onclick="selectSize(this,'top')">S</div>
+<div class="size" onclick="selectSize(this,'top')">M</div>
+<div class="size" onclick="selectSize(this,'top')">L</div>
+<div class="size" onclick="selectSize(this,'top')">XL</div>
 </div>
 
-<h3>Bukse</h3>
-<div>
-<div class="size" onclick="select(this,'bottom')">28</div>
-<div class="size" onclick="select(this,'bottom')">30</div>
-<div class="size" onclick="select(this,'bottom')">32</div>
-<div class="size" onclick="select(this,'bottom')">34</div>
+<!-- BUKSER -->
+<div class="size-group">
+<div class="size-title">Bukse størrelse</div>
+
+<div class="size" onclick="selectSize(this,'bottom')">28</div>
+<div class="size" onclick="selectSize(this,'bottom')">30</div>
+<div class="size" onclick="selectSize(this,'bottom')">32</div>
+<div class="size" onclick="selectSize(this,'bottom')">34</div>
 </div>
 
-<!-- GUIDE (FIXED 100%) -->
+<!-- GUIDE -->
 <div class="guide">
 <div class="guide-title" onclick="toggleGuide(this)">
-📏 Størrelsesguide (klik her)
+📏 Størrelsesguide (klik)
 </div>
 
 <div class="guide-content">
@@ -197,17 +227,13 @@ cursor:pointer;
 <button onclick="addToCart()">Tilføj til kurv</button>
 
 </div>
-
 </div>
 
 <!-- POPUP -->
 <div class="popup" id="popup">
-
-<p>Tilføjet ✔</p>
-
-<button onclick="continueShop()">Shop videre</button>
-<button onclick="goCart()">Kurv</button>
-
+<p>Tilføjet til kurv ✔</p>
+<button class="cartBtn" onclick="goCart()">Gå til kurv</button>
+<button class="shop" onclick="closePopup()">Shop videre</button>
 </div>
 
 <script>
@@ -215,35 +241,34 @@ cursor:pointer;
 let topSize = null;
 let bottomSize = null;
 
-/* SIZE */
-function select(el,type){
+/* SIZE SYSTEM FIXED */
+function selectSize(el,type){
 
-document.querySelectorAll(".size").forEach(e=>e.classList.remove("active"));
+if(type === "top"){
+document.querySelectorAll('[onclick*="top"]').forEach(e=>e.classList.remove("active"));
+topSize = el.innerText;
+}
+
+if(type === "bottom"){
+document.querySelectorAll('[onclick*="bottom"]').forEach(e=>e.classList.remove("active"));
+bottomSize = el.innerText;
+}
+
 el.classList.add("active");
-
-if(type==="top") topSize = el.innerText;
-if(type==="bottom") bottomSize = el.innerText;
-
 }
 
-/* GUIDE FIX (100% WORKING) */
+/* GUIDE FIX */
 function toggleGuide(el){
-
 const content = el.parentElement.querySelector(".guide-content");
-
-if(content.style.display === "block"){
-content.style.display = "none";
-}else{
-content.style.display = "block";
-}
-
+content.style.display =
+content.style.display === "block" ? "none" : "block";
 }
 
 /* CART */
 function addToCart(){
 
 if(!topSize || !bottomSize){
-alert("Vælg størrelser");
+alert("Vælg både trøje og bukse størrelse");
 return;
 }
 
@@ -263,7 +288,7 @@ document.getElementById("popup").style.display = "block";
 }
 
 /* POPUP */
-function continueShop(){
+function closePopup(){
 document.getElementById("popup").style.display = "none";
 }
 
