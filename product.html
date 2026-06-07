@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Product - MysteryStreetwear</title>
+<title>Product</title>
 
 <style>
 
@@ -19,7 +19,6 @@ background:#fff;
 color:#111;
 }
 
-/* BACK */
 .back{
 position:fixed;
 top:20px;
@@ -32,7 +31,6 @@ background:#fff;
 z-index:1000;
 }
 
-/* LAYOUT */
 .container{
 max-width:1100px;
 margin:120px auto;
@@ -65,9 +63,8 @@ line-height:1.7;
 margin:15px 0;
 }
 
-/* SIZE BOXES */
 .sizes{
-margin:10px 0 25px;
+margin:10px 0 20px;
 }
 
 .size{
@@ -76,8 +73,7 @@ padding:10px 14px;
 border:1px solid #ddd;
 border-radius:8px;
 cursor:pointer;
-margin-right:8px;
-margin-top:8px;
+margin:5px;
 }
 
 .size.active{
@@ -85,49 +81,12 @@ background:#111;
 color:#fff;
 }
 
-/* TABLE GUIDE */
-.guide{
-border:1px solid #eee;
-border-radius:12px;
-overflow:hidden;
-margin-top:15px;
-}
-
-.guide-title{
-padding:12px;
-background:#fafafa;
-cursor:pointer;
-font-weight:bold;
-}
-
-.guide-content{
-display:none;
-padding:12px;
-font-size:14px;
-color:#555;
-border-top:1px solid #eee;
-}
-
-table{
-width:100%;
-border-collapse:collapse;
-margin-top:10px;
-}
-
-th,td{
-border:1px solid #eee;
-padding:8px;
-text-align:left;
-font-size:13px;
-}
-
-/* BUTTON */
 button{
 width:100%;
 padding:14px;
-border:none;
 background:#111;
 color:#fff;
+border:none;
 border-radius:10px;
 cursor:pointer;
 margin-top:20px;
@@ -157,15 +116,8 @@ border-radius:8px;
 cursor:pointer;
 }
 
-.shop{
-background:#fff;
-color:#111;
-}
-
-.cartBtn{
-background:#FFD700;
-color:#111;
-}
+.cartBtn{background:#FFD700;color:#111;}
+.shop{background:#fff;color:#111;}
 
 </style>
 
@@ -177,22 +129,17 @@ color:#111;
 
 <div class="container">
 
-<!-- IMAGE -->
-<div>
-<img src="https://telecaixa.com/cdn/shop/files/1078.jpg?v=1711978877">
-</div>
+<img id="img">
 
-<!-- INFO -->
 <div>
 
-<h1>Premium Mystery Box</h1>
-<div class="price">499 kr</div>
+<h1 id="title"></h1>
+<div class="price" id="price"></div>
 
 <div class="bullets">
 ✓ Håndplukkede streetwear items<br>
-✓ Tilpasset dine størrelser<br>
-✓ 1-5 dages levering<br>
-✓ Begrænset antal
+✓ Vælg dine størrelser<br>
+✓ 1-5 dages levering
 </div>
 
 <h3>Trøje størrelse</h3>
@@ -209,34 +156,6 @@ color:#111;
 <div class="size" onclick="select(this,'bottom')">30</div>
 <div class="size" onclick="select(this,'bottom')">32</div>
 <div class="size" onclick="select(this,'bottom')">34</div>
-</div>
-
-<!-- GUIDE TABLES -->
-<div class="guide" onclick="toggleGuide(this)">
-<div class="guide-title">📏 Størrelsesguide (klik)</div>
-<div class="guide-content">
-
-<h4>Trøjer</h4>
-<table>
-<tr><th>Size</th><th>Bryst</th></tr>
-<tr><td>S</td><td>86-92 cm</td></tr>
-<tr><td>M</td><td>92-98 cm</td></tr>
-<tr><td>L</td><td>98-104 cm</td></tr>
-<tr><td>XL</td><td>104-110 cm</td></tr>
-</table>
-
-<br>
-
-<h4>Bukser</h4>
-<table>
-<tr><th>Size</th><th>Talje</th></tr>
-<tr><td>28</td><td>71-73 cm</td></tr>
-<tr><td>30</td><td>76-78 cm</td></tr>
-<tr><td>32</td><td>81-83 cm</td></tr>
-<tr><td>34</td><td>86-88 cm</td></tr>
-</table>
-
-</div>
 </div>
 
 <button onclick="addToCart()">Tilføj til kurv</button>
@@ -260,10 +179,41 @@ color:#111;
 let selectedTop = null;
 let selectedBottom = null;
 
+/* PRODUCTS */
+const products = {
+basic:{
+name:"Basic Box",
+price:299,
+img:"https://telecaixa.com/cdn/shop/files/1078.jpg?v=1711978877"
+},
+premium:{
+name:"Premium Box",
+price:499,
+img:"https://images.unsplash.com/photo-1521334884684-d80222895322?auto=format&fit=crop&w=900&q=80"
+},
+luxury:{
+name:"Luxury Box",
+price:799,
+img:"https://images.unsplash.com/photo-1520975916090-3105956dac38?auto=format&fit=crop&w=900&q=80"
+}
+};
+
+/* GET ID FROM URL */
+const params = new URLSearchParams(window.location.search);
+let id = params.get("id") || "basic";
+
+let product = products[id];
+
+/* RENDER */
+document.getElementById("title").innerText = product.name;
+document.getElementById("price").innerText = product.price + " kr";
+document.getElementById("img").src = product.img;
+
+/* SIZE SELECT */
 function select(el,type){
 
 document.querySelectorAll("#"+type+"Sizes .size")
-.forEach(b=>b.classList.remove("active"));
+.forEach(e=>e.classList.remove("active"));
 
 el.classList.add("active");
 
@@ -272,19 +222,7 @@ if(type==="bottom") selectedBottom = el.innerText;
 
 }
 
-/* GUIDE */
-function toggleGuide(el){
-
-let c = el.querySelector(".guide-content");
-
-c.style.display =
-c.style.display === "block"
-? "none"
-: "block";
-
-}
-
-/* CART */
+/* ADD TO CART */
 function addToCart(){
 
 if(!selectedTop || !selectedBottom){
@@ -295,10 +233,10 @@ return;
 let cart = JSON.parse(localStorage.getItem("cart")) || [];
 
 cart.push({
-name:"Premium Mystery Box",
-price:499,
-top:selectedTop,
-bottom:selectedBottom
+name: product.name,
+price: product.price,
+top: selectedTop,
+bottom: selectedBottom
 });
 
 localStorage.setItem("cart", JSON.stringify(cart));
@@ -306,6 +244,7 @@ localStorage.setItem("cart", JSON.stringify(cart));
 document.getElementById("popup").style.display = "block";
 }
 
+/* POPUP */
 function closePopup(){
 document.getElementById("popup").style.display = "none";
 }
