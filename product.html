@@ -42,14 +42,12 @@ gap:40px;
 padding:20px;
 }
 
-/* IMAGE */
 img{
 width:100%;
 border-radius:14px;
 border:1px solid #eee;
 }
 
-/* TITLE */
 h1{
 font-size:34px;
 margin-bottom:10px;
@@ -57,43 +55,70 @@ margin-bottom:10px;
 
 .price{
 font-size:20px;
-margin:10px 0;
 color:#444;
+margin:10px 0;
 }
 
-/* BULLETS */
 .bullets{
-margin:15px 0;
 color:#555;
-line-height:1.8;
+line-height:1.7;
+margin:15px 0;
 }
 
-/* SIZES */
+/* SIZE BOXES */
 .sizes{
-margin:10px 0 20px;
-}
-
-.size-row{
-margin-bottom:15px;
-}
-
-.size-options{
-display:flex;
-gap:10px;
-flex-wrap:wrap;
-margin-top:8px;
+margin:10px 0 25px;
 }
 
 .size{
+display:inline-block;
 padding:10px 14px;
 border:1px solid #ddd;
 border-radius:8px;
 cursor:pointer;
+margin-right:8px;
+margin-top:8px;
 }
 
 .size.active{
 background:#111;
 color:#fff;
+}
+
+/* TABLE GUIDE */
+.guide{
+border:1px solid #eee;
+border-radius:12px;
+overflow:hidden;
+margin-top:15px;
+}
+
+.guide-title{
+padding:12px;
+background:#fafafa;
+cursor:pointer;
+font-weight:bold;
+}
+
+.guide-content{
+display:none;
+padding:12px;
+font-size:14px;
+color:#555;
+border-top:1px solid #eee;
+}
+
+table{
+width:100%;
+border-collapse:collapse;
+margin-top:10px;
+}
+
+th,td{
+border:1px solid #eee;
+padding:8px;
+text-align:left;
+font-size:13px;
 }
 
 /* BUTTON */
@@ -109,79 +134,43 @@ margin-top:20px;
 font-size:16px;
 }
 
-/* TRUST SMALL */
-.trust{
-margin-top:15px;
-font-size:13px;
-color:#666;
-line-height:1.6;
-}
-
-/* GUIDE */
-.guide{
-margin-top:20px;
-border:1px solid #eee;
-border-radius:10px;
-overflow:hidden;
-}
-
-.guide-title{
-padding:12px;
-cursor:pointer;
-background:#fafafa;
-}
-
-.guide-content{
-display:none;
-padding:12px;
-border-top:1px solid #eee;
-font-size:13px;
-color:#555;
-}
-
-</style>
-
-</head>
-<div id="popup" style="
+/* POPUP */
+.popup{
 position:fixed;
 bottom:20px;
 right:20px;
+width:260px;
 background:#111;
 color:#fff;
 padding:15px;
 border-radius:12px;
 display:none;
-width:260px;
 z-index:9999;
-">
+}
 
-<p style="margin-bottom:10px;">Tilføjet til kurv ✔</p>
-
-<button onclick="goCart()" style="
+.popup button{
 width:100%;
+margin-top:10px;
 padding:10px;
 border:none;
-background:#FFD700;
-margin-bottom:8px;
 border-radius:8px;
 cursor:pointer;
-">
-Gå til kurv
-</button>
+}
 
-<button onclick="closePopup()" style="
-width:100%;
-padding:10px;
-border:none;
+.shop{
 background:#fff;
 color:#111;
-border-radius:8px;
-cursor:pointer;
-">
-Shop videre
-</button>
+}
 
-</div>
+.cartBtn{
+background:#FFD700;
+color:#111;
+}
+
+</style>
+
+</head>
+
 <body>
 
 <div class="back" onclick="history.back()">← Tilbage</div>
@@ -197,7 +186,6 @@ Shop videre
 <div>
 
 <h1>Premium Mystery Box</h1>
-
 <div class="price">499 kr</div>
 
 <div class="bullets">
@@ -208,7 +196,7 @@ Shop videre
 </div>
 
 <h3>Trøje størrelse</h3>
-<div class="sizes size-row" id="top">
+<div class="sizes" id="topSizes">
 <div class="size" onclick="select(this,'top')">S</div>
 <div class="size" onclick="select(this,'top')">M</div>
 <div class="size" onclick="select(this,'top')">L</div>
@@ -216,30 +204,54 @@ Shop videre
 </div>
 
 <h3>Bukse størrelse</h3>
-<div class="sizes size-row" id="bottom">
+<div class="sizes" id="bottomSizes">
 <div class="size" onclick="select(this,'bottom')">28</div>
 <div class="size" onclick="select(this,'bottom')">30</div>
 <div class="size" onclick="select(this,'bottom')">32</div>
 <div class="size" onclick="select(this,'bottom')">34</div>
 </div>
 
+<!-- GUIDE TABLES -->
 <div class="guide" onclick="toggleGuide(this)">
-<div class="guide-title">Størrelsesguide (klik)</div>
+<div class="guide-title">📏 Størrelsesguide (klik)</div>
 <div class="guide-content">
-T-shirts: S (86-92 cm), M (92-98 cm), L (98-104 cm), XL (104-110 cm)<br><br>
-Bukser: 28 (71-73 cm), 30 (76-78 cm), 32 (81-83 cm), 34 (86-88 cm)
+
+<h4>Trøjer</h4>
+<table>
+<tr><th>Size</th><th>Bryst</th></tr>
+<tr><td>S</td><td>86-92 cm</td></tr>
+<tr><td>M</td><td>92-98 cm</td></tr>
+<tr><td>L</td><td>98-104 cm</td></tr>
+<tr><td>XL</td><td>104-110 cm</td></tr>
+</table>
+
+<br>
+
+<h4>Bukser</h4>
+<table>
+<tr><th>Size</th><th>Talje</th></tr>
+<tr><td>28</td><td>71-73 cm</td></tr>
+<tr><td>30</td><td>76-78 cm</td></tr>
+<tr><td>32</td><td>81-83 cm</td></tr>
+<tr><td>34</td><td>86-88 cm</td></tr>
+</table>
+
 </div>
 </div>
 
 <button onclick="addToCart()">Tilføj til kurv</button>
 
-<div class="trust">
-- Sikker betaling<br>
-- Hurtig levering 1-5 dage<br>
-- Nem returnering
 </div>
 
 </div>
+
+<!-- POPUP -->
+<div class="popup" id="popup">
+
+<p>Tilføjet til kurv ✔</p>
+
+<button class="cartBtn" onclick="goCart()">Gå til kurv</button>
+<button class="shop" onclick="closePopup()">Shop videre</button>
 
 </div>
 
@@ -250,7 +262,7 @@ let selectedBottom = null;
 
 function select(el,type){
 
-document.querySelectorAll("#"+type+" .size")
+document.querySelectorAll("#"+type+"Sizes .size")
 .forEach(b=>b.classList.remove("active"));
 
 el.classList.add("active");
@@ -260,6 +272,7 @@ if(type==="bottom") selectedBottom = el.innerText;
 
 }
 
+/* GUIDE */
 function toggleGuide(el){
 
 let c = el.querySelector(".guide-content");
@@ -271,9 +284,7 @@ c.style.display === "block"
 
 }
 
-let cart =
-JSON.parse(localStorage.getItem("cart")) || [];
-
+/* CART */
 function addToCart(){
 
 if(!selectedTop || !selectedBottom){
@@ -284,16 +295,23 @@ return;
 let cart = JSON.parse(localStorage.getItem("cart")) || [];
 
 cart.push({
-name: "Mystery Box",
-price: 499,
-top: selectedTop,
-bottom: selectedBottom
+name:"Premium Mystery Box",
+price:499,
+top:selectedTop,
+bottom:selectedBottom
 });
 
 localStorage.setItem("cart", JSON.stringify(cart));
 
-showPopup();
+document.getElementById("popup").style.display = "block";
 }
+
+function closePopup(){
+document.getElementById("popup").style.display = "none";
+}
+
+function goCart(){
+window.location.href="checkout.html";
 }
 
 </script>
