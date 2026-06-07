@@ -7,13 +7,33 @@
 
 <style>
 body{font-family:Arial;padding:20px;}
-.back{position:fixed;top:20px;left:20px;cursor:pointer;}
+
+.back{
+position:fixed;
+top:20px;
+left:20px;
+cursor:pointer;
+padding:10px;
+border:1px solid #eee;
+border-radius:10px;
+background:#fff;
+}
 
 .sizes{display:flex;gap:10px;margin:10px 0;}
-.size{padding:10px;border:1px solid #ddd;cursor:pointer;}
-.size.active{background:#000;color:#fff;}
 
-button{margin-top:20px;padding:12px;width:100%;}
+.size{
+padding:10px;
+border:1px solid #ddd;
+cursor:pointer;
+}
+
+.size.active{background:#111;color:#fff;}
+
+button{
+margin-top:20px;
+padding:12px;
+width:100%;
+}
 </style>
 </head>
 
@@ -23,14 +43,14 @@ button{margin-top:20px;padding:12px;width:100%;}
 
 <h1>Mystery Box</h1>
 
-<h3>Trøje størrelse</h3>
+<h3>Trøje</h3>
 <div class="sizes" id="top">
 <div class="size" onclick="select(this,'top')">S</div>
 <div class="size" onclick="select(this,'top')">M</div>
 <div class="size" onclick="select(this,'top')">L</div>
 </div>
 
-<h3>Bukse størrelse</h3>
+<h3>Bukser</h3>
 <div class="sizes" id="bottom">
 <div class="size" onclick="select(this,'bottom')">28</div>
 <div class="size" onclick="select(this,'bottom')">30</div>
@@ -45,6 +65,7 @@ let topSize=null;
 let bottomSize=null;
 
 function select(el,type){
+
 document.querySelectorAll("#"+type+" .size").forEach(e=>e.classList.remove("active"));
 el.classList.add("active");
 
