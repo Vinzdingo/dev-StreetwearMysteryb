@@ -2,29 +2,79 @@
 <html lang="da">
 <head>
 <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Checkout</title>
 
 <style>
-body{font-family:Arial;background:#f6f6f6;}
-.container{max-width:900px;margin:40px auto;display:grid;grid-template-columns:1.5fr 1fr;gap:20px;}
-.box{background:#fff;padding:20px;border-radius:14px;}
-button{width:100%;padding:14px;background:#111;color:#fff;border:none;border-radius:10px;}
-.item{border-bottom:1px solid #eee;padding:10px 0;}
+
+body{font-family:Arial;background:#f6f6f6;margin:0;}
+
+.container{
+max-width:1000px;
+margin:40px auto;
+display:grid;
+grid-template-columns:2fr 1fr;
+gap:20px;
+padding:20px;
+}
+
+.box{
+background:#fff;
+padding:20px;
+border-radius:12px;
+}
+
+.item{
+border-bottom:1px solid #eee;
+padding:10px 0;
+}
+
+button{
+width:100%;
+padding:14px;
+background:#111;
+color:#fff;
+border:none;
+border-radius:10px;
+margin-top:10px;
+cursor:pointer;
+}
+
+.step{
+padding:10px;
+margin-bottom:10px;
+background:#f1f1f1;
+border-radius:8px;
+}
+
+.step.active{
+background:#111;
+color:#fff;
+}
 </style>
 </head>
 
 <body>
 
-<h1>Checkout</h1>
-
 <div class="container">
+
 <div class="box" id="cartBox"></div>
 
 <div class="box">
+
+<div class="step active">1. Kurv</div>
+<div class="step">2. Info</div>
+<div class="step">3. Betaling</div>
+
 <h3>Summary</h3>
+
+<p id="count"></p>
 <p id="total"></p>
-<button onclick="checkout()">Betal</button>
+
+<button onclick="checkout()">Betal (demo)</button>
+
 </div>
+
 </div>
 
 <script>
@@ -33,48 +83,52 @@ function getCart(){
 return JSON.parse(localStorage.getItem("cart")) || [];
 }
 
-function saveOrders(o){
-localStorage.setItem("orders", JSON.stringify(o));
+function saveCart(c){
+localStorage.setItem("cart",JSON.stringify(c));
 }
 
 function render(){
 
-let cart = getCart();
-let box = document.getElementById("cartBox");
-box.innerHTML = "";
+let cart=getCart();
+let box=document.getElementById("cartBox");
 
-let total = 0;
+box.innerHTML="";
 
-cart.forEach(i=>{
-total += i.price * i.qty;
+let total=0;
 
-box.innerHTML += `
-<div class="item">
-<b>${i.name}</b><br>
-${i.top} / ${i.bottom}
-</div>`;
+cart.forEach((item,i)=>{
+
+total += item.price;
+
+let div=document.createElement("div");
+div.className="item";
+
+div.innerHTML=`
+<b>${item.name}</b><br>
+${item.top} / ${item.bottom}<br>
+<button onclick="remove(${i})">Fjern</button>
+`;
+
+box.appendChild(div);
+
 });
 
-document.getElementById("total").innerText = "Total: " + total + " kr";
+document.getElementById("count").innerText="Items: "+cart.length;
+document.getElementById("total").innerText="Total: "+total+" kr";
+
+}
+
+function remove(i){
+let cart=getCart();
+cart.splice(i,1);
+saveCart(cart);
+render();
 }
 
 function checkout(){
-
-let cart = getCart();
-
-let orders = JSON.parse(localStorage.getItem("orders")) || [];
-
-orders.push({
-id: Date.now(),
-items: cart,
-total: cart.reduce((a,b)=>a+b.price*b.qty,0)
-});
-
-localStorage.setItem("orders", JSON.stringify(orders));
+alert("Order placed (demo)");
 localStorage.removeItem("cart");
-
-alert("Order placed");
-location.reload();
+render();
 }
 
 render();
