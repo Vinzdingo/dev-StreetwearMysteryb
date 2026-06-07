@@ -225,7 +225,6 @@ cursor:pointer;
 let selectedTop = null;
 let selectedBottom = null;
 
-/* CART LOAD */
 let cart = JSON.parse(localStorage.getItem("cart")) || [];
 
 /* SIZE SELECT */
@@ -240,11 +239,11 @@ if(type==="top") selectedTop = el.innerText;
 if(type==="bottom") selectedBottom = el.innerText;
 }
 
-/* ADD TO CART (SHOPIFY STYLE DATA) */
+/* ADD TO CART (FIXED + SAFE STRUCTURE) */
 function addToCart(){
 
 if(!selectedTop || !selectedBottom){
-alert("Vælg alle størrelser");
+alert("Vælg størrelser");
 return;
 }
 
@@ -257,7 +256,7 @@ bottom: selectedBottom,
 qty: 1
 };
 
-/* CHECK IF EXISTS */
+/* check existing */
 let existing = cart.find(i =>
 i.name === product.name &&
 i.top === product.top &&
