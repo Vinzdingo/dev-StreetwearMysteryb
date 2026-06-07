@@ -39,11 +39,11 @@ font-size:22px;
 font-weight:700;
 }
 
-/* RIGHT */
+/* RIGHT SIDE */
 .nav-right{
 display:flex;
 align-items:center;
-gap:15px;
+gap:18px;
 }
 
 /* CART */
@@ -68,7 +68,7 @@ justify-content:center;
 border-radius:50%;
 }
 
-/* MENU BTN */
+/* MENU */
 .menu-btn{
 font-size:28px;
 cursor:pointer;
@@ -184,20 +184,21 @@ margin-bottom:6px;
 
 <div class="nav-right">
 
+<!-- CART -->
 <div class="cart" onclick="toggleCart()">
 🛒
 <span id="cartCount">0</span>
 </div>
 
+<!-- MENU -->
 <div class="menu-btn" onclick="toggleMenu()">☰</div>
 
 </div>
 
 </div>
 
-<!-- SIDEBAR -->
+<!-- SIDEBAR (NO HOME) -->
 <div class="sidebar" id="sidebar">
-<a href="index.html">Home</a>
 <a href="product.html?id=basic">Basic Box</a>
 <a href="product.html?id=premium">Premium Box</a>
 <a href="product.html?id=luxury">Luxury Box</a>
@@ -230,18 +231,18 @@ Vælg en box i menuen → vi pakker din order → du modtager din mystery box.
 
 let cart = JSON.parse(localStorage.getItem("cart")) || [];
 
-/* MENU (FIXED OPEN + CLOSE) */
+/* MENU TOGGLE (WORKING OPEN/CLOSE) */
 function toggleMenu(){
 document.getElementById("sidebar").classList.toggle("active");
 }
 
-/* CART */
+/* CART TOGGLE */
 function toggleCart(){
 document.getElementById("minicart").classList.toggle("active");
 updateCart();
 }
 
-/* CART COUNT */
+/* UPDATE CART */
 function updateCart(){
 document.getElementById("cartCount").innerText = cart.length;
 
@@ -251,12 +252,12 @@ list.innerHTML = "";
 cart.slice(-5).forEach(item=>{
 let div = document.createElement("div");
 div.className="minicart-item";
-div.innerText = item;
+div.innerText=item;
 list.appendChild(div);
 });
 }
 
-/* CLOSE ON CLICK OUTSIDE */
+/* CLOSE ON OUTSIDE CLICK */
 document.addEventListener("click", function(e){
 const sidebar = document.getElementById("sidebar");
 const menuBtn = document.querySelector(".menu-btn");
