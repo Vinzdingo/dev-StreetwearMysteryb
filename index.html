@@ -10,14 +10,10 @@
 margin:0;
 padding:0;
 box-sizing:border-box;
-font-family:Arial, sans-serif;
+font-family:Arial;
 }
 
-body{
-background:#fff;
-color:#111;
-overflow-x:hidden;
-}
+body{background:#fff;color:#111;overflow-x:hidden;}
 
 /* NAVBAR */
 .navbar{
@@ -25,7 +21,7 @@ height:80px;
 display:flex;
 justify-content:space-between;
 align-items:center;
-padding:0 40px;
+padding:0 30px;
 border-bottom:1px solid #eee;
 position:fixed;
 top:0;
@@ -34,17 +30,9 @@ background:#fff;
 z-index:1000;
 }
 
-.logo{
-font-size:22px;
-font-weight:700;
-}
+.logo{font-size:22px;font-weight:bold;}
 
-/* RIGHT */
-.nav-right{
-display:flex;
-align-items:center;
-gap:18px;
-}
+.nav-right{display:flex;align-items:center;gap:15px;}
 
 /* CART */
 .cart{
@@ -69,10 +57,7 @@ border-radius:50%;
 }
 
 /* MENU */
-.menu-btn{
-font-size:28px;
-cursor:pointer;
-}
+.menu-btn{font-size:28px;cursor:pointer;}
 
 /* SIDEBAR */
 .sidebar{
@@ -88,97 +73,42 @@ padding-top:100px;
 z-index:2000;
 }
 
-.sidebar.active{
-right:0;
-}
+.sidebar.active{right:0;}
 
 .sidebar a{
 display:block;
-padding:18px 25px;
+padding:18px;
 text-decoration:none;
 color:#111;
 border-bottom:1px solid #eee;
 }
 
-.sidebar a:hover{
-background:#FFD700;
-}
+.sidebar a:hover{background:#FFD700;}
 
 /* HERO */
 .hero{
 margin-top:80px;
-height:70vh;
+height:80vh;
 display:flex;
 align-items:center;
 justify-content:center;
 text-align:center;
 background:
-linear-gradient(to bottom, rgba(255,255,255,0.6), rgba(255,255,255,0.95)),
+linear-gradient(rgba(255,255,255,.6),rgba(255,255,255,.95)),
 url('https://images.unsplash.com/photo-1523398002811-999ca8dec234?auto=format&fit=crop&w=1600&q=80');
 background-size:cover;
 background-position:center;
 }
 
-.hero h1{
-font-size:60px;
-letter-spacing:2px;
-}
-
-.hero p{
-margin-top:15px;
-color:#666;
-}
-
-/* STEPS */
-.steps{
-max-width:1100px;
-margin:80px auto;
-display:flex;
-justify-content:center;
-gap:30px;
-flex-wrap:wrap;
-padding:0 20px;
-}
-
-.step{
-width:300px;
-padding:30px;
-border:1px solid #eee;
-border-radius:12px;
-text-align:center;
-transition:.2s;
-}
-
-.step:hover{
-transform:translateY(-5px);
-}
-
-.step span{
-font-size:40px;
-font-weight:700;
-color:#FFD700;
-}
-
-.step h3{
-margin:10px 0;
-}
+.hero h1{font-size:60px;}
+.hero p{color:#666;margin-top:10px;}
 
 /* INFO */
 .info{
 max-width:900px;
 margin:100px auto;
-padding:0 20px;
 text-align:center;
-}
-
-.info h2{
-font-size:32px;
-margin-bottom:15px;
-}
-
-.info p{
-color:#666;
-line-height:1.6;
+padding:0 20px;
 }
 
 /* MINI CART */
@@ -196,9 +126,7 @@ z-index:9999;
 box-shadow:0 10px 30px rgba(0,0,0,0.08);
 }
 
-.minicart.active{
-display:block;
-}
+.minicart.active{display:block;}
 
 .minicart-item{
 font-size:14px;
@@ -247,39 +175,14 @@ margin-bottom:6px;
 <section class="hero">
 <div>
 <h1>MYSTERY STREETWEAR</h1>
-<p>Premium streetwear mystery boxes</p>
+<p>Premium streetwear boxes</p>
 </div>
-</section>
-
-<!-- STEPS (DET DU VILLE HAVE TILBAGE) -->
-<section class="steps">
-
-<div class="step">
-<span>01</span>
-<h3>Vælg box</h3>
-<p>Gå i menuen og vælg din mystery box</p>
-</div>
-
-<div class="step">
-<span>02</span>
-<h3>Vi pakker</h3>
-<p>Vi sammensætter din order med stil</p>
-</div>
-
-<div class="step">
-<span>03</span>
-<h3>Unbox</h3>
-<p>Modtag din pakke og oplev overraskelsen</p>
-</div>
-
 </section>
 
 <!-- INFO -->
 <section class="info">
-<h2>Om os</h2>
-<p>
-MysteryStreetwear laver premium mystery boxes med fokus på kvalitet, stil og overraskelse.
-</p>
+<h2>Sådan fungerer det</h2>
+<p>Vælg en box i menuen → tilføj til kurv → checkout</p>
 </section>
 
 <script>
@@ -297,7 +200,7 @@ document.getElementById("minicart").classList.toggle("active");
 updateCart();
 }
 
-/* UPDATE CART */
+/* UPDATE */
 function updateCart(){
 document.getElementById("cartCount").innerText = cart.length;
 
@@ -307,7 +210,7 @@ list.innerHTML = "";
 cart.slice(-5).forEach(item=>{
 let div = document.createElement("div");
 div.className="minicart-item";
-div.innerText=item;
+div.innerText = typeof item === "string" ? item : item.name;
 list.appendChild(div);
 });
 }
@@ -328,7 +231,6 @@ cartBox.classList.remove("active");
 }
 });
 
-/* INIT */
 updateCart();
 
 </script>
