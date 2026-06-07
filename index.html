@@ -1,134 +1,178 @@
 <!DOCTYPE html>
+
 <html lang="da">
 <head>
 <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>MysteryStreetwear</title>
 
 <style>
-body {
+*{
   margin:0;
-  font-family:Arial;
-  background:#fff;
-  color:#111;
+  padding:0;
+  box-sizing:border-box;
 }
 
-/* TOP BAR */
-.nav {
+body{
+  font-family:Arial,sans-serif;
+  background:#fff;
+  color:#111;
+  overflow-x:hidden;
+}
+
+.navbar{
+  height:80px;
   display:flex;
   justify-content:space-between;
   align-items:center;
-  padding:18px 30px;
+  padding:0 40px;
   border-bottom:1px solid #eee;
-  position:sticky;
+  position:fixed;
+  width:100%;
   top:0;
-  background:white;
+  background:#fff;
+  z-index:1000;
 }
 
-.logo {
+.logo{
+  font-size:24px;
   font-weight:bold;
-  font-size:18px;
 }
 
-/* MENU */
-.menu {
-  position:relative;
-}
-
-.menu-btn {
+.menu-btn{
+  font-size:30px;
   cursor:pointer;
-  font-weight:bold;
 }
 
-/* DROPDOWN */
-.dropdown {
-  position:absolute;
+.sidebar{
+  position:fixed;
+  top:0;
+  right:-320px;
+  width:320px;
+  height:100%;
+  background:#fff;
+  box-shadow:-5px 0 20px rgba(0,0,0,.1);
+  transition:.35s;
+  z-index:2000;
+  padding-top:100px;
+}
+
+.sidebar.active{
   right:0;
-  top:40px;
-  width:240px;
-  background:white;
-  border:1px solid #eee;
-  border-radius:12px;
-  overflow:hidden;
-  display:none;
-  box-shadow:0 10px 25px rgba(0,0,0,0.08);
 }
 
-.dropdown.active {
+.sidebar a{
   display:block;
-  animation:fade 0.2s ease;
-}
-
-@keyframes fade {
-  from {opacity:0; transform:translateY(-5px);}
-  to {opacity:1; transform:translateY(0);}
-}
-
-.item {
-  padding:12px;
+  padding:20px 30px;
+  color:#111;
+  text-decoration:none;
+  font-size:18px;
   border-bottom:1px solid #eee;
-  cursor:pointer;
-  transition:0.2s;
 }
 
-.item:hover {
+.sidebar a:hover{
   background:#FFD700;
 }
 
-/* EMPTY CENTER (INTET INDHOLD) */
-.hero {
-  height:80vh;
+.hero{
+  margin-top:80px;
+  height:90vh;
+  background:
+  linear-gradient(rgba(255,255,255,.45),rgba(255,255,255,.45)),
+  url('https://images.unsplash.com/photo-1523398002811-999ca8dec234?auto=format&fit=crop&w=1600&q=80');
+  background-size:cover;
+  background-position:center;
   display:flex;
   align-items:center;
   justify-content:center;
   text-align:center;
-  color:#999;
 }
 
-.hero h1 {
-  font-weight:normal;
-  font-size:18px;
+.hero-content{
+  animation:fadeUp 1s ease;
+}
+
+.hero h1{
+  font-size:70px;
+  margin-bottom:20px;
+}
+
+.hero p{
+  font-size:22px;
+  margin-bottom:30px;
+}
+
+.btn{
+  display:inline-block;
+  background:#FFD700;
+  color:#111;
+  padding:15px 30px;
+  text-decoration:none;
+  border-radius:8px;
+  font-weight:bold;
+  transition:.2s;
+}
+
+.btn:hover{
+  transform:translateY(-2px);
+}
+
+@keyframes fadeUp{
+  from{
+    opacity:0;
+    transform:translateY(30px);
+  }
+  to{
+    opacity:1;
+    transform:translateY(0);
+  }
 }
 </style>
+
 </head>
 
 <body>
 
-<!-- NAV -->
-<div class="nav">
+<div class="navbar">
   <div class="logo">MysteryStreetwear</div>
 
-  <div class="menu">
-    <div class="menu-btn" onclick="toggleMenu()">Menu ▾</div>
+  <div class="menu-btn" onclick="toggleMenu()">☰</div>
+</div>
 
-    <div class="dropdown" id="dropdown">
-      <div class="item" onclick="go('basic')">Basic Box - 299 kr</div>
-      <div class="item" onclick="go('premium')">Premium Box - 499 kr</div>
-      <div class="item" onclick="go('luxury')">Luxury Box - 799 kr</div>
-      <div class="item" onclick="window.location.href='cart.html'">Cart</div>
-    </div>
+<div class="sidebar" id="sidebar">
+
+<a href="product.html?id=basic">Basic Box</a>
+
+<a href="product.html?id=premium">Premium Box</a>
+
+<a href="product.html?id=luxury">Luxury Box</a>
+
+<a href="cart.html">Kurv</a>
+
+<a href="faq.html">FAQ</a>
+
+</div>
+
+<section class="hero">
+
+  <div class="hero-content">
+
+```
+<h1>STREETWEAR<br>MYSTERY BOXES</h1>
+
+<p>Eksklusive mystery boxes med håndplukkede streetwear items.</p>
+
+<a href="product.html?id=basic" class="btn">Udforsk</a>
+```
+
   </div>
-</div>
 
-<!-- TOM CENTER -->
-<div class="hero">
-  <h1>Vælg en box i menuen oppe i højre hjørne</h1>
-</div>
+</section>
 
 <script>
-function go(id){
-  window.location.href = "product.html?id=" + id;
-}
-
 function toggleMenu(){
-  document.getElementById("dropdown").classList.toggle("active");
+  document.getElementById("sidebar").classList.toggle("active");
 }
-
-// luk menu hvis klik udenfor
-document.addEventListener("click", function(e){
-  if(!document.querySelector(".menu").contains(e.target)){
-    document.getElementById("dropdown").classList.remove("active");
-  }
-});
 </script>
 
 </body>
