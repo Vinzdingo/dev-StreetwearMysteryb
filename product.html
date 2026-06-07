@@ -19,6 +19,7 @@ background:#fff;
 color:#111;
 }
 
+/* BACK */
 .back{
 position:fixed;
 top:20px;
@@ -28,9 +29,9 @@ border:1px solid #eee;
 border-radius:10px;
 cursor:pointer;
 background:#fff;
-z-index:1000;
 }
 
+/* LAYOUT */
 .container{
 max-width:1100px;
 margin:120px auto;
@@ -46,27 +47,12 @@ border-radius:14px;
 border:1px solid #eee;
 }
 
-h1{
-font-size:34px;
-margin-bottom:10px;
-}
+h1{font-size:34px;margin-bottom:10px;}
+.price{font-size:20px;color:#444;margin:10px 0;}
+.bullets{color:#555;line-height:1.7;margin:15px 0;}
 
-.price{
-font-size:20px;
-color:#444;
-margin:10px 0;
-}
-
-.bullets{
-color:#555;
-line-height:1.7;
-margin:15px 0;
-}
-
-.sizes{
-margin:10px 0 20px;
-}
-
+/* SIZE */
+.sizes{margin:10px 0 20px;}
 .size{
 display:inline-block;
 padding:10px 14px;
@@ -75,12 +61,44 @@ border-radius:8px;
 cursor:pointer;
 margin:5px;
 }
+.size.active{background:#111;color:#fff;}
 
-.size.active{
-background:#111;
-color:#fff;
+/* GUIDE */
+.guide{
+border:1px solid #eee;
+border-radius:12px;
+overflow:hidden;
+margin-top:15px;
+cursor:pointer;
 }
 
+.guide-title{
+padding:12px;
+background:#fafafa;
+font-weight:bold;
+}
+
+.guide-content{
+display:none;
+padding:12px;
+font-size:14px;
+color:#555;
+border-top:1px solid #eee;
+}
+
+table{
+width:100%;
+border-collapse:collapse;
+margin-top:10px;
+}
+
+th,td{
+border:1px solid #eee;
+padding:8px;
+font-size:13px;
+}
+
+/* BUTTON */
 button{
 width:100%;
 padding:14px;
@@ -90,7 +108,6 @@ border:none;
 border-radius:10px;
 cursor:pointer;
 margin-top:20px;
-font-size:16px;
 }
 
 /* POPUP */
@@ -104,7 +121,6 @@ color:#fff;
 padding:15px;
 border-radius:12px;
 display:none;
-z-index:9999;
 }
 
 .popup button{
@@ -137,9 +153,9 @@ cursor:pointer;
 <div class="price" id="price"></div>
 
 <div class="bullets">
-✓ Håndplukkede streetwear items<br>
-✓ Vælg dine størrelser<br>
-✓ 1-5 dages levering
+✓ Håndplukkede items<br>
+✓ Vælg størrelser + farve<br>
+✓ Hurtig levering
 </div>
 
 <h3>Trøje størrelse</h3>
@@ -156,6 +172,36 @@ cursor:pointer;
 <div class="size" onclick="select(this,'bottom')">30</div>
 <div class="size" onclick="select(this,'bottom')">32</div>
 <div class="size" onclick="select(this,'bottom')">34</div>
+</div>
+
+<!-- 🔥 GUIDE (FIXED CLICK SYSTEM) -->
+<div class="guide" onclick="toggleGuide(this)">
+
+<div class="guide-title">📏 Størrelsesguide (klik for at åbne)</div>
+
+<div class="guide-content">
+
+<h4>Trøjer</h4>
+<table>
+<tr><th>Size</th><th>Bryst</th></tr>
+<tr><td>S</td><td>86-92 cm</td></tr>
+<tr><td>M</td><td>92-98 cm</td></tr>
+<tr><td>L</td><td>98-104 cm</td></tr>
+<tr><td>XL</td><td>104-110 cm</td></tr>
+</table>
+
+<br>
+
+<h4>Bukser</h4>
+<table>
+<tr><th>Size</th><th>Talje</th></tr>
+<tr><td>28</td><td>71-73 cm</td></tr>
+<tr><td>30</td><td>76-78 cm</td></tr>
+<tr><td>32</td><td>81-83 cm</td></tr>
+<tr><td>34</td><td>86-88 cm</td></tr>
+</table>
+
+</div>
 </div>
 
 <button onclick="addToCart()">Tilføj til kurv</button>
@@ -179,7 +225,7 @@ cursor:pointer;
 let selectedTop = null;
 let selectedBottom = null;
 
-/* PRODUCTS */
+/* PRODUCT DATA */
 const products = {
 basic:{
 name:"Basic Box",
@@ -198,7 +244,7 @@ img:"https://images.unsplash.com/photo-1520975916090-3105956dac38?auto=format&fi
 }
 };
 
-/* GET ID FROM URL */
+/* URL */
 const params = new URLSearchParams(window.location.search);
 let id = params.get("id") || "basic";
 
@@ -209,7 +255,7 @@ document.getElementById("title").innerText = product.name;
 document.getElementById("price").innerText = product.price + " kr";
 document.getElementById("img").src = product.img;
 
-/* SIZE SELECT */
+/* SIZE */
 function select(el,type){
 
 document.querySelectorAll("#"+type+"Sizes .size")
@@ -219,34 +265,45 @@ el.classList.add("active");
 
 if(type==="top") selectedTop = el.innerText;
 if(type==="bottom") selectedBottom = el.innerText;
+}
+
+/* 🔥 GUIDE FIX */
+function toggleGuide(el){
+
+let content = el.querySelector(".guide-content");
+
+if(content.style.display === "block"){
+content.style.display = "none";
+}else{
+content.style.display = "block";
+}
 
 }
 
-/* ADD TO CART */
+/* CART */
 function addToCart(){
 
 if(!selectedTop || !selectedBottom){
-alert("Vælg både trøje og bukse størrelse");
+alert("Vælg størrelse");
 return;
 }
 
 let cart = JSON.parse(localStorage.getItem("cart")) || [];
 
 cart.push({
-name: product.name,
-price: product.price,
-top: selectedTop,
-bottom: selectedBottom
+name:product.name,
+price:product.price,
+top:selectedTop,
+bottom:selectedBottom
 });
 
-localStorage.setItem("cart", JSON.stringify(cart));
+localStorage.setItem("cart",JSON.stringify(cart));
 
-document.getElementById("popup").style.display = "block";
+document.getElementById("popup").style.display="block";
 }
 
-/* POPUP */
 function closePopup(){
-document.getElementById("popup").style.display = "none";
+document.getElementById("popup").style.display="none";
 }
 
 function goCart(){
