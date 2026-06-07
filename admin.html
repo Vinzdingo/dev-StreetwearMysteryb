@@ -18,6 +18,9 @@ color:#fff;
 padding:20px;
 background:#111;
 border-bottom:1px solid #222;
+display:flex;
+justify-content:space-between;
+align-items:center;
 }
 
 .container{
@@ -34,35 +37,57 @@ margin-bottom:10px;
 border:1px solid #222;
 }
 
-.status{
-font-size:12px;
+.row{
+display:flex;
+justify-content:space-between;
+gap:10px;
+flex-wrap:wrap;
+}
+
+.badge{
 padding:4px 8px;
 border-radius:6px;
-display:inline-block;
+font-size:12px;
 background:orange;
 color:#000;
 }
 
-.grid{
-display:grid;
-grid-template-columns:1fr 1fr;
-gap:10px;
+.small{
+font-size:13px;
+color:#aaa;
+margin-top:5px;
+}
+
+.items{
 margin-top:10px;
+font-size:13px;
+color:#ddd;
+line-height:1.5;
 }
 
 button{
-padding:8px;
+padding:8px 12px;
 border:none;
 border-radius:8px;
 cursor:pointer;
+margin-top:10px;
 }
 
 .del{background:#ff3b3b;color:#fff;}
 .ship{background:#00c853;color:#000;}
 
-.total{
-margin-top:8px;
-font-weight:bold;
+.stats{
+display:flex;
+gap:10px;
+flex-wrap:wrap;
+margin:20px 0;
+}
+
+.stat{
+background:#1a1a1a;
+padding:10px 15px;
+border-radius:10px;
+border:1px solid #222;
 }
 
 </style>
@@ -74,7 +99,16 @@ font-weight:bold;
 <h2>🛒 Admin Dashboard</h2>
 </div>
 
-<div class="container" id="orders"></div>
+<div class="container">
+
+<div class="stats">
+<div class="stat" id="totalOrders">Orders: 0</div>
+<div class="stat" id="revenue">Revenue: 0 kr</div>
+</div>
+
+<div id="orders"></div>
+
+</div>
 
 <script>
 
@@ -93,28 +127,46 @@ let box = document.getElementById("orders");
 
 box.innerHTML = "";
 
+let revenue = 0;
+
 if(orders.length === 0){
 box.innerHTML = "<p>No orders yet...</p>";
-return;
 }
 
 orders.forEach((o,i)=>{
 
+revenue += o.total;
+
 box.innerHTML += `
 <div class="order">
-<b>Order ${o.id}</b><br>
-<span class="status">${o.status}</span>
 
-<div class="total">${o.total} kr</div>
+<div class="row">
+<b>${o.id}</b>
+<span class="badge">${o.status || "pending"}</span>
+</div>
 
-<div class="grid">
+<div class="small">
+📧 ${o.customer?.email || "No email"} <br>
+📍 ${o.customer?.address || "No address"} ${o.customer?.zip || ""}
+</div>
+
+<div class="items">
+${o.items.map(it =>
+`• ${it.name} (${it.top}/${it.bottom}) x${it.qty}`
+).join("<br>")}
+</div>
+
+<div class="small">Total: ${o.total} kr</div>
+
 <button class="ship" onclick="ship(${i})">Mark shipped</button>
 <button class="del" onclick="remove(${i})">Delete</button>
-</div>
+
 </div>
 `;
 });
 
+document.getElementById("totalOrders").innerText = "Orders: " + orders.length;
+document.getElementById("revenue").innerText = "Revenue: " + revenue + " kr";
 }
 
 function ship(i){
