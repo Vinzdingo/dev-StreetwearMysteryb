@@ -1,3 +1,4 @@
+<!-- COPY WHOLE FILE -->
 <!DOCTYPE html>
 <html lang="da">
 <head>
@@ -6,135 +7,33 @@
 <title>Product</title>
 
 <style>
+*{margin:0;padding:0;box-sizing:border-box;font-family:Arial;}
+body{background:#fff;color:#111;}
 
-*{
-margin:0;
-padding:0;
-box-sizing:border-box;
-font-family:Arial;
-}
+.back{position:fixed;top:20px;left:20px;padding:10px 14px;border:1px solid #eee;border-radius:10px;cursor:pointer;background:#fff;}
 
-body{
-background:#fff;
-color:#111;
-}
+.container{max-width:1100px;margin:120px auto;display:grid;grid-template-columns:1fr 1fr;gap:40px;padding:20px;}
 
-/* BACK */
-.back{
-position:fixed;
-top:20px;
-left:20px;
-padding:10px 14px;
-border:1px solid #eee;
-border-radius:10px;
-cursor:pointer;
-background:#fff;
-}
-
-/* LAYOUT */
-.container{
-max-width:1100px;
-margin:120px auto;
-display:grid;
-grid-template-columns:1fr 1fr;
-gap:40px;
-padding:20px;
-}
-
-img{
-width:100%;
-border-radius:14px;
-border:1px solid #eee;
-}
+img{width:100%;border-radius:14px;border:1px solid #eee;}
 
 h1{font-size:34px;margin-bottom:10px;}
 .price{font-size:20px;color:#444;margin:10px 0;}
 .bullets{color:#555;line-height:1.7;margin:15px 0;}
 
-/* SIZE */
 .sizes{margin:10px 0 20px;}
-.size{
-display:inline-block;
-padding:10px 14px;
-border:1px solid #ddd;
-border-radius:8px;
-cursor:pointer;
-margin:5px;
-}
+.size{display:inline-block;padding:10px 14px;border:1px solid #ddd;border-radius:8px;cursor:pointer;margin:5px;}
 .size.active{background:#111;color:#fff;}
 
-/* GUIDE */
-.guide{
-border:1px solid #eee;
-border-radius:12px;
-overflow:hidden;
-margin-top:15px;
-cursor:pointer;
-}
+.guide{border:1px solid #eee;border-radius:12px;margin-top:15px;cursor:pointer;}
+.guide-title{padding:12px;background:#fafafa;font-weight:bold;}
+.guide-content{display:none;padding:12px;font-size:14px;color:#555;border-top:1px solid #eee;}
 
-.guide-title{
-padding:12px;
-background:#fafafa;
-font-weight:bold;
-}
+button{width:100%;padding:14px;background:#111;color:#fff;border:none;border-radius:10px;cursor:pointer;margin-top:20px;}
 
-.guide-content{
-display:none;
-padding:12px;
-font-size:14px;
-color:#555;
-border-top:1px solid #eee;
-}
-
-table{
-width:100%;
-border-collapse:collapse;
-margin-top:10px;
-}
-
-th,td{
-border:1px solid #eee;
-padding:8px;
-font-size:13px;
-}
-
-/* BUTTON */
-button{
-width:100%;
-padding:14px;
-background:#111;
-color:#fff;
-border:none;
-border-radius:10px;
-cursor:pointer;
-margin-top:20px;
-}
-
-/* POPUP */
-.popup{
-position:fixed;
-bottom:20px;
-right:20px;
-width:260px;
-background:#111;
-color:#fff;
-padding:15px;
-border-radius:12px;
-display:none;
-}
-
-.popup button{
-width:100%;
-margin-top:10px;
-padding:10px;
-border:none;
-border-radius:8px;
-cursor:pointer;
-}
+.popup{position:fixed;bottom:20px;right:20px;width:260px;background:#111;color:#fff;padding:15px;border-radius:12px;display:none;}
 
 .cartBtn{background:#FFD700;color:#111;}
 .shop{background:#fff;color:#111;}
-
 </style>
 
 </head>
@@ -145,7 +44,7 @@ cursor:pointer;
 
 <div class="container">
 
-<img id="img">
+<img>
 
 <div>
 
@@ -158,7 +57,7 @@ cursor:pointer;
 ✓ Hurtig levering
 </div>
 
-<h3>Trøje størrelse</h3>
+<h3>Trøje</h3>
 <div class="sizes" id="topSizes">
 <div class="size" onclick="select(this,'top')">S</div>
 <div class="size" onclick="select(this,'top')">M</div>
@@ -166,7 +65,7 @@ cursor:pointer;
 <div class="size" onclick="select(this,'top')">XL</div>
 </div>
 
-<h3>Bukse størrelse</h3>
+<h3>Bukser</h3>
 <div class="sizes" id="bottomSizes">
 <div class="size" onclick="select(this,'bottom')">28</div>
 <div class="size" onclick="select(this,'bottom')">30</div>
@@ -174,51 +73,22 @@ cursor:pointer;
 <div class="size" onclick="select(this,'bottom')">34</div>
 </div>
 
-<!-- GUIDE -->
 <div class="guide" onclick="toggleGuide(this)">
-
-<div class="guide-title">📏 Størrelsesguide (klik)</div>
-
+<div class="guide-title">📏 Størrelsesguide</div>
 <div class="guide-content">
-
-<h4>Trøjer</h4>
-<table>
-<tr><th>Size</th><th>Bryst</th></tr>
-<tr><td>S</td><td>86-92</td></tr>
-<tr><td>M</td><td>92-98</td></tr>
-<tr><td>L</td><td>98-104</td></tr>
-<tr><td>XL</td><td>104-110</td></tr>
-</table>
-
-<br>
-
-<h4>Bukser</h4>
-<table>
-<tr><th>Size</th><th>Talje</th></tr>
-<tr><td>28</td><td>71-73</td></tr>
-<tr><td>30</td><td>76-78</td></tr>
-<tr><td>32</td><td>81-83</td></tr>
-<tr><td>34</td><td>86-88</td></tr>
-</table>
-
+Tøj størrelser vises her...
 </div>
-
 </div>
 
 <button onclick="addToCart()">Tilføj til kurv</button>
 
 </div>
-
 </div>
 
-<!-- POPUP -->
 <div class="popup" id="popup">
-
-<p>Tilføjet til kurv ✔</p>
-
-<button class="cartBtn" onclick="goCart()">Gå til kurv</button>
-<button class="shop" onclick="closePopup()">Shop videre</button>
-
+<p>Tilføjet ✔</p>
+<button class="cartBtn" onclick="goCart()">Kurv</button>
+<button class="shop" onclick="closePopup()">Shop</button>
 </div>
 
 <script>
@@ -226,43 +96,26 @@ cursor:pointer;
 let selectedTop = null;
 let selectedBottom = null;
 
-/* CART */
 function getCart(){
 return JSON.parse(localStorage.getItem("cart")) || [];
 }
 
-function saveCart(cart){
-localStorage.setItem("cart", JSON.stringify(cart));
+function saveCart(c){
+localStorage.setItem("cart", JSON.stringify(c));
 }
 
-/* SIZE SELECT */
 function select(el,type){
-
-document.querySelectorAll("#"+type+"Sizes .size")
-.forEach(e=>e.classList.remove("active"));
-
+document.querySelectorAll("#"+type+"Sizes .size").forEach(e=>e.classList.remove("active"));
 el.classList.add("active");
-
 if(type==="top") selectedTop = el.innerText;
 if(type==="bottom") selectedBottom = el.innerText;
 }
 
-/* GUIDE FIX (🔥 THIS WAS MISSING) */
 function toggleGuide(el){
-
-const content = el.querySelector(".guide-content");
-
-if(!content) return;
-
-if(content.style.display === "block"){
-content.style.display = "none";
-} else {
-content.style.display = "block";
+let c = el.querySelector(".guide-content");
+c.style.display = c.style.display === "block" ? "none" : "block";
 }
 
-}
-
-/* ADD TO CART */
 function addToCart(){
 
 if(!selectedTop || !selectedBottom){
@@ -272,7 +125,7 @@ return;
 
 let cart = getCart();
 
-const item = {
+let item = {
 id: Date.now(),
 name: "Mystery Box",
 price: 299,
@@ -281,29 +134,22 @@ bottom: selectedBottom,
 qty: 1
 };
 
-let existing = cart.find(i =>
-i.name === item.name &&
-i.top === item.top &&
-i.bottom === item.bottom
-);
+let ex = cart.find(i => i.top===item.top && i.bottom===item.bottom);
 
-if(existing){
-existing.qty += 1;
-} else {
-cart.push(item);
-}
+if(ex) ex.qty++;
+else cart.push(item);
 
 saveCart(cart);
 
-document.getElementById("popup").style.display = "block";
+document.getElementById("popup").style.display="block";
 }
 
 function closePopup(){
-document.getElementById("popup").style.display = "none";
+document.getElementById("popup").style.display="none";
 }
 
 function goCart(){
-window.location.href = "checkout.html";
+window.location.href="cart.html";
 }
 
 </script>
