@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Admin Dashboard</title>
+<title>Admin Panel</title>
 
 <style>
 *{
@@ -14,109 +14,34 @@ font-family:Arial;
 }
 
 body{
-display:flex;
-background:#f5f6f8;
-color:#111;
-}
-
-/* SIDEBAR */
-.sidebar{
-width:240px;
-height:100vh;
-background:#111;
+background:#0f0f0f;
 color:#fff;
 padding:20px;
-position:fixed;
-left:0;
-top:0;
 }
 
-.brand{
-font-size:18px;
-font-weight:bold;
-margin-bottom:30px;
-}
-
-.nav a{
-display:block;
-color:#aaa;
-padding:12px;
-text-decoration:none;
-border-radius:8px;
-margin-bottom:5px;
-cursor:pointer;
-}
-
-.nav a:hover,
-.nav a.active{
-background:#222;
-color:#fff;
-}
-
-/* MAIN */
-.main{
-margin-left:240px;
-width:100%;
-padding:30px;
-}
-
-.section{
-display:none;
-}
-
-.section.active{
-display:block;
-}
-
-/* CARDS */
-.cards{
-display:grid;
-grid-template-columns:repeat(3,1fr);
-gap:15px;
+h1{
 margin-bottom:20px;
 }
 
-.card{
-background:#fff;
-padding:20px;
-border-radius:14px;
-border:1px solid #eee;
-}
-
-.card h2{
-font-size:22px;
+/* BOXES */
+.box{
+background:#1c1c1c;
+padding:15px;
+border-radius:12px;
+margin-bottom:15px;
+border:1px solid #2a2a2a;
 }
 
 /* ORDER */
 .order{
-background:#fff;
-padding:15px;
-border-radius:12px;
-border:1px solid #eee;
-margin-bottom:10px;
-}
-
-.badge{
-display:inline-block;
-padding:4px 10px;
-border-radius:20px;
-font-size:12px;
-background:#eee;
-margin-left:10px;
-}
-
-/* INVENTORY */
-.inv{
-background:#fff;
-padding:15px;
-border-radius:12px;
-border:1px solid #eee;
-margin-bottom:10px;
+border-bottom:1px solid #333;
+padding:10px 0;
+font-size:14px;
 }
 
 .small{
-color:#666;
-font-size:13px;
+color:#aaa;
+font-size:12px;
 }
 
 /* BUTTON */
@@ -126,134 +51,76 @@ border:none;
 border-radius:8px;
 cursor:pointer;
 margin-top:8px;
-background:#111;
+}
+
+.delete{
+background:#e74c3c;
 color:#fff;
 }
 
-.red{background:#e74c3c;}
-.green{background:#2ecc71;}
-
+.sectionTitle{
+margin:20px 0 10px;
+color:#FFD700;
+}
 </style>
 </head>
 
 <body>
 
-<!-- SIDEBAR -->
-<div class="sidebar">
-<div class="brand">⚡ Admin Panel</div>
+<h1>⚡ Admin Panel</h1>
 
-<div class="nav">
-<a class="active" onclick="show('dashboard')">Dashboard</a>
-<a onclick="show('orders')">Orders</a>
-<a onclick="show('inventory')">Inventory</a>
-</div>
-</div>
+<div class="sectionTitle">📦 Orders</div>
+<div id="orders"></div>
 
-<!-- MAIN -->
-<div class="main">
-
-<!-- DASHBOARD -->
-<div id="dashboard" class="section active">
-
-<div class="cards">
-<div class="card">
-<h2 id="totalOrders">0</h2>
-<p>Orders</p>
-</div>
-
-<div class="card">
-<h2 id="revenue">0 kr</h2>
-<p>Revenue</p>
-</div>
-
-<div class="card">
-<h2 id="products">3</h2>
-<p>Products</p>
-</div>
-</div>
-
-</div>
-
-<!-- ORDERS -->
-<div id="orders" class="section">
-
-<h2>Orders</h2>
-<br>
-
-<div id="orderList"></div>
-
-</div>
-
-<!-- INVENTORY -->
-<div id="inventory" class="section">
-
-<h2>Inventory</h2>
-<br>
-
-<div id="inventoryList"></div>
-
-</div>
-
-</div>
+<div class="sectionTitle">📊 Inventory (simple)</div>
+<div id="inventory"></div>
 
 <script>
 
-/* DATA */
+/* GET DATA */
 function getOrders(){
 return JSON.parse(localStorage.getItem("orders")) || [];
 }
 
 function getStock(){
 return JSON.parse(localStorage.getItem("stock")) || {
-basic:{S:5,M:5,L:5},
-premium:{S:3,M:3,L:3},
-luxury:{S:2,M:2,L:2}
+basic:10,
+premium:5,
+luxury:2
 };
-}
-
-/* NAV */
-function show(id){
-document.querySelectorAll(".section").forEach(s=>s.classList.remove("active"));
-document.querySelectorAll(".nav a").forEach(a=>a.classList.remove("active"));
-
-document.getElementById(id).classList.add("active");
-event.target.classList.add("active");
-}
-
-/* DASHBOARD */
-function updateDashboard(){
-
-let orders = getOrders();
-
-let revenue = 0;
-orders.forEach(o=>{
-revenue += o.total || 0;
-});
-
-document.getElementById("totalOrders").innerText = orders.length;
-document.getElementById("revenue").innerText = revenue + " kr";
 }
 
 /* ORDERS */
 function renderOrders(){
 
 let orders = getOrders();
-let box = document.getElementById("orderList");
-
+let box = document.getElementById("orders");
 box.innerHTML = "";
+
+if(orders.length === 0){
+box.innerHTML = "<div class='box'>Ingen orders endnu</div>";
+return;
+}
 
 orders.reverse().forEach((o,i)=>{
 
 let div = document.createElement("div");
-div.className = "order";
+div.className = "box";
 
 div.innerHTML = `
-<b>Order #${o.id}</b>
-<span class="badge">Paid</span>
-<br><br>
+<b>Order #${o.id}</b><br>
+<div class="small">${o.date}</div><br>
+
 Total: ${o.total} kr<br>
 Items: ${o.items.length}<br><br>
-<button class="red" onclick="deleteOrder(${i})">Delete</button>
+
+${o.items.map(item => `
+<div class="order">
+${item.name} (${item.top}/${item.bottom}) x${item.qty}
+</div>
+`).join("")}
+
+<button class="delete" onclick="deleteOrder(${i})">Slet order</button>
 `;
 
 box.appendChild(div);
@@ -263,10 +130,10 @@ box.appendChild(div);
 }
 
 /* DELETE ORDER */
-function deleteOrder(i){
+function deleteOrder(index){
 
 let orders = getOrders();
-orders.reverse().splice(i,1);
+orders.reverse().splice(index,1);
 localStorage.setItem("orders", JSON.stringify(orders.reverse()));
 location.reload();
 
@@ -276,32 +143,19 @@ location.reload();
 function renderInventory(){
 
 let stock = getStock();
-let box = document.getElementById("inventoryList");
+let box = document.getElementById("inventory");
 
 box.innerHTML = "";
 
-for(let product in stock){
-
-let sizes = stock[product];
+for(let key in stock){
 
 let div = document.createElement("div");
-div.className = "inv";
+div.className = "box";
 
-let html = `<b>${product.toUpperCase()}</b><br><br>`;
-
-for(let size in sizes){
-
-let qty = sizes[size];
-
-html += `
-<div class="small">
-Size ${size}: ${qty} in stock
-</div>
+div.innerHTML = `
+<b>${key.toUpperCase()}</b><br><br>
+Stock: ${stock[key]} pcs<br>
 `;
-
-}
-
-div.innerHTML = html;
 
 box.appendChild(div);
 
@@ -310,7 +164,6 @@ box.appendChild(div);
 }
 
 /* INIT */
-updateDashboard();
 renderOrders();
 renderInventory();
 
