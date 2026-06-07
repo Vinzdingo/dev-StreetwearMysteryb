@@ -18,6 +18,7 @@ background:#fff;
 color:#111;
 }
 
+/* BACK */
 .back{
 position:fixed;
 top:20px;
@@ -27,6 +28,7 @@ cursor:pointer;
 z-index:9999;
 }
 
+/* LAYOUT */
 .container{
 max-width:1200px;
 margin:120px auto;
@@ -42,6 +44,7 @@ padding:0 40px;
 width:100%;
 border-radius:12px;
 border:1px solid #eee;
+object-fit:cover;
 }
 
 .thumbs{
@@ -74,13 +77,13 @@ margin-bottom:15px;
 
 .desc{
 color:#666;
-margin-bottom:25px;
 line-height:1.6;
+margin-bottom:25px;
 }
 
 /* SIZE BUTTONS */
 .size-group{
-margin-bottom:25px;
+margin-bottom:20px;
 }
 
 .size-title{
@@ -107,26 +110,6 @@ background:#FFD700;
 border-color:#FFD700;
 }
 
-/* TABLE (ONLY GUIDE) */
-table{
-width:100%;
-border-collapse:collapse;
-margin-top:10px;
-margin-bottom:25px;
-}
-
-th{
-text-align:left;
-padding:10px;
-border-bottom:2px solid #FFD700;
-}
-
-td{
-padding:8px 10px;
-border-bottom:1px solid #eee;
-color:#666;
-}
-
 /* BUTTON */
 .btn{
 display:block;
@@ -137,9 +120,30 @@ border-radius:10px;
 font-weight:bold;
 text-align:center;
 cursor:pointer;
-margin-top:20px;
+margin-top:25px;
 }
 
+/* FOLDOUTS */
+.fold{
+border-top:1px solid #eee;
+padding:15px 0;
+cursor:pointer;
+}
+
+.fold-title{
+display:flex;
+justify-content:space-between;
+font-weight:bold;
+}
+
+.fold-content{
+display:none;
+margin-top:10px;
+color:#666;
+line-height:1.6;
+}
+
+/* INFO */
 .section{
 margin-top:60px;
 border-top:1px solid #eee;
@@ -204,20 +208,6 @@ Eksklusive MysteryStreetwear box med håndplukkede items.
 <div class="size-btn" onclick="selectTop(this,'L')">L</div>
 <div class="size-btn" onclick="selectTop(this,'XL')">XL</div>
 </div>
-
-<!-- GUIDE TABLE -->
-<table>
-<tr>
-<th>Størrelse</th>
-<th>Bryst (cm)</th>
-<th>Længde (cm)</th>
-</tr>
-<tr><td>S</td><td>90-96</td><td>66-70</td></tr>
-<tr><td>M</td><td>96-102</td><td>70-74</td></tr>
-<tr><td>L</td><td>102-108</td><td>74-78</td></tr>
-<tr><td>XL</td><td>108-114</td><td>78-82</td></tr>
-</table>
-
 </div>
 
 <!-- BUKSER -->
@@ -230,22 +220,9 @@ Eksklusive MysteryStreetwear box med håndplukkede items.
 <div class="size-btn" onclick="selectBottom(this,'32')">32</div>
 <div class="size-btn" onclick="selectBottom(this,'34')">34</div>
 </div>
-
-<!-- GUIDE TABLE -->
-<table>
-<tr>
-<th>Størrelse</th>
-<th>Talje (cm)</th>
-<th>Ben (cm)</th>
-</tr>
-<tr><td>28</td><td>74-78</td><td>76-80</td></tr>
-<tr><td>30</td><td>78-84</td><td>80-84</td></tr>
-<tr><td>32</td><td>84-90</td><td>84-88</td></tr>
-<tr><td>34</td><td>90-96</td><td>88-92</td></tr>
-</table>
-
 </div>
 
+<!-- ADD -->
 <div class="btn" onclick="addToCart()">
 Tilføj til kurv
 </div>
@@ -254,15 +231,40 @@ Tilføj til kurv
 
 </div>
 
-<!-- INFO -->
+<!-- FOLDOUT INFO -->
 <div class="section">
-<h2>Hvad indeholder boksen</h2>
-<p>Hoodies, T-shirts, Cargos, Jackets, Accessories</p>
+
+<div class="fold" onclick="toggle(this)">
+<div class="fold-title">
+Hvad indeholder boksen
+<span>+</span>
+</div>
+<div class="fold-content">
+Hoodies, T-shirts, Bukser, Jackets, Streetwear items håndplukket.
+</div>
 </div>
 
-<div class="section">
-<h2>Levering & retur</h2>
-<p>2-5 dage levering • 14 dages returret</p>
+<div class="fold" onclick="toggle(this)">
+<div class="fold-title">
+Levering
+<span>+</span>
+</div>
+<div class="fold-content">
+2-5 dage levering i Danmark.
+</div>
+</div>
+
+<div class="fold" onclick="toggle(this)">
+<div class="fold-title">
+Størrelsesguide
+<span>+</span>
+</div>
+<div class="fold-content">
+Trøjer: 90-114 cm bryst<br>
+Bukser: 74-96 cm talje
+</div>
+</div>
+
 </div>
 
 <script>
@@ -298,6 +300,7 @@ function changeImg(el){
 document.getElementById("mainImg").src = el.src;
 }
 
+/* SIZE */
 let topSize = "";
 let bottomSize = "";
 
@@ -317,6 +320,13 @@ el.classList.add("active");
 bottomSize = size;
 }
 
+/* FOLDOUT */
+function toggle(el){
+let content = el.querySelector(".fold-content");
+content.style.display = content.style.display === "block" ? "none" : "block";
+}
+
+/* CART */
 function addToCart(){
 
 if(!topSize || !bottomSize){
