@@ -42,7 +42,6 @@ padding:0 40px;
 width:100%;
 border-radius:12px;
 border:1px solid #eee;
-object-fit:cover;
 }
 
 .thumbs{
@@ -56,13 +55,8 @@ width:80px;
 height:80px;
 border-radius:8px;
 cursor:pointer;
-border:1px solid #eee;
 object-fit:cover;
-transition:.2s;
-}
-
-.thumbs img:hover{
-transform:scale(1.05);
+border:1px solid #eee;
 }
 
 /* RIGHT */
@@ -84,19 +78,9 @@ margin-bottom:25px;
 line-height:1.6;
 }
 
-.btn{
-display:inline-block;
-background:#FFD700;
-padding:14px 22px;
-border-radius:10px;
-font-weight:bold;
-cursor:pointer;
-margin-top:20px;
-}
-
-/* SIZE */
+/* SIZE BUTTONS */
 .size-group{
-margin-top:20px;
+margin-bottom:25px;
 }
 
 .size-title{
@@ -110,16 +94,65 @@ gap:10px;
 flex-wrap:wrap;
 }
 
-.size{
+.size-btn{
 padding:10px 14px;
 border:1px solid #ddd;
 border-radius:8px;
 cursor:pointer;
+transition:.2s;
 }
 
-.size.active{
+.size-btn.active{
 background:#FFD700;
 border-color:#FFD700;
+}
+
+/* TABLE (ONLY GUIDE) */
+table{
+width:100%;
+border-collapse:collapse;
+margin-top:10px;
+margin-bottom:25px;
+}
+
+th{
+text-align:left;
+padding:10px;
+border-bottom:2px solid #FFD700;
+}
+
+td{
+padding:8px 10px;
+border-bottom:1px solid #eee;
+color:#666;
+}
+
+/* BUTTON */
+.btn{
+display:block;
+width:100%;
+background:#FFD700;
+padding:16px;
+border-radius:10px;
+font-weight:bold;
+text-align:center;
+cursor:pointer;
+margin-top:20px;
+}
+
+.section{
+margin-top:60px;
+border-top:1px solid #eee;
+padding-top:40px;
+}
+
+.section h2{
+margin-bottom:10px;
+}
+
+.section p{
+color:#666;
+line-height:1.6;
 }
 
 </style>
@@ -158,37 +191,78 @@ src="https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fi
 <div class="price" id="price"></div>
 
 <div class="desc">
-MysteryStreetwear box med håndplukkede items. Hver box er unik.
+Eksklusive MysteryStreetwear box med håndplukkede items.
+</div>
+
+<!-- TRØJER -->
+<div class="size-group">
+<div class="size-title">Trøjer</div>
+
+<div class="sizes">
+<div class="size-btn" onclick="selectTop(this,'S')">S</div>
+<div class="size-btn" onclick="selectTop(this,'M')">M</div>
+<div class="size-btn" onclick="selectTop(this,'L')">L</div>
+<div class="size-btn" onclick="selectTop(this,'XL')">XL</div>
+</div>
+
+<!-- GUIDE TABLE -->
+<table>
+<tr>
+<th>Størrelse</th>
+<th>Bryst (cm)</th>
+<th>Længde (cm)</th>
+</tr>
+<tr><td>S</td><td>90-96</td><td>66-70</td></tr>
+<tr><td>M</td><td>96-102</td><td>70-74</td></tr>
+<tr><td>L</td><td>102-108</td><td>74-78</td></tr>
+<tr><td>XL</td><td>108-114</td><td>78-82</td></tr>
+</table>
+
+</div>
+
+<!-- BUKSER -->
+<div class="size-group">
+<div class="size-title">Bukser</div>
+
+<div class="sizes">
+<div class="size-btn" onclick="selectBottom(this,'28')">28</div>
+<div class="size-btn" onclick="selectBottom(this,'30')">30</div>
+<div class="size-btn" onclick="selectBottom(this,'32')">32</div>
+<div class="size-btn" onclick="selectBottom(this,'34')">34</div>
+</div>
+
+<!-- GUIDE TABLE -->
+<table>
+<tr>
+<th>Størrelse</th>
+<th>Talje (cm)</th>
+<th>Ben (cm)</th>
+</tr>
+<tr><td>28</td><td>74-78</td><td>76-80</td></tr>
+<tr><td>30</td><td>78-84</td><td>80-84</td></tr>
+<tr><td>32</td><td>84-90</td><td>84-88</td></tr>
+<tr><td>34</td><td>90-96</td><td>88-92</td></tr>
+</table>
+
 </div>
 
 <div class="btn" onclick="addToCart()">
 Tilføj til kurv
 </div>
 
-<!-- TRØJER -->
-<div class="size-group">
-<div class="size-title">Trøjer</div>
-<div class="sizes">
-<div class="size" onclick="selectSize(this)">S</div>
-<div class="size" onclick="selectSize(this)">M</div>
-<div class="size" onclick="selectSize(this)">L</div>
-<div class="size" onclick="selectSize(this)">XL</div>
-</div>
-</div>
-
-<!-- BUKSER -->
-<div class="size-group">
-<div class="size-title">Bukser</div>
-<div class="sizes">
-<div class="size" onclick="selectSize(this)">28</div>
-<div class="size" onclick="selectSize(this)">30</div>
-<div class="size" onclick="selectSize(this)">32</div>
-<div class="size" onclick="selectSize(this)">34</div>
-</div>
 </div>
 
 </div>
 
+<!-- INFO -->
+<div class="section">
+<h2>Hvad indeholder boksen</h2>
+<p>Hoodies, T-shirts, Cargos, Jackets, Accessories</p>
+</div>
+
+<div class="section">
+<h2>Levering & retur</h2>
+<p>2-5 dage levering • 14 dages returret</p>
 </div>
 
 <script>
@@ -224,18 +298,29 @@ function changeImg(el){
 document.getElementById("mainImg").src = el.src;
 }
 
-let selectedSize = "";
+let topSize = "";
+let bottomSize = "";
 
-function selectSize(el){
-document.querySelectorAll(".size").forEach(s=>s.classList.remove("active"));
+function selectTop(el,size){
+document.querySelectorAll(".size-btn").forEach(b=>{
+if(["S","M","L","XL"].includes(b.innerText)) b.classList.remove("active");
+});
 el.classList.add("active");
-selectedSize = el.innerText;
+topSize = size;
+}
+
+function selectBottom(el,size){
+document.querySelectorAll(".size-btn").forEach(b=>{
+if(["28","30","32","34"].includes(b.innerText)) b.classList.remove("active");
+});
+el.classList.add("active");
+bottomSize = size;
 }
 
 function addToCart(){
 
-if(!selectedSize){
-alert("Vælg størrelse");
+if(!topSize || !bottomSize){
+alert("Vælg både trøje og bukser størrelse");
 return;
 }
 
@@ -245,7 +330,8 @@ cart.push({
 id:id,
 name:product.name,
 price:product.price,
-size:selectedSize,
+topSize:topSize,
+bottomSize:bottomSize,
 img:product.img
 });
 
