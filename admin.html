@@ -3,169 +3,135 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Admin Panel</title>
+<title>Admin Dashboard</title>
 
 <style>
-*{
-margin:0;
-padding:0;
-box-sizing:border-box;
-font-family:Arial;
-}
 
 body{
+margin:0;
+font-family:Arial;
 background:#0f0f0f;
 color:#fff;
+}
+
+.header{
+padding:20px;
+background:#111;
+border-bottom:1px solid #222;
+}
+
+.container{
+max-width:1100px;
+margin:20px auto;
 padding:20px;
 }
 
-h1{
-margin-bottom:20px;
-}
-
-/* BOXES */
-.box{
-background:#1c1c1c;
+.order{
+background:#1a1a1a;
 padding:15px;
 border-radius:12px;
-margin-bottom:15px;
-border:1px solid #2a2a2a;
+margin-bottom:10px;
+border:1px solid #222;
 }
 
-/* ORDER */
-.order{
-border-bottom:1px solid #333;
-padding:10px 0;
-font-size:14px;
-}
-
-.small{
-color:#aaa;
+.status{
 font-size:12px;
+padding:4px 8px;
+border-radius:6px;
+display:inline-block;
+background:orange;
+color:#000;
 }
 
-/* BUTTON */
+.grid{
+display:grid;
+grid-template-columns:1fr 1fr;
+gap:10px;
+margin-top:10px;
+}
+
 button{
-padding:8px 12px;
+padding:8px;
 border:none;
 border-radius:8px;
 cursor:pointer;
+}
+
+.del{background:#ff3b3b;color:#fff;}
+.ship{background:#00c853;color:#000;}
+
+.total{
 margin-top:8px;
+font-weight:bold;
 }
 
-.delete{
-background:#e74c3c;
-color:#fff;
-}
-
-.sectionTitle{
-margin:20px 0 10px;
-color:#FFD700;
-}
 </style>
 </head>
 
 <body>
 
-<h1>⚡ Admin Panel</h1>
+<div class="header">
+<h2>🛒 Admin Dashboard</h2>
+</div>
 
-<div class="sectionTitle">📦 Orders</div>
-<div id="orders"></div>
-
-<div class="sectionTitle">📊 Inventory (simple)</div>
-<div id="inventory"></div>
+<div class="container" id="orders"></div>
 
 <script>
 
-/* GET DATA */
 function getOrders(){
 return JSON.parse(localStorage.getItem("orders")) || [];
 }
 
-function getStock(){
-return JSON.parse(localStorage.getItem("stock")) || {
-basic:10,
-premium:5,
-luxury:2
-};
+function saveOrders(o){
+localStorage.setItem("orders", JSON.stringify(o));
 }
 
-/* ORDERS */
-function renderOrders(){
+function render(){
 
 let orders = getOrders();
 let box = document.getElementById("orders");
+
 box.innerHTML = "";
 
 if(orders.length === 0){
-box.innerHTML = "<div class='box'>Ingen orders endnu</div>";
+box.innerHTML = "<p>No orders yet...</p>";
 return;
 }
 
-orders.reverse().forEach((o,i)=>{
+orders.forEach((o,i)=>{
 
-let div = document.createElement("div");
-div.className = "box";
-
-div.innerHTML = `
-<b>Order #${o.id}</b><br>
-<div class="small">${o.date}</div><br>
-
-Total: ${o.total} kr<br>
-Items: ${o.items.length}<br><br>
-
-${o.items.map(item => `
+box.innerHTML += `
 <div class="order">
-${item.name} (${item.top}/${item.bottom}) x${item.qty}
+<b>Order ${o.id}</b><br>
+<span class="status">${o.status}</span>
+
+<div class="total">${o.total} kr</div>
+
+<div class="grid">
+<button class="ship" onclick="ship(${i})">Mark shipped</button>
+<button class="del" onclick="remove(${i})">Delete</button>
 </div>
-`).join("")}
-
-<button class="delete" onclick="deleteOrder(${i})">Slet order</button>
+</div>
 `;
-
-box.appendChild(div);
-
 });
 
 }
 
-/* DELETE ORDER */
-function deleteOrder(index){
-
+function ship(i){
 let orders = getOrders();
-orders.reverse().splice(index,1);
-localStorage.setItem("orders", JSON.stringify(orders.reverse()));
-location.reload();
-
+orders[i].status = "shipped";
+saveOrders(orders);
+render();
 }
 
-/* INVENTORY */
-function renderInventory(){
-
-let stock = getStock();
-let box = document.getElementById("inventory");
-
-box.innerHTML = "";
-
-for(let key in stock){
-
-let div = document.createElement("div");
-div.className = "box";
-
-div.innerHTML = `
-<b>${key.toUpperCase()}</b><br><br>
-Stock: ${stock[key]} pcs<br>
-`;
-
-box.appendChild(div);
-
+function remove(i){
+let orders = getOrders();
+orders.splice(i,1);
+saveOrders(orders);
+render();
 }
 
-}
-
-/* INIT */
-renderOrders();
-renderInventory();
+render();
 
 </script>
 
