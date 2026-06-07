@@ -6,11 +6,7 @@
 <title>MysteryStreetwear</title>
 
 <style>
-*{
-margin:0;
-padding:0;
-box-sizing:border-box;
-}
+*{margin:0;padding:0;box-sizing:border-box;}
 
 body{
 font-family:Arial;
@@ -18,7 +14,6 @@ background:#fff;
 color:#111;
 }
 
-/* BACK */
 .back{
 position:fixed;
 top:20px;
@@ -28,7 +23,6 @@ cursor:pointer;
 z-index:9999;
 }
 
-/* LAYOUT */
 .container{
 max-width:1200px;
 margin:100px auto;
@@ -37,74 +31,21 @@ gap:80px;
 padding:0 40px;
 }
 
-/* LEFT */
 .left{flex:1;}
+.main-img{width:100%;border-radius:14px;border:1px solid #eee;}
+.thumbs{display:flex;gap:10px;margin-top:12px;}
+.thumbs img{width:85px;height:85px;border-radius:10px;cursor:pointer;object-fit:cover;border:1px solid #eee;}
 
-.main-img{
-width:100%;
-border-radius:14px;
-border:1px solid #eee;
-object-fit:cover;
-}
-
-.thumbs{
-display:flex;
-gap:10px;
-margin-top:12px;
-}
-
-.thumbs img{
-width:85px;
-height:85px;
-border-radius:10px;
-cursor:pointer;
-object-fit:cover;
-border:1px solid #eee;
-transition:.2s;
-}
-
-.thumbs img:hover{
-transform:scale(1.05);
-}
-
-/* RIGHT */
 .right{flex:1;}
 
-.title{
-font-size:46px;
-margin-bottom:8px;
-letter-spacing:-0.5px;
-}
+.title{font-size:46px;margin-bottom:8px;}
+.price{font-size:26px;margin-bottom:18px;}
+.desc{color:#666;line-height:1.7;margin-bottom:30px;}
 
-.price{
-font-size:26px;
-margin-bottom:18px;
-color:#111;
-}
+.size-group{margin-bottom:25px;}
+.size-title{font-weight:bold;font-size:18px;margin-bottom:12px;}
 
-.desc{
-color:#666;
-line-height:1.7;
-margin-bottom:30px;
-font-size:15px;
-}
-
-/* SIZE BUTTONS */
-.size-group{
-margin-bottom:25px;
-}
-
-.size-title{
-font-weight:bold;
-font-size:18px;
-margin-bottom:12px;
-}
-
-.sizes{
-display:flex;
-gap:12px;
-flex-wrap:wrap;
-}
+.sizes{display:flex;gap:12px;flex-wrap:wrap;}
 
 .size-btn{
 padding:12px 16px;
@@ -115,16 +56,11 @@ transition:.2s;
 font-size:14px;
 }
 
-.size-btn:hover{
-transform:translateY(-2px);
-}
-
 .size-btn.active{
 background:#FFD700;
 border-color:#FFD700;
 }
 
-/* ADD BUTTON */
 .btn{
 display:block;
 width:100%;
@@ -136,14 +72,8 @@ text-align:center;
 cursor:pointer;
 margin-top:30px;
 font-size:15px;
-transition:.2s;
 }
 
-.btn:hover{
-transform:translateY(-2px);
-}
-
-/* FOLDOUTS */
 .fold-container{
 margin-top:80px;
 }
@@ -156,13 +86,9 @@ margin-bottom:18px;
 padding:22px 24px;
 cursor:pointer;
 transition:.25s;
-box-shadow:0 2px 12px rgba(0,0,0,0.03);
 }
 
-.fold:hover{
-transform:translateX(8px);
-background:#fff;
-}
+.fold:hover{transform:translateX(8px);background:#fff;}
 
 .fold-title{
 display:flex;
@@ -176,10 +102,8 @@ display:none;
 margin-top:18px;
 color:#666;
 line-height:1.7;
-font-size:14px;
 }
 
-/* TABLE */
 table{
 width:100%;
 border-collapse:collapse;
@@ -187,24 +111,20 @@ margin-top:12px;
 }
 
 th{
-text-align:left;
 padding:12px;
 border-bottom:2px solid #FFD700;
-font-size:14px;
+text-align:left;
 }
 
 td{
 padding:12px;
 border-bottom:1px solid #eee;
-font-size:14px;
 }
 
-h4{
-margin-top:18px;
-margin-bottom:10px;
-font-size:15px;
+@keyframes slideIn{
+from{transform:translateY(20px);opacity:0;}
+to{transform:translateY(0);opacity:1;}
 }
-
 </style>
 </head>
 
@@ -216,22 +136,13 @@ font-size:15px;
 
 <!-- LEFT -->
 <div class="left">
-
 <img id="mainImg" class="main-img">
 
 <div class="thumbs">
-
-<img onclick="changeImg(this)"
-src="https://telecaixa.com/cdn/shop/files/1078.jpg?v=1711978877">
-
-<img onclick="changeImg(this)"
-src="https://images.unsplash.com/photo-1607082349566-187342175e2f?auto=format&fit=crop&w=300&q=80">
-
-<img onclick="changeImg(this)"
-src="https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&w=300&q=80">
-
+<img onclick="changeImg(this)" src="https://telecaixa.com/cdn/shop/files/1078.jpg?v=1711978877">
+<img onclick="changeImg(this)" src="https://images.unsplash.com/photo-1607082349566-187342175e2f?auto=format&fit=crop&w=300&q=80">
+<img onclick="changeImg(this)" src="https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&w=300&q=80">
 </div>
-
 </div>
 
 <!-- RIGHT -->
@@ -240,14 +151,10 @@ src="https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fi
 <div class="title" id="title">Mystery Box</div>
 <div class="price" id="price"></div>
 
-<div class="desc">
-Eksklusive MysteryStreetwear boxes med håndplukkede items.
-</div>
+<div class="desc">Eksklusive MysteryStreetwear box med håndplukkede items.</div>
 
-<!-- TRØJER -->
 <div class="size-group">
 <div class="size-title">Trøjer</div>
-
 <div class="sizes">
 <div class="size-btn" onclick="selectTop(this,'S')">S</div>
 <div class="size-btn" onclick="selectTop(this,'M')">M</div>
@@ -256,10 +163,8 @@ Eksklusive MysteryStreetwear boxes med håndplukkede items.
 </div>
 </div>
 
-<!-- BUKSER -->
 <div class="size-group">
 <div class="size-title">Bukser</div>
-
 <div class="sizes">
 <div class="size-btn" onclick="selectBottom(this,'28')">28</div>
 <div class="size-btn" onclick="selectBottom(this,'30')">30</div>
@@ -268,57 +173,39 @@ Eksklusive MysteryStreetwear boxes med håndplukkede items.
 </div>
 </div>
 
-<div class="btn" onclick="addToCart()">
-Tilføj til kurv
-</div>
+<div class="btn" onclick="addToCart()">Tilføj til kurv</div>
 
 </div>
-
 </div>
 
 <!-- FOLDOUTS -->
 <div class="fold-container">
 
 <div class="fold" onclick="toggle(this)">
-<div class="fold-title">
-Hvad indeholder boksen
-<span>+</span>
-</div>
-<div class="fold-content">
-Hoodies, T-shirts, Bukser, Jackets, Streetwear items håndplukket.
-</div>
+<div class="fold-title">Hvad indeholder boksen</div>
+<div class="fold-content">Hoodies, T-shirts, Bukser, Jackets</div>
 </div>
 
 <div class="fold" onclick="toggle(this)">
-<div class="fold-title">
-Levering & retur
-<span>+</span>
-</div>
-<div class="fold-content">
-2-5 dage levering i Danmark. 14 dages returret.
-</div>
+<div class="fold-title">Levering & retur</div>
+<div class="fold-content">2-5 dage levering i Danmark</div>
 </div>
 
 <div class="fold" onclick="toggle(this)">
-<div class="fold-title">
-Størrelsesguide
-<span>+</span>
-</div>
+<div class="fold-title">Størrelsesguide</div>
 
 <div class="fold-content">
 
-<h4>Trøjer</h4>
 <table>
-<tr><th>Size</th><th>Bryst</th><th>Længde</th></tr>
+<tr><th>Trøjer</th><th>Bryst</th><th>Længde</th></tr>
 <tr><td>S</td><td>90-96</td><td>66-70</td></tr>
 <tr><td>M</td><td>96-102</td><td>70-74</td></tr>
 <tr><td>L</td><td>102-108</td><td>74-78</td></tr>
 <tr><td>XL</td><td>108-114</td><td>78-82</td></tr>
 </table>
 
-<h4>Bukser</h4>
-<table>
-<tr><th>Size</th><th>Talje</th><th>Ben</th></tr>
+<table style="margin-top:20px;">
+<tr><th>Bukser</th><th>Talje</th><th>Ben</th></tr>
 <tr><td>28</td><td>74-78</td><td>76-80</td></tr>
 <tr><td>30</td><td>78-84</td><td>80-84</td></tr>
 <tr><td>32</td><td>84-90</td><td>84-88</td></tr>
@@ -326,7 +213,6 @@ Størrelsesguide
 </table>
 
 </div>
-
 </div>
 
 </div>
@@ -337,21 +223,9 @@ const params = new URLSearchParams(window.location.search);
 const id = params.get("id");
 
 const products = {
-basic:{
-name:"Basic Box",
-price:299,
-img:"https://telecaixa.com/cdn/shop/files/1078.jpg?v=1711978877"
-},
-premium:{
-name:"Premium Box",
-price:499,
-img:"https://images.unsplash.com/photo-1521334884684-d80222895322?auto=format&fit=crop&w=900&q=80"
-},
-luxury:{
-name:"Luxury Box",
-price:799,
-img:"https://images.unsplash.com/photo-1520975916090-3105956dac38?auto=format&fit=crop&w=900&q=80"
-}
+basic:{name:"Basic Box",price:299,img:"https://telecaixa.com/cdn/shop/files/1078.jpg?v=1711978877"},
+premium:{name:"Premium Box",price:499,img:"https://images.unsplash.com/photo-1521334884684-d80222895322?auto=format&fit=crop&w=900&q=80"},
+luxury:{name:"Luxury Box",price:799,img:"https://images.unsplash.com/photo-1520975916090-3105956dac38?auto=format&fit=crop&w=900&q=80"}
 };
 
 const product = products[id] || products.basic;
@@ -364,16 +238,14 @@ function changeImg(el){
 document.getElementById("mainImg").src = el.src;
 }
 
-/* SIZE */
-let topSize = "";
-let bottomSize = "";
+let topSize="", bottomSize="";
 
 function selectTop(el,size){
 document.querySelectorAll(".size-btn").forEach(b=>{
 if(["S","M","L","XL"].includes(b.innerText)) b.classList.remove("active");
 });
 el.classList.add("active");
-topSize = size;
+topSize=size;
 }
 
 function selectBottom(el,size){
@@ -381,37 +253,102 @@ document.querySelectorAll(".size-btn").forEach(b=>{
 if(["28","30","32","34"].includes(b.innerText)) b.classList.remove("active");
 });
 el.classList.add("active");
-bottomSize = size;
+bottomSize=size;
 }
 
-/* TOGGLE */
 function toggle(el){
-let content = el.querySelector(".fold-content");
-content.style.display = content.style.display === "block" ? "none" : "block";
+let c=el.querySelector(".fold-content");
+c.style.display=c.style.display==="block"?"none":"block";
 }
 
-/* CART */
+/* ===== CART + POPUP ===== */
+
 function addToCart(){
 
-if(!topSize || !bottomSize){
-alert("Vælg både trøje og bukser størrelse");
+if(!topSize||!bottomSize){
+alert("Vælg størrelser");
 return;
 }
 
-let cart = JSON.parse(localStorage.getItem("cart")) || [];
+let cart=JSON.parse(localStorage.getItem("cart"))||[];
 
 cart.push({
-id:id,
+id,
 name:product.name,
 price:product.price,
-topSize:topSize,
-bottomSize:bottomSize,
+topSize,
+bottomSize,
 img:product.img
 });
 
-localStorage.setItem("cart", JSON.stringify(cart));
+localStorage.setItem("cart",JSON.stringify(cart));
 
-alert("Tilføjet til kurv ✔");
+showPopup();
+
+}
+
+function showPopup(){
+
+let old=document.getElementById("popup");
+if(old) old.remove();
+
+let div=document.createElement("div");
+div.id="popup";
+
+div.innerHTML=`
+<div style="
+position:fixed;
+bottom:30px;
+right:30px;
+width:280px;
+background:#fff;
+border:1px solid #eee;
+border-radius:14px;
+padding:18px;
+box-shadow:0 10px 35px rgba(0,0,0,0.15);
+animation:slideIn .25s;
+z-index:99999;
+font-family:Arial;
+">
+
+<div style="font-weight:bold;margin-bottom:12px;">
+Tilføjet til kurv ✔
+</div>
+
+<button onclick="window.location.href='cart.html'" style="
+width:100%;
+padding:12px;
+background:#FFD700;
+border:none;
+border-radius:10px;
+font-weight:bold;
+cursor:pointer;
+margin-bottom:10px;
+">
+Gå til kurv
+</button>
+
+<button onclick="document.getElementById('popup').remove()" style="
+width:100%;
+padding:12px;
+background:#f3f3f3;
+border:none;
+border-radius:10px;
+cursor:pointer;
+">
+Shop videre
+</button>
+
+</div>
+`;
+
+document.body.appendChild(div);
+
+setTimeout(()=>{
+let p=document.getElementById("popup");
+if(p) p.remove();
+},8000);
+
 }
 
 </script>
