@@ -138,6 +138,12 @@ line-height:1.6;
 <script>
 
 let cart = JSON.parse(localStorage.getItem("cart")) || [];
+let orders = JSON.parse(localStorage.getItem("orders")) || [];
+let stock = JSON.parse(localStorage.getItem("stock")) || {
+basic:10,
+premium:5,
+luxury:2
+};
 
 function render(){
 
@@ -148,15 +154,16 @@ let total = 0;
 
 cart.forEach((item,i)=>{
 
-total += item.price;
+total += item.price * item.qty;
 
 let div = document.createElement("div");
 div.className = "item";
 
 div.innerHTML = `
-<h3>${item.name}</h3>
-<div class="meta">Size: ${item.top} / ${item.bottom}</div>
-<div class="meta">${item.price} kr</div>
+<b>${item.name}</b><br>
+Size: ${item.top} / ${item.bottom}<br>
+Qty: ${item.qty}<br>
+${item.price * item.qty} kr
 `;
 
 box.appendChild(div);
@@ -171,6 +178,7 @@ document.getElementById("total").innerText =
 
 }
 
+/* REAL ORDER SAVE */
 function checkout(){
 
 if(cart.length === 0){
@@ -178,21 +186,28 @@ alert("Kurven er tom");
 return;
 }
 
-/* FAKE ORDER SAVE */
-let orders = JSON.parse(localStorage.getItem("orders")) || [];
+/* REDUCE STOCK */
+cart.forEach(item=>{
+if(item.name.includes("Basic")) stock.basic--;
+if(item.name.includes("Premium")) stock.premium--;
+if(item.name.includes("Luxury")) stock.luxury--;
+});
 
+/* SAVE ORDER */
 orders.push({
 id: Date.now(),
 items: cart,
-total: cart.reduce((a,b)=>a+b.price,0),
+total: cart.reduce((a,b)=>a + (b.price*b.qty),0),
 date: new Date().toISOString()
 });
 
 localStorage.setItem("orders", JSON.stringify(orders));
+localStorage.setItem("stock", JSON.stringify(stock));
 
 localStorage.removeItem("cart");
 
 alert("Order placed!");
+
 location.reload();
 }
 
