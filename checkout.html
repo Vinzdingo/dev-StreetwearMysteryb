@@ -3,138 +3,37 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Checkout - MysteryStreetwear</title>
+<title>Checkout</title>
 
 <style>
-*{
-margin:0;
-padding:0;
-box-sizing:border-box;
-font-family:Arial, sans-serif;
-}
+body{font-family:Arial;background:#f7f7f7;padding:30px;}
 
-body{
-background:#f7f7f7;
-color:#111;
-padding:40px;
-}
-
-/* HEADER */
-.header{
-max-width:1000px;
-margin:auto;
-display:flex;
-justify-content:space-between;
-align-items:center;
-margin-bottom:30px;
-}
-
-.header h1{
-font-size:28px;
-}
-
-.back{
-cursor:pointer;
-padding:10px 14px;
-border:1px solid #ddd;
-border-radius:10px;
-background:#fff;
-}
-
-/* LAYOUT */
 .container{
-max-width:1000px;
+max-width:900px;
 margin:auto;
 display:grid;
 grid-template-columns:2fr 1fr;
 gap:20px;
 }
 
-/* CART ITEMS */
-.cartBox{
+.box{
 background:#fff;
 padding:20px;
 border-radius:12px;
-border:1px solid #eee;
 }
 
 .item{
-padding:15px;
 border-bottom:1px solid #eee;
-display:flex;
-justify-content:space-between;
-align-items:center;
+padding:10px 0;
 }
 
-.item:last-child{
-border-bottom:none;
-}
-
-.item h3{
-font-size:16px;
-margin-bottom:5px;
-}
-
-.item p{
-font-size:13px;
-color:#666;
-}
-
-.remove{
-padding:8px 10px;
-border:none;
-border-radius:8px;
-background:#111;
-color:#fff;
-cursor:pointer;
-font-size:12px;
-}
-
-/* SUMMARY */
-.summary{
-background:#fff;
-padding:20px;
-border-radius:12px;
-border:1px solid #eee;
-height:fit-content;
-}
-
-.summary h2{
-font-size:20px;
-margin-bottom:15px;
-}
-
-.line{
-display:flex;
-justify-content:space-between;
-margin-bottom:10px;
-color:#555;
-font-size:14px;
-}
-
-.total{
-margin-top:20px;
-font-size:18px;
-font-weight:bold;
-}
-
-/* BUTTON */
 button{
 width:100%;
-padding:14px;
-border:none;
-border-radius:10px;
+padding:12px;
 background:#111;
 color:#fff;
-cursor:pointer;
-margin-top:20px;
-font-size:15px;
-}
-
-.empty{
-text-align:center;
-color:#777;
-padding:40px 0;
+border:none;
+margin-top:10px;
 }
 
 </style>
@@ -142,37 +41,17 @@ padding:40px 0;
 
 <body>
 
-<div class="header">
 <h1>Checkout</h1>
-<div class="back" onclick="history.back()">← Tilbage</div>
-</div>
 
 <div class="container">
 
-<!-- CART -->
-<div class="cartBox" id="cartBox">
-</div>
+<div class="box" id="cartBox"></div>
 
-<!-- SUMMARY -->
-<div class="summary">
-<h2>Oversigt</h2>
-
-<div class="line">
-<span>Produkter</span>
-<span id="count">0</span>
-</div>
-
-<div class="line">
-<span>Levering</span>
-<span>Gratis</span>
-</div>
-
-<div class="total">
-Total: <span id="total">0 kr</span>
-</div>
-
-<button onclick="checkout()">Gennemfør bestilling</button>
-
+<div class="box">
+<h3>Summary</h3>
+<p id="count"></p>
+<p id="total"></p>
+<button onclick="checkout()">Betal</button>
 </div>
 
 </div>
@@ -181,56 +60,42 @@ Total: <span id="total">0 kr</span>
 
 let cart = JSON.parse(localStorage.getItem("cart")) || [];
 
-let box = document.getElementById("cartBox");
-
-/* RENDER */
 function render(){
 
-box.innerHTML = "";
-
-if(cart.length === 0){
-box.innerHTML = `<div class="empty">Din kurv er tom</div>`;
-return;
-}
+let box=document.getElementById("cartBox");
+box.innerHTML="";
 
 cart.forEach((item,i)=>{
 
-let div = document.createElement("div");
+let div=document.createElement("div");
 div.className="item";
 
 div.innerHTML=`
-<div>
-<h3>${item.name}</h3>
-<p>Trøje: ${item.top || "-"} | Bukser: ${item.bottom || "-"}</p>
-</div>
-
-<button class="remove" onclick="removeItem(${i})">Fjern</button>
+<b>${item.name}</b><br>
+${item.top} / ${item.bottom}<br>
+<button onclick="remove(${i})">Fjern</button>
 `;
 
 box.appendChild(div);
 
 });
 
-document.getElementById("count").innerText = cart.length;
-document.getElementById("total").innerText = (cart.length * 299) + " kr";
+document.getElementById("count").innerText="Items: "+cart.length;
 
+let total=0;
+cart.forEach(i=>total+=i.price||299);
+
+document.getElementById("total").innerText="Total: "+total+" kr";
 }
 
-/* REMOVE */
-function removeItem(i){
+function remove(i){
 cart.splice(i,1);
 localStorage.setItem("cart",JSON.stringify(cart));
 render();
 }
 
-/* CHECKOUT */
 function checkout(){
-if(cart.length === 0){
-alert("Kurven er tom");
-return;
-}
-
-alert("Ordre sendt ✔ (demo checkout)");
+alert("Order placed (demo)");
 localStorage.removeItem("cart");
 location.reload();
 }
