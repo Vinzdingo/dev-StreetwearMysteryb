@@ -16,10 +16,10 @@ font-family:Arial, sans-serif;
 body{
 background:#fff;
 color:#111;
-padding-bottom:80px;
+padding-bottom:100px;
 }
 
-/* BACK BUTTON */
+/* BACK */
 .back{
 position:fixed;
 top:20px;
@@ -75,7 +75,6 @@ border:1px solid #ddd;
 border-radius:8px;
 cursor:pointer;
 transition:.2s;
-font-size:14px;
 }
 
 .size.active{
@@ -133,6 +132,46 @@ font-size:13px;
 text-align:left;
 }
 
+/* POPUP */
+.popup{
+position:fixed;
+bottom:20px;
+right:20px;
+width:280px;
+background:#111;
+color:#fff;
+padding:15px;
+border-radius:12px;
+display:none;
+z-index:9999;
+box-shadow:0 10px 30px rgba(0,0,0,0.2);
+}
+
+.popup p{
+font-size:14px;
+margin-bottom:10px;
+}
+
+.popup button{
+width:100%;
+padding:10px;
+border:none;
+border-radius:8px;
+cursor:pointer;
+margin-top:8px;
+font-size:14px;
+}
+
+.shop{
+background:#fff;
+color:#111;
+}
+
+.cartBtn{
+background:#FFD700;
+color:#111;
+}
+
 </style>
 </head>
 
@@ -141,6 +180,15 @@ text-align:left;
 <!-- BACK -->
 <div class="back" onclick="history.back()">← Tilbage</div>
 
+<!-- POPUP -->
+<div class="popup" id="popup">
+<p id="popupText"></p>
+
+<button class="cartBtn" onclick="goCart()">Gå til kurv</button>
+<button class="shop" onclick="closePopup()">Shop videre</button>
+</div>
+
+<!-- PRODUCT -->
 <div class="container">
 
 <!-- IMAGE -->
@@ -155,7 +203,7 @@ text-align:left;
 <div class="price">299 - 799 kr</div>
 
 <p style="color:#666;margin-bottom:15px;">
-Vælg dine størrelser
+Vælg dine størrelser før du tilføjer til kurv
 </p>
 
 <!-- TOP SIZE -->
@@ -181,11 +229,11 @@ Vælg dine størrelser
 <div class="title">Trøje størrelsesguide <span>+</span></div>
 <div class="content">
 <table>
-<tr><th>Size</th><th>Bryst (cm)</th></tr>
-<tr><td>S</td><td>86-92</td></tr>
-<tr><td>M</td><td>92-98</td></tr>
-<tr><td>L</td><td>98-104</td></tr>
-<tr><td>XL</td><td>104-110</td></tr>
+<tr><th>Size</th><th>Bryst</th></tr>
+<tr><td>S</td><td>86-92 cm</td></tr>
+<tr><td>M</td><td>92-98 cm</td></tr>
+<tr><td>L</td><td>98-104 cm</td></tr>
+<tr><td>XL</td><td>104-110 cm</td></tr>
 </table>
 </div>
 </div>
@@ -256,7 +304,23 @@ bottom:selectedBottom
 
 localStorage.setItem("cart", JSON.stringify(cart));
 
-alert("Tilføjet til kurv ✔");
+showPopup();
+}
+
+/* POPUP */
+function showPopup(){
+document.getElementById("popupText").innerText =
+"Tilføjet til kurv ✔";
+
+document.getElementById("popup").style.display = "block";
+}
+
+function closePopup(){
+document.getElementById("popup").style.display = "none";
+}
+
+function goCart(){
+window.location.href = "cart.html";
 }
 
 </script>
