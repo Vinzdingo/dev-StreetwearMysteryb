@@ -6,16 +6,11 @@
 <title>MysteryStreetwear</title>
 
 <style>
-*{
-margin:0;
-padding:0;
-box-sizing:border-box;
-font-family:Arial;
-}
+*{margin:0;padding:0;box-sizing:border-box;font-family:Arial;}
 
 body{background:#fff;color:#111;overflow-x:hidden;}
 
-/* NAVBAR */
+/* NAV */
 .navbar{
 height:80px;
 display:flex;
@@ -30,15 +25,14 @@ background:#fff;
 z-index:1000;
 }
 
-.logo{font-size:22px;font-weight:bold;}
+.logo{font-weight:bold;font-size:22px;}
 
-.nav-right{display:flex;align-items:center;gap:15px;}
+.nav-right{display:flex;gap:15px;align-items:center;}
 
-/* CART */
 .cart{
 position:relative;
-font-size:22px;
 cursor:pointer;
+font-size:22px;
 }
 
 .cart span{
@@ -46,18 +40,19 @@ position:absolute;
 top:-8px;
 right:-10px;
 background:#FFD700;
-color:#000;
-font-size:11px;
-width:18px;
-height:18px;
+width:18px;height:18px;
+border-radius:50%;
 display:flex;
 align-items:center;
 justify-content:center;
-border-radius:50%;
+font-size:11px;
 }
 
 /* MENU */
-.menu-btn{font-size:28px;cursor:pointer;}
+.menu{
+font-size:28px;
+cursor:pointer;
+}
 
 /* SIDEBAR */
 .sidebar{
@@ -88,70 +83,68 @@ border-bottom:1px solid #eee;
 /* HERO */
 .hero{
 margin-top:80px;
-height:80vh;
+height:65vh;
 display:flex;
 align-items:center;
 justify-content:center;
 text-align:center;
 background:
-linear-gradient(rgba(255,255,255,.6),rgba(255,255,255,.95)),
+linear-gradient(rgba(255,255,255,.7),rgba(255,255,255,.95)),
 url('https://images.unsplash.com/photo-1523398002811-999ca8dec234?auto=format&fit=crop&w=1600&q=80');
 background-size:cover;
-background-position:center;
 }
 
-.hero h1{font-size:60px;}
+.hero h1{font-size:58px;}
 .hero p{color:#666;margin-top:10px;}
 
-/* INFO */
-.info{
-max-width:900px;
-margin:100px auto;
-text-align:center;
+/* STEPS */
+.steps{
+max-width:1000px;
+margin:80px auto;
+display:flex;
+gap:25px;
+justify-content:center;
+flex-wrap:wrap;
 padding:0 20px;
 }
 
-/* MINI CART */
-.minicart{
-position:fixed;
-top:80px;
-right:20px;
-width:280px;
-background:#fff;
+.step{
+width:300px;
 border:1px solid #eee;
-border-radius:10px;
-padding:15px;
-display:none;
-z-index:9999;
-box-shadow:0 10px 30px rgba(0,0,0,0.08);
+padding:25px;
+border-radius:12px;
+text-align:center;
+transition:.2s;
 }
 
-.minicart.active{display:block;}
+.step:hover{transform:translateY(-5px);}
 
-.minicart-item{
-font-size:14px;
-color:#555;
-margin-bottom:6px;
+.step span{
+font-size:40px;
+color:#FFD700;
+font-weight:bold;
 }
+
+.step h3{margin:10px 0;}
 
 </style>
 </head>
 
 <body>
 
-<!-- NAVBAR -->
+<!-- NAV -->
 <div class="navbar">
 
 <div class="logo">MysteryStreetwear</div>
 
 <div class="nav-right">
 
-<div class="cart" onclick="toggleCart()">
+<div class="cart" onclick="goCart()">
 🛒
 <span id="cartCount">0</span>
 </div>
 
-<div class="menu-btn" onclick="toggleMenu()">☰</div>
+<div class="menu" onclick="toggleMenu()">☰</div>
 
 </div>
 
@@ -165,25 +158,36 @@ margin-bottom:6px;
 <a href="cart.html">Kurv</a>
 </div>
 
-<!-- MINI CART -->
-<div class="minicart" id="minicart">
-<h4>Din kurv</h4>
-<div id="miniItems"></div>
-</div>
-
 <!-- HERO -->
-<section class="hero">
+<div class="hero">
 <div>
 <h1>MYSTERY STREETWEAR</h1>
-<p>Premium streetwear boxes</p>
+<p>Premium mystery boxes</p>
 </div>
-</section>
+</div>
 
-<!-- INFO -->
-<section class="info">
-<h2>Sådan fungerer det</h2>
-<p>Vælg en box i menuen → tilføj til kurv → checkout</p>
-</section>
+<!-- FLOW 1-2-3 -->
+<div class="steps">
+
+<div class="step">
+<span>1</span>
+<h3>Vælg box</h3>
+<p>Gå i menuen og vælg din box</p>
+</div>
+
+<div class="step">
+<span>2</span>
+<h3>Vi pakker</h3>
+<p>Vi sammensætter dit outfit</p>
+</div>
+
+<div class="step">
+<span>3</span>
+<h3>Modtag</h3>
+<p>Unbox din surprise</p>
+</div>
+
+</div>
 
 <script>
 
@@ -195,43 +199,12 @@ document.getElementById("sidebar").classList.toggle("active");
 }
 
 /* CART */
-function toggleCart(){
-document.getElementById("minicart").classList.toggle("active");
-updateCart();
+function goCart(){
+window.location.href="cart.html";
 }
 
-/* UPDATE */
-function updateCart(){
+/* INIT */
 document.getElementById("cartCount").innerText = cart.length;
-
-let list = document.getElementById("miniItems");
-list.innerHTML = "";
-
-cart.slice(-5).forEach(item=>{
-let div = document.createElement("div");
-div.className="minicart-item";
-div.innerText = typeof item === "string" ? item : item.name;
-list.appendChild(div);
-});
-}
-
-/* CLOSE OUTSIDE */
-document.addEventListener("click", function(e){
-const sidebar = document.getElementById("sidebar");
-const menuBtn = document.querySelector(".menu-btn");
-const cartBox = document.getElementById("minicart");
-const cartIcon = document.querySelector(".cart");
-
-if(sidebar && !sidebar.contains(e.target) && !menuBtn.contains(e.target)){
-sidebar.classList.remove("active");
-}
-
-if(cartBox && !cartIcon.contains(e.target)){
-cartBox.classList.remove("active");
-}
-});
-
-updateCart();
 
 </script>
 
