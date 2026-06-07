@@ -19,7 +19,7 @@ color:#111;
 overflow-x:hidden;
 }
 
-/* ===== NAVBAR ===== */
+/* NAVBAR */
 .navbar{
 height:80px;
 display:flex;
@@ -37,45 +37,11 @@ z-index:1000;
 .logo{
 font-size:22px;
 font-weight:700;
-letter-spacing:1px;
-}
-
-/* RIGHT SIDE */
-.nav-right{
-display:flex;
-align-items:center;
-gap:18px;
-}
-
-.cart{
-position:relative;
-font-size:20px;
-cursor:pointer;
-transition:.2s;
-}
-
-.cart:hover{
-transform:scale(1.1);
-}
-
-.cart span{
-position:absolute;
-top:-8px;
-right:-10px;
-background:#FFD700;
-color:#000;
-font-size:11px;
-width:18px;
-height:18px;
-display:flex;
-align-items:center;
-justify-content:center;
-border-radius:50%;
 }
 
 /* MENU */
 .menu-btn{
-font-size:28px;
+font-size:30px;
 cursor:pointer;
 }
 
@@ -88,7 +54,7 @@ width:300px;
 height:100%;
 background:#fff;
 box-shadow:-10px 0 30px rgba(0,0,0,0.08);
-transition:.35s ease;
+transition:.3s;
 padding-top:100px;
 z-index:2000;
 }
@@ -102,9 +68,8 @@ display:block;
 padding:18px 25px;
 text-decoration:none;
 color:#111;
+border-bottom:1px solid #eee;
 font-size:16px;
-border-bottom:1px solid #f1f1f1;
-transition:.2s;
 }
 
 .sidebar a:hover{
@@ -120,7 +85,7 @@ align-items:center;
 justify-content:center;
 text-align:center;
 background:
-linear-gradient(to bottom, rgba(255,255,255,0.6), rgba(255,255,255,0.9)),
+linear-gradient(to bottom, rgba(255,255,255,0.6), rgba(255,255,255,0.95)),
 url('https://images.unsplash.com/photo-1523398002811-999ca8dec234?auto=format&fit=crop&w=1600&q=80');
 background-size:cover;
 background-position:center;
@@ -137,122 +102,57 @@ color:#666;
 font-size:18px;
 }
 
-/* PRODUCTS */
-.grid{
-max-width:1100px;
-margin:80px auto;
-display:grid;
-grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
-gap:25px;
-padding:0 20px;
-}
-
-.card{
-border:1px solid #eee;
-border-radius:12px;
-overflow:hidden;
-cursor:pointer;
-transition:.3s;
-background:#fff;
-}
-
-.card:hover{
-transform:translateY(-8px);
-}
-
-.card img{
-width:100%;
-height:230px;
-object-fit:cover;
-}
-
-.card .info{
-padding:15px;
-}
-
-.card h3{
-font-size:18px;
-}
-
-.card p{
-color:#666;
-margin-top:5px;
-}
-
-/* FILTER */
-.filters{
-max-width:1100px;
-margin:40px auto 0;
-display:flex;
-gap:10px;
-padding:0 20px;
-flex-wrap:wrap;
-}
-
-.filter-btn{
-padding:8px 14px;
-border:1px solid #eee;
-border-radius:20px;
-cursor:pointer;
-font-size:14px;
-transition:.2s;
-}
-
-.filter-btn.active{
-background:#111;
-color:#fff;
-border-color:#111;
-}
-
-/* INFO */
-.info-section{
+/* SECTIONS */
+.section{
 max-width:900px;
 margin:120px auto;
 padding:0 20px;
 text-align:center;
 }
 
-.block{
-margin-bottom:80px;
-}
-
-.block h2{
+.section h2{
 font-size:34px;
 margin-bottom:15px;
 }
 
-.block p{
+.section p{
 color:#666;
 line-height:1.7;
 }
 
-/* SIMPLE CART */
-.minicart{
-position:fixed;
-top:80px;
-right:20px;
-width:280px;
-background:#fff;
+/* STEPS */
+.steps{
+display:flex;
+justify-content:center;
+gap:25px;
+flex-wrap:wrap;
+margin-top:40px;
+}
+
+.step{
+width:260px;
+padding:30px;
 border:1px solid #eee;
-border-radius:10px;
-padding:15px;
-display:none;
-box-shadow:0 10px 30px rgba(0,0,0,0.08);
-z-index:9999;
+border-radius:12px;
 }
 
-.minicart.active{
-display:block;
+.step span{
+font-size:40px;
+font-weight:bold;
+color:#FFD700;
 }
 
-.minicart h4{
-margin-bottom:10px;
+.step h3{
+margin:10px 0;
 }
 
-.minicart-item{
-font-size:14px;
-color:#555;
-margin-bottom:6px;
+/* FOOTER */
+footer{
+margin-top:120px;
+padding:40px;
+text-align:center;
+border-top:1px solid #eee;
+color:#666;
 }
 
 </style>
@@ -262,21 +162,14 @@ margin-bottom:6px;
 
 <!-- NAVBAR -->
 <div class="navbar">
+
 <div class="logo">MysteryStreetwear</div>
-
-<div class="nav-right">
-
-<div class="cart" onclick="toggleCart()">
-🛒
-<span id="cartCount">0</span>
-</div>
 
 <div class="menu-btn" onclick="toggleMenu()">☰</div>
 
 </div>
-</div>
 
-<!-- SIDEBAR -->
+<!-- SIDEBAR (ONLY PRODUCTS HERE) -->
 <div class="sidebar" id="sidebar">
 <a href="product.html?id=basic">Basic Box</a>
 <a href="product.html?id=premium">Premium Box</a>
@@ -284,120 +177,63 @@ margin-bottom:6px;
 <a href="cart.html">Kurv</a>
 </div>
 
-<!-- MINI CART -->
-<div class="minicart" id="minicart">
-<h4>Din kurv</h4>
-<div id="miniItems"></div>
-</div>
-
 <!-- HERO -->
 <section class="hero">
 <div>
 <h1>MYSTERY STREETWEAR</h1>
-<p>Premium boxes med stil, kvalitet og overraskelser</p>
+<p>Premium streetwear mystery boxes med stil og kvalitet</p>
 </div>
 </section>
 
-<!-- FILTER -->
-<div class="filters">
-<div class="filter-btn active" onclick="filter('all',event)">Alle</div>
-<div class="filter-btn" onclick="filter('basic',event)">Basic</div>
-<div class="filter-btn" onclick="filter('premium',event)">Premium</div>
-<div class="filter-btn" onclick="filter('luxury',event)">Luxury</div>
-</div>
+<!-- HOW IT WORKS -->
+<section class="section">
 
-<!-- PRODUCTS -->
-<div class="grid">
-
-<div class="card basic" onclick="addToCart('Basic Box')">
-<img src="https://telecaixa.com/cdn/shop/files/1078.jpg?v=1711978877">
-<div class="info">
-<h3>Basic Box</h3>
-<p>299 kr</p>
-</div>
-</div>
-
-<div class="card premium" onclick="addToCart('Premium Box')">
-<img src="https://images.unsplash.com/photo-1521334884684-d80222895322?auto=format&fit=crop&w=900&q=80">
-<div class="info">
-<h3>Premium Box</h3>
-<p>499 kr</p>
-</div>
-</div>
-
-<div class="card luxury" onclick="addToCart('Luxury Box')">
-<img src="https://images.unsplash.com/photo-1520975916090-3105956dac38?auto=format&fit=crop&w=900&q=80">
-<div class="info">
-<h3>Luxury Box</h3>
-<p>799 kr</p>
-</div>
-</div>
-
-</div>
-
-<!-- INFO -->
-<div class="info-section">
-
-<div class="block">
 <h2>Sådan fungerer det</h2>
-<p>Vælg en box → vælg størrelse → modtag din mystery box.</p>
+
+<div class="steps">
+
+<div class="step">
+<span>01</span>
+<h3>Vælg box</h3>
+<p>Find din stil i menuen</p>
 </div>
 
-<div class="block">
+<div class="step">
+<span>02</span>
+<h3>Vi pakker</h3>
+<p>Vi sammensætter din box</p>
+</div>
+
+<div class="step">
+<span>03</span>
+<h3>Unbox</h3>
+<p>Modtag og oplev overraskelsen</p>
+</div>
+
+</div>
+
+</section>
+
+<!-- ABOUT -->
+<section class="section">
+
 <h2>Om os</h2>
-<p>MysteryStreetwear er lavet til streetwear fans der elsker overraskelser og kvalitet.</p>
-</div>
+<p>
+MysteryStreetwear er et premium streetwear brand hvor du køber mystery boxes
+med nøje udvalgte items og en unik unboxing oplevelse.
+</p>
 
-</div>
+</section>
+
+<footer>
+© 2026 MysteryStreetwear
+</footer>
 
 <script>
 
-let cart = JSON.parse(localStorage.getItem("cart")) || [];
-
-/* MENU */
 function toggleMenu(){
 document.getElementById("sidebar").classList.toggle("active");
 }
-
-/* FILTER */
-function filter(type,event){
-document.querySelectorAll(".filter-btn").forEach(b=>b.classList.remove("active"));
-if(event) event.target.classList.add("active");
-
-document.querySelectorAll(".card").forEach(card=>{
-card.style.display = (type==="all" || card.classList.contains(type)) ? "block" : "none";
-});
-}
-
-/* CART */
-function addToCart(name){
-cart.push(name);
-localStorage.setItem("cart",JSON.stringify(cart));
-updateCart();
-}
-
-/* UPDATE CART */
-function updateCart(){
-document.getElementById("cartCount").innerText = cart.length;
-
-let list = document.getElementById("miniItems");
-list.innerHTML="";
-
-cart.slice(-3).forEach(i=>{
-let div=document.createElement("div");
-div.className="minicart-item";
-div.innerText=i;
-list.appendChild(div);
-});
-}
-
-/* TOGGLE CART */
-function toggleCart(){
-document.getElementById("minicart").classList.toggle("active");
-updateCart();
-}
-
-updateCart();
 
 </script>
 
