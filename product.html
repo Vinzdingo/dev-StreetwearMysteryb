@@ -142,7 +142,46 @@ color:#555;
 </style>
 
 </head>
+<div id="popup" style="
+position:fixed;
+bottom:20px;
+right:20px;
+background:#111;
+color:#fff;
+padding:15px;
+border-radius:12px;
+display:none;
+width:260px;
+z-index:9999;
+">
 
+<p style="margin-bottom:10px;">Tilføjet til kurv ✔</p>
+
+<button onclick="goCart()" style="
+width:100%;
+padding:10px;
+border:none;
+background:#FFD700;
+margin-bottom:8px;
+border-radius:8px;
+cursor:pointer;
+">
+Gå til kurv
+</button>
+
+<button onclick="closePopup()" style="
+width:100%;
+padding:10px;
+border:none;
+background:#fff;
+color:#111;
+border-radius:8px;
+cursor:pointer;
+">
+Shop videre
+</button>
+
+</div>
 <body>
 
 <div class="back" onclick="history.back()">← Tilbage</div>
@@ -195,9 +234,9 @@ Bukser: 28 (71-73 cm), 30 (76-78 cm), 32 (81-83 cm), 34 (86-88 cm)
 <button onclick="addToCart()">Tilføj til kurv</button>
 
 <div class="trust">
-🔒 Sikker betaling<br>
-🚚 Hurtig levering 1-5 dage<br>
-📦 Nem returnering
+- Sikker betaling<br>
+- Hurtig levering 1-5 dage<br>
+- Nem returnering
 </div>
 
 </div>
@@ -242,17 +281,19 @@ alert("Vælg både trøje og bukse størrelse");
 return;
 }
 
+let cart = JSON.parse(localStorage.getItem("cart")) || [];
+
 cart.push({
-name:"Premium Mystery Box",
-price:499,
-top:selectedTop,
-bottom:selectedBottom
+name: "Mystery Box",
+price: 499,
+top: selectedTop,
+bottom: selectedBottom
 });
 
-localStorage.setItem("cart",JSON.stringify(cart));
+localStorage.setItem("cart", JSON.stringify(cart));
 
-alert("Tilføjet til kurv ✔");
-
+showPopup();
+}
 }
 
 </script>
